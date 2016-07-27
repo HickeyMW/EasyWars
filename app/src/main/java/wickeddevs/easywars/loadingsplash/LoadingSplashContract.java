@@ -11,10 +11,17 @@ public interface LoadingSplashContract {
 
         void showLoginUi();
 
-        void showHomeUi();
+        void showHomeUi(boolean isAdmin);
+
+        void showCreatingClanUi();
+
+        void showJoiningClanUi();
+
+        void showNoClanUi();
     }
 
     interface ViewListener extends Presenter {
 
+        void returnedFromLogin(boolean successful);
     }
 }
