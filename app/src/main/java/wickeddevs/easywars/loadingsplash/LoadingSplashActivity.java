@@ -47,12 +47,6 @@ public class LoadingSplashActivity extends AppCompatActivity implements LoadingS
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        presenter.stop();
-    }
-
-    @Override
     public void showLoginUi() {
         startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().build(), RC_SIGN_IN);
     }
@@ -76,6 +70,11 @@ public class LoadingSplashActivity extends AppCompatActivity implements LoadingS
 
     @Override
     public void showNoClanUi() {
+
+    }
+
+    @Override
+    public void showLoginError() {
 
     }
 }

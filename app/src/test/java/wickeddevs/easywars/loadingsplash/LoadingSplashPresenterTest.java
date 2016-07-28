@@ -39,7 +39,7 @@ public class LoadingSplashPresenterTest {
     public void setupLoadingSplashPresenter() {
         MockitoAnnotations.initMocks(this);
 
-        mLoadingSplashPresenter = new LoadingSplashPresenter(mUserService, mLoadingSplashView);
+        mLoadingSplashPresenter = new LoadingSplashPresenter(mLoadingSplashView, mUserService);
     }
 
     @Test
@@ -102,5 +102,17 @@ public class LoadingSplashPresenterTest {
         mLoadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
         verify(mLoadingSplashView).showHomeUi(mIsAdminArgumentCaptor.capture());
         assertEquals(mIsAdminArgumentCaptor.getValue(), true);
+    }
+
+    @Test
+    public void returnedFromLogin_loginSuccessful_navigateOnUserState() {
+        mLoadingSplashPresenter.returnedFromLogin(true);
+        verify(mUserService).getUser(mLoadUserCallbackArgumentCaptor.capture());
+    }
+
+    @Test
+    public void returnedFromLogin_loginFailed_navigateOnUserState() {
+        mLoadingSplashPresenter.returnedFromLogin(false);
+        verify(mLoadingSplashView).showLoginError();
     }
 }

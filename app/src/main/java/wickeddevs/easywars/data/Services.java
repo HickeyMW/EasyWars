@@ -1,5 +1,9 @@
 package wickeddevs.easywars.data;
 
+import java.util.ArrayList;
+
+import wickeddevs.easywars.data.model.Clan;
+import wickeddevs.easywars.data.model.CreateRequest;
 import wickeddevs.easywars.data.model.Member;
 import wickeddevs.easywars.data.model.Message;
 import wickeddevs.easywars.data.model.User;
@@ -25,6 +29,8 @@ public interface Services {
 
         interface MessageListener {
 
+            void initialMessages(ArrayList<Message> messages);
+
             void newMessage(Message message);
         }
 
@@ -39,9 +45,57 @@ public interface Services {
 
         interface LoadMemberCallback {
 
-            void onMemberLoaded(Member member, boolean isUser);
+            void onMemberLoaded(Member member);
+        }
+
+        interface LoadClanCallback {
+
+            void onClanLoaded(Clan clan);
         }
 
         void getMember(String uid, LoadMemberCallback callback);
+
+        void getClan(LoadClanCallback callback);
+    }
+
+    interface ApiService {
+
+        interface LoadApiClanCallback {
+
+            void onApiClanLoaded(Member member);
+        }
+
+        interface SearchApiClansCallback {
+
+            void onApiClansLoaded(Clan clan);
+        }
+
+        void getApiClan(String tag, LoadApiClanCallback callback);
+
+        void searchClans(SearchApiClansCallback callback);
+    }
+
+    interface CreateClanService {
+
+        interface LoadCreateRequestCallback {
+
+            void onCreateRequestLoaded(CreateRequest createRequest);
+        }
+
+        void getCreateRequest(LoadCreateRequestCallback callback);
+
+        void setCreateRequest(CreateRequest createRequest);
+    }
+
+    interface JoinClanService {
+
+        interface LoadCreateRequestCallback {
+
+            void onCreateRequestLoaded(CreateRequest createRequest);
+        }
+
+        void getCreateRequest(LoadCreateRequestCallback callback);
+
+        void setCreateRequest(CreateRequest createRequest);
     }
 }

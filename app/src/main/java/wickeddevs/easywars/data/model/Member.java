@@ -8,6 +8,7 @@ public class Member {
     public boolean admin;
     public String name;
     public String uid;
+    public boolean isSelf;
 
     public Member(boolean admin, String name, String uid) {
         this.admin = admin;

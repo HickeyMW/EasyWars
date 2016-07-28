@@ -54,7 +54,16 @@ public class FbHelper {
         getClanTag(new ClanTagCallback() {
             @Override
             public void onClanTagReceived(String clanTag) {
-                callback.onRefRetrieved(getDb().getReference("chat/" + clanTag));
+                callback.onRefRetrieved(getDb().getReference("messages/" + clanTag));
+            }
+        });
+    }
+
+    public static void getClanRef(final ReferenceCallback callback) {
+        getClanTag(new ClanTagCallback() {
+            @Override
+            public void onClanTagReceived(String clanTag) {
+                callback.onRefRetrieved(getDb().getReference("clans/" + clanTag));
             }
         });
     }

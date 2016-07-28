@@ -5,9 +5,13 @@ package wickeddevs.easywars.data.model;
  */
 public class Message {
 
+    public String key;
     public String uid;
     public String body;
     public long timestamp;
+    public String name;
+    public String dateTime;
+    public boolean isSentMessage;
 
     public Message(String uid, String body, long timestamp) {
         this.uid = uid;

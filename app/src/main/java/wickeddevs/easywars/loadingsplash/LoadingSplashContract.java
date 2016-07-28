@@ -1,7 +1,5 @@
 package wickeddevs.easywars.loadingsplash;
 
-import wickeddevs.easywars.Presenter;
-
 /**
  * Created by 375csptssce on 7/26/16.
  */
@@ -18,9 +16,13 @@ public interface LoadingSplashContract {
         void showJoiningClanUi();
 
         void showNoClanUi();
+
+        void showLoginError();
     }
 
-    interface ViewListener extends Presenter {
+    interface ViewListener {
+
+        void start();
 
         void returnedFromLogin(boolean successful);
     }

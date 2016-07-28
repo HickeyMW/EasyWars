@@ -1,6 +1,8 @@
 package wickeddevs.easywars.home.chat;
 
-import wickeddevs.easywars.Presenter;
+import java.util.ArrayList;
+
+import wickeddevs.easywars.data.model.Message;
 
 /**
  * Created by hicke_000 on 7/27/2016.
@@ -9,14 +11,20 @@ public interface ChatContract {
 
     interface View {
 
-        void addMessage(String name, String body, String dateTime, boolean sentMessage);
+        void setMessages(ArrayList<Message> messages);
+
+        void addMessage(Message message);
 
         void clearSendText();
     }
 
-    interface ViewListener extends Presenter {
+    interface ViewListener {
 
-        void sendMessage(String message);
+        void start();
+
+        void stop();
+
+        void sendMessage(String body);
     }
 
 }

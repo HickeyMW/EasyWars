@@ -2,7 +2,6 @@ package wickeddevs.easywars.loadingsplash;
 
 import android.util.Log;
 
-import wickeddevs.easywars.Presenter;
 import wickeddevs.easywars.data.Services;
 import wickeddevs.easywars.data.model.User;
 
@@ -26,7 +25,7 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
         if (successful) {
             navigateOnUserState();
         } else {
-            Log.e(TAG, "User login failed");
+            mLoadingSplashView.showLoginError();
         }
     }
 
@@ -37,11 +36,6 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
         } else {
             mLoadingSplashView.showLoginUi();
         }
-    }
-
-    @Override
-    public void stop() {
-
     }
 
     private void navigateOnUserState() {

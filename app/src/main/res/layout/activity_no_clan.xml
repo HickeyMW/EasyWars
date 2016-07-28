@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="wickeddevs.easywars.noclan.NoClanActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="wickeddevs.easywars.noclan.NoClanActivity"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:translationZ="24dp">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:translationZ="6dp"
+            android:background="@color/colorPopup">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You are not currently in a clan. You can choose to start one or join one below"
+                android:id="@+id/textView"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20sp"
+                android:layout_margin="20dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Create Clan"
+                    android:id="@+id/btnCreate"
+                    style="?attr/borderlessButtonStyle"
+                    android:onClick="createClan" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Join Clan"
+                    android:id="@+id/btnJoin"
+                    style="?attr/borderlessButtonStyle"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</layout>

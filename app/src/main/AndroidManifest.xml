@@ -18,7 +18,10 @@
         <activity
             android:name=".home.HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".noclan.NoClanActivity" />
+        <activity android:name=".noclan.create.CreateClanActivity"></activity>
     </application>
 
 </manifest>

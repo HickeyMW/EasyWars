@@ -5,8 +5,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import wickeddevs.easywars.data.Services;
 import wickeddevs.easywars.data.model.Message;
@@ -17,15 +20,38 @@ import wickeddevs.easywars.data.model.Message;
 public class FbChatService implements Services.ChatService, ChildEventListener {
 
     private MessageListener mMessageListener;
+    private long messagesToIgnore = -1;
 
     @Override
-    public void setMessageListener(MessageListener listener) {
+    public void setMessageListener(final MessageListener listener) {
         mMessageListener = listener;
+
 
         FbHelper.getChatRef(new FbHelper.ReferenceCallback() {
             @Override
-            public void onRefRetrieved(DatabaseReference reference) {
-                reference.addChildEventListener(FbChatService.this);
+            public void onRefRetrieved(final DatabaseReference reference) {
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        messagesToIgnore = dataSnapshot.getChildrenCount();
+                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                        ArrayList<Message> messages = new ArrayList<>();
+                        while (iterator.hasNext()) {
+                            DataSnapshot dSnap = iterator.next();
+                            Message message = dSnap.getValue(Message.class);
+                            message.key = dSnap.getKey();
+                            message.isSentMessage = (message.uid.equals(FbHelper.getUid()));
+                            messages.add(message);
+                        }
+                        listener.initialMessages(messages);
+                        reference.addChildEventListener(FbChatService.this);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
     }
@@ -56,8 +82,15 @@ public class FbChatService implements Services.ChatService, ChildEventListener {
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Message message = dataSnapshot.getValue(Message.class);
-        mMessageListener.newMessage(message);
+        if (messagesToIgnore == 0) {
+            Message message = dataSnapshot.getValue(Message.class);
+            message.isSentMessage = (message.uid.equals(FbHelper.getUid()));
+            message.key = dataSnapshot.getKey();
+            mMessageListener.newMessage(message);
+        } else {
+            messagesToIgnore--;
+        }
+
     }
 
     @Override
