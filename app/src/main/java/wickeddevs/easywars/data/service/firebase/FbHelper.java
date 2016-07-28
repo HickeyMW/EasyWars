@@ -1,4 +1,4 @@
-package wickeddevs.easywars.data.firebase;
+package wickeddevs.easywars.data.service.firebase;
 
 import android.util.Log;
 
@@ -47,7 +47,19 @@ public class FbHelper {
     }
 
     public static DatabaseReference getUserRef() {
-        return FirebaseDatabase.getInstance().getReference("users/" + getUid());
+        return getDb().getReference("users/" + getUid());
+    }
+
+    public static DatabaseReference getRequestRef() {
+        return getDb().getReference("server/request/" + getUid());
+    }
+
+    public static DatabaseReference getResponseRef() {
+        return getDb().getReference("server/response/" + getUid());
+    }
+
+    public static DatabaseReference getCreateRequestRef() {
+        return getDb().getReference("createRequests/" + getUid());
     }
 
     public static void getChatRef(final ReferenceCallback callback) {

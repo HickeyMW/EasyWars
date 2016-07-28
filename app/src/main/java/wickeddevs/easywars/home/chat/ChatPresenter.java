@@ -3,24 +3,25 @@ package wickeddevs.easywars.home.chat;
 
 import java.util.ArrayList;
 
-import wickeddevs.easywars.data.Services;
 import wickeddevs.easywars.data.model.Clan;
 import wickeddevs.easywars.data.model.Member;
 import wickeddevs.easywars.data.model.Message;
+import wickeddevs.easywars.data.service.contract.ChatService;
+import wickeddevs.easywars.data.service.contract.ClanService;
 import wickeddevs.easywars.util.General;
 
 /**
  * Created by hicke_000 on 7/27/2016.
  */
-public class ChatPresenter implements ChatContract.ViewListener, Services.ChatService.MessageListener {
+public class ChatPresenter implements ChatContract.ViewListener, ChatService.MessageListener {
 
     final static String TAG = "ChatPresenter";
 
     private final ChatContract.View mChatView;
-    private final Services.ChatService mChatService;
-    private final Services.ClanService mClanService;
+    private final ChatService mChatService;
+    private final ClanService mClanService;
 
-    public ChatPresenter(ChatContract.View chatView, Services.ChatService chatService, Services.ClanService clanService) {
+    public ChatPresenter(ChatContract.View chatView, ChatService chatService, ClanService clanService) {
         mChatView = chatView;
         mChatService = chatService;
         mClanService = clanService;
@@ -46,7 +47,7 @@ public class ChatPresenter implements ChatContract.ViewListener, Services.ChatSe
     @Override
     public void initialMessages(final ArrayList<Message> messages) {
 
-        mClanService.getClan(new Services.ClanService.LoadClanCallback() {
+        mClanService.getClan(new ClanService.LoadClanCallback() {
             @Override
             public void onClanLoaded(Clan clan) {
                 for (Message message : messages) {
@@ -60,7 +61,7 @@ public class ChatPresenter implements ChatContract.ViewListener, Services.ChatSe
 
     @Override
     public void newMessage(final Message message) {
-        mClanService.getMember(message.uid, new Services.ClanService.LoadMemberCallback() {
+        mClanService.getMember(message.uid, new ClanService.LoadMemberCallback() {
             @Override
             public void onMemberLoaded(Member member) {
                 message.name = member.name;

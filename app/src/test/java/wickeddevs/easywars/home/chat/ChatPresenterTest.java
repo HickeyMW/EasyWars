@@ -10,15 +10,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import wickeddevs.easywars.data.Services;
 import wickeddevs.easywars.data.model.Clan;
 import wickeddevs.easywars.data.model.Member;
 import wickeddevs.easywars.data.model.Message;
-import wickeddevs.easywars.util.General;
+import wickeddevs.easywars.data.service.contract.ChatService;
+import wickeddevs.easywars.data.service.contract.ClanService;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
@@ -45,22 +44,22 @@ public class ChatPresenterTest {
     private static List<Message> EMPTY_MESSAGES = new ArrayList<>();
 
     @Mock
-    private Services.ChatService mChatService;
-
-    @Mock
-    private Services.ClanService mClanService;
-
-    @Mock
     private ChatContract.View mChatView;
 
-    @Captor
-    private ArgumentCaptor<Services.ChatService.MessageListener> mMessageListenerArgumentCaptor;
+    @Mock
+    private ChatService mChatService;
+
+    @Mock
+    private ClanService mClanService;
 
     @Captor
-    private ArgumentCaptor<Services.ClanService.LoadMemberCallback> mLoadMemberCallbackArgumentCaptor;
+    private ArgumentCaptor<ChatService.MessageListener> mMessageListenerArgumentCaptor;
 
     @Captor
-    private ArgumentCaptor<Services.ClanService.LoadClanCallback> mLoadClanCallbackArgumentCaptor;
+    private ArgumentCaptor<ClanService.LoadMemberCallback> mLoadMemberCallbackArgumentCaptor;
+
+    @Captor
+    private ArgumentCaptor<ClanService.LoadClanCallback> mLoadClanCallbackArgumentCaptor;
 
     @Captor
     private ArgumentCaptor<String> mMessageBodyArgumentCaptor;

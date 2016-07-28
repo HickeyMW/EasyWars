@@ -2,8 +2,8 @@ package wickeddevs.easywars.loadingsplash;
 
 import android.util.Log;
 
-import wickeddevs.easywars.data.Services;
 import wickeddevs.easywars.data.model.User;
+import wickeddevs.easywars.data.service.contract.UserService;
 
 /**
  * Created by 375csptssce on 7/26/16.
@@ -13,9 +13,9 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
     final static String TAG = "LoadingSplashPresenter";
 
     private final LoadingSplashContract.View mLoadingSplashView;
-    private final Services.UserService mUserService;
+    private final UserService mUserService;
 
-    public LoadingSplashPresenter(LoadingSplashContract.View loadingSplashView, Services.UserService userService) {
+    public LoadingSplashPresenter(LoadingSplashContract.View loadingSplashView, UserService userService) {
         mLoadingSplashView = loadingSplashView;
         mUserService = userService;
     }
@@ -39,7 +39,7 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
     }
 
     private void navigateOnUserState() {
-        mUserService.getUser(new Services.UserService.LoadUserCallback() {
+        mUserService.getUser(new UserService.LoadUserCallback() {
             @Override
             public void onUserLoaded(User user) {
                 switch (user.state) {

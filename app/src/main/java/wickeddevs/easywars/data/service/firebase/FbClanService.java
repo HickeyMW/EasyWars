@@ -1,18 +1,18 @@
-package wickeddevs.easywars.data.firebase;
+package wickeddevs.easywars.data.service.firebase;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import wickeddevs.easywars.data.Services;
 import wickeddevs.easywars.data.model.Clan;
 import wickeddevs.easywars.data.model.Member;
+import wickeddevs.easywars.data.service.contract.ClanService;
 
 /**
  * Created by hicke_000 on 7/27/2016.
  */
-public class FbClanService implements Services.ClanService {
+public class FbClanService implements ClanService {
 
     public FbClanService() {
         FbHelper.getClanRef(new FbHelper.ReferenceCallback() {
@@ -63,6 +63,17 @@ public class FbClanService implements Services.ClanService {
 
                     }
                 });
+            }
+        });
+    }
+
+    @Override
+    public void checkIfAdmin(final AdminCheckCallback callback) {
+        getClan(new LoadClanCallback() {
+            @Override
+            public void onClanLoaded(Clan clan) {
+                Member member = clan.members.get(FbHelper.getUid());
+                callback.onLoaded(member.admin);
             }
         });
     }

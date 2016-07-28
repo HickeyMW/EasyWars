@@ -1,4 +1,4 @@
-package wickeddevs.easywars.data.firebase;
+package wickeddevs.easywars.data.service.firebase;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import wickeddevs.easywars.data.Services;
 import wickeddevs.easywars.data.model.Message;
+import wickeddevs.easywars.data.service.contract.ChatService;
 
 /**
  * Created by hicke_000 on 7/27/2016.
  */
-public class FbChatService implements Services.ChatService, ChildEventListener {
+public class FbChatService implements ChatService, ChildEventListener {
 
     private MessageListener mMessageListener;
     private long messagesToIgnore = -1;
