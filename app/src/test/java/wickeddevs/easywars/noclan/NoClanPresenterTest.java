@@ -51,7 +51,7 @@ public class NoClanPresenterTest {
     private ArgumentCaptor<CreateClanService.CreateRequestCallback> mCreateRequestListenerArgumentCaptor;
 
     @Captor
-    private ArgumentCaptor<CreateClanService.CreateVerificationCallback> mCreateVerificationCallbackArgumentCaptor;
+    private ArgumentCaptor<CreateClanService.VerifyCreateCallback> mCreateVerificationCallbackArgumentCaptor;
 
     @Captor
     private ArgumentCaptor<JoinClanService.DecisionListener> mDecisionListenerArgumentCaptor;

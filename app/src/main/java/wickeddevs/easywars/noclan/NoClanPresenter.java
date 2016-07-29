@@ -74,7 +74,7 @@ public class NoClanPresenter implements NoClanContract.ViewListener {
 
     @Override
     public void verifyCreateClan() {
-        mCreateClanService.verifyCreateRequest(new CreateClanService.CreateVerificationCallback() {
+        mCreateClanService.verifyCreateRequest(new CreateClanService.VerifyCreateCallback() {
             @Override
             public void onVerificationLoaded(boolean isVerified) {
                 if (isVerified) {

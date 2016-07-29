@@ -12,7 +12,7 @@ public interface CreateClanService {
         void onCreateRequestLoaded(CreateRequest createRequest);
     }
 
-    interface CreateVerificationCallback {
+    interface VerifyCreateCallback {
 
         void onVerificationLoaded(boolean isVerified);
     }
@@ -21,7 +21,7 @@ public interface CreateClanService {
 
     void deleteCreateRequest();
 
-    void setCreateRequest(CreateRequest createRequest);
+    void setCreateRequest(String username);
 
-    void verifyCreateRequest(CreateVerificationCallback callback);
+    void verifyCreateRequest(VerifyCreateCallback callback);
 }

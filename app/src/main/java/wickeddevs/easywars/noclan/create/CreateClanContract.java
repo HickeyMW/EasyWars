@@ -20,6 +20,8 @@ public interface CreateClanContract {
 
         void search(String query);
 
+        void selectedClan(ApiClan apiClan);
+
         void selectedName(String name);
 
         void createClan();

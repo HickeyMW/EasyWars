@@ -1,13 +1,10 @@
 package wickeddevs.easywars.data.service.firebase;
 
-import android.util.Log;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import wickeddevs.easywars.data.model.CreateRequest;
-import wickeddevs.easywars.data.model.User;
 import wickeddevs.easywars.data.service.contract.CreateClanService;
 
 /**
@@ -42,7 +39,8 @@ public class FbCreateClanService implements CreateClanService {
     }
 
     @Override
-    public void verifyCreateRequest(CreateVerificationCallback callback) {
+    public void verifyCreateRequest(VerifyCreateCallback callback) {
         FbHelper.getRequestRef().setValue("verifyCreateClan");
+
     }
 }
