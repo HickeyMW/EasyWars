@@ -11,59 +11,63 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.inject.Inject;
+
 import wickeddevs.easywars.data.model.Message;
 import wickeddevs.easywars.data.service.contract.ChatService;
+import wickeddevs.easywars.data.service.contract.StateService;
 
 /**
  * Created by hicke_000 on 7/27/2016.
  */
 public class FbChatService implements ChatService, ChildEventListener {
 
+    @Inject
+    public StateService stateService;
     private MessageListener mMessageListener;
     private long messagesToIgnore = -1;
+
+    public FbChatService(StateService stateService) {
+        this.stateService = stateService;
+    }
+
+    private DatabaseReference getChatRef() {
+        return FbHelper.getDb().getReference("messages/" + stateService.getNoHashClanTag());
+    }
 
     @Override
     public void setMessageListener(final MessageListener listener) {
         mMessageListener = listener;
 
+        final DatabaseReference chatRef = getChatRef();
 
-        FbHelper.getChatRef(new FbHelper.ReferenceCallback() {
+        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onRefRetrieved(final DatabaseReference reference) {
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        messagesToIgnore = dataSnapshot.getChildrenCount();
-                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-                        ArrayList<Message> messages = new ArrayList<>();
-                        while (iterator.hasNext()) {
-                            DataSnapshot dSnap = iterator.next();
-                            Message message = dSnap.getValue(Message.class);
-                            message.key = dSnap.getKey();
-                            message.isSentMessage = (message.uid.equals(FbHelper.getUid()));
-                            messages.add(message);
-                        }
-                        listener.initialMessages(messages);
-                        reference.addChildEventListener(FbChatService.this);
-                    }
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                messagesToIgnore = dataSnapshot.getChildrenCount();
+                Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                ArrayList<Message> messages = new ArrayList<>();
+                while (iterator.hasNext()) {
+                    DataSnapshot dSnap = iterator.next();
+                    Message message = dSnap.getValue(Message.class);
+                    message.key = dSnap.getKey();
+                    message.isSentMessage = (message.uid.equals(FbHelper.getUid()));
+                    messages.add(message);
+                }
+                listener.initialMessages(messages);
+                chatRef.addChildEventListener(FbChatService.this);
+            }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
             }
         });
     }
 
     @Override
     public void removeMessageListener() {
-        FbHelper.getChatRef(new FbHelper.ReferenceCallback() {
-            @Override
-            public void onRefRetrieved(DatabaseReference reference) {
-                reference.removeEventListener(FbChatService.this);
-            }
-        });
+        getChatRef().removeEventListener(this);
     }
 
     @Override
@@ -72,12 +76,7 @@ public class FbChatService implements ChatService, ChildEventListener {
         hashMap.put("body", body);
         hashMap.put("uid", FbHelper.getUid());
         hashMap.put("timestamp", ServerValue.TIMESTAMP);
-        FbHelper.getChatRef(new FbHelper.ReferenceCallback() {
-            @Override
-            public void onRefRetrieved(DatabaseReference reference) {
-                reference.push().setValue(hashMap);
-            }
-        });
+        getChatRef().push().setValue(hashMap);
     }
 
     @Override

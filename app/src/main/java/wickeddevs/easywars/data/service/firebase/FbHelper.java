@@ -3,6 +3,7 @@ package wickeddevs.easywars.data.service.firebase;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,31 +24,11 @@ public class FbHelper {
     }
 
     public static String getUid() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
-    }
-
-    public static void getClanTag (final ClanTagCallback callback) {
-        FbHelper.getUserRef().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    String clanTag = dataSnapshot.getValue(User.class).clanTag.substring(1);
-                    callback.onClanTagReceived(clanTag);
-                } else {
-                    Log.e(TAG, "Trying to get clan tag with no clan");
-                    callback.onClanTagReceived("");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, databaseError.getMessage());
-            }
-        });
-    }
-
-    public static DatabaseReference getUserRef() {
-        return getDb().getReference("users/" + getUid());
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null){
+            return currentUser.getUid();
+        }
+        return null;
     }
 
     public static DatabaseReference getRequestRef() {
@@ -56,35 +37,5 @@ public class FbHelper {
 
     public static DatabaseReference getResponseRef() {
         return getDb().getReference("server/response/" + getUid());
-    }
-
-    public static DatabaseReference getCreateRequestRef() {
-        return getDb().getReference("createRequests/" + getUid());
-    }
-
-    public static void getChatRef(final ReferenceCallback callback) {
-        getClanTag(new ClanTagCallback() {
-            @Override
-            public void onClanTagReceived(String clanTag) {
-                callback.onRefRetrieved(getDb().getReference("messages/" + clanTag));
-            }
-        });
-    }
-
-    public static void getClanRef(final ReferenceCallback callback) {
-        getClanTag(new ClanTagCallback() {
-            @Override
-            public void onClanTagReceived(String clanTag) {
-                callback.onRefRetrieved(getDb().getReference("clans/" + clanTag));
-            }
-        });
-    }
-
-    public interface ReferenceCallback {
-        void onRefRetrieved(DatabaseReference reference);
-    }
-
-    public interface ClanTagCallback {
-        void onClanTagReceived(String clanTag);
     }
 }

@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".loadingsplash.LoadingSplashActivity">
+        <activity android:name=".ui.loadingsplash.LoadingSplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -16,12 +16,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".home.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".noclan.NoClanActivity"/>
-        <activity android:name=".noclan.create.CreateClanActivity"/>
+        <activity android:name=".ui.noclan.NoClanActivity"/>
+        <activity android:name=".ui.noclan.create.CreateClanActivity"/>
     </application>
 
 </manifest>
