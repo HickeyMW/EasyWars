@@ -3,8 +3,11 @@ package wickeddevs.easywars.data.service.firebase;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import wickeddevs.easywars.data.service.contract.StateService;
@@ -12,15 +15,17 @@ import wickeddevs.easywars.data.service.contract.StateService;
 /**
  * Created by hicke_000 on 8/2/2016.
  */
-public class FbStateService implements StateService {
+public enum FbInfo implements StateService {
+    INSTANCE;
 
-    final static String TAG = "FbStateService";
+    final static String TAG = "FbInfo";
 
     private int state = STATE_LOADING;
     private String clanTag = null;
+    private int test = 0;
 
-    public FbStateService() {
-        FbHelper.getDb().getReference("users/" + FbHelper.getUid()).addValueEventListener(new ValueEventListener() {
+    FbInfo() {
+        getDb().getReference("users/" + getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild("state")) {
@@ -40,8 +45,8 @@ public class FbStateService implements StateService {
 
     @Override
     public void setState(int state) {
-        if (FbHelper.getUid() != null) {
-            FbHelper.getDb().getReference("users/" + FbHelper.getUid() + "/state").setValue(state);
+        if (getUid() != null) {
+            getDb().getReference("users/" + getUid() + "/state").setValue(state);
         } else {
             Log.e(TAG, "Tried to set state while uid is null");
         }
@@ -60,8 +65,8 @@ public class FbStateService implements StateService {
 
     @Override
     public void setClanTag(String clanTag) {
-        if (FbHelper.getUid() != null) {
-            FbHelper.getDb().getReference("users/" + FbHelper.getUid() + "/clanTag").setValue(clanTag);
+        if (getUid() != null) {
+            getDb().getReference("users/" + getUid() + "/clanTag").setValue(clanTag);
         } else {
             Log.e(TAG, "Tried to set clanTag while uid is null");
         }
@@ -79,5 +84,25 @@ public class FbStateService implements StateService {
             return clanTag.substring(1);
         }
         return null;
+    }
+
+    public FirebaseDatabase getDb() {
+        return FirebaseDatabase.getInstance();
+    }
+
+    public String getUid() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null){
+            return currentUser.getUid();
+        }
+        return null;
+    }
+
+    public DatabaseReference getRequestRef() {
+        return getDb().getReference("server/request/" + getUid());
+    }
+
+    public DatabaseReference getResponseRef() {
+        return getDb().getReference("server/response/" + getUid());
     }
 }

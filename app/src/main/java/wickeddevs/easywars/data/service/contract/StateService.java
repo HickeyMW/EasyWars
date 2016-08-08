@@ -5,12 +5,12 @@ package wickeddevs.easywars.data.service.contract;
  */
 public interface StateService {
 
-    public static final int STATE_LOADING = -1;
-    public static final int STATE_BLANK = 0;
-    public static final int STATE_CREATING = 1;
-    public static final int STATE_JOINING = 2;
-    public static final int STATE_MEMBER = 3;
-    public static final int STATE_ADMIN = 4;
+    int STATE_LOADING = -1;
+    int STATE_BLANK = 0;
+    int STATE_CREATING = 1;
+    int STATE_JOINING = 2;
+    int STATE_MEMBER = 3;
+    int STATE_ADMIN = 4;
 
     boolean isLoggedIn();
 

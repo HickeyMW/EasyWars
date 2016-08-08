@@ -75,12 +75,12 @@ public class ChatPresenterTest {
         members.put(key3, member3);
         clan = new Clan();
         clan.members = members;
-        mChatPresenter = new ChatPresenter(mChatView, mChatService, mClanService);
+        //mChatPresenter = new ChatPresenter(mChatView, mChatService, mClanService);
     }
 
     @Test
     public void startListeningForMessages_loadsInitialMessages() {
-        mChatPresenter.start();
+        //mChatPresenter.start();
         verify(mChatService).setMessageListener(mMessageListenerArgumentCaptor.capture());
         mMessageListenerArgumentCaptor.getValue().initialMessages(messages);
         verify(mClanService).getClan(mLoadClanCallbackArgumentCaptor.capture());
@@ -90,7 +90,7 @@ public class ChatPresenterTest {
 
     @Test
     public void newMessageFromService_messageSentToView() {
-        mChatPresenter.start();
+        //mChatPresenter.start();
         verify(mChatService).setMessageListener(mMessageListenerArgumentCaptor.capture());
         Message message = messages.get(1);
         mMessageListenerArgumentCaptor.getValue().newMessage(message);
@@ -110,7 +110,7 @@ public class ChatPresenterTest {
 
     @Test
     public void stopListeningForMessages() {
-        mChatPresenter.stop();
+        //mChatPresenter.stop();
         verify(mChatService).removeMessageListener();
     }
 

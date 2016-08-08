@@ -8,18 +8,18 @@ import wickeddevs.easywars.dagger.component.StateServiceComponent;
 import wickeddevs.easywars.dagger.component.ViewInjectorComponent;
 import wickeddevs.easywars.ui.home.chat.ChatFragment;
 import wickeddevs.easywars.ui.loadingsplash.LoadingSplashActivity;
-import wickeddevs.easywars.ui.loadingsplash.LoadingSplashContract;
 import wickeddevs.easywars.ui.noclan.NoClanActivity;
+import wickeddevs.easywars.ui.noclan.create.CreateClanActivity;
+import wickeddevs.easywars.ui.noclan.verifycreate.VerifyCreateClanActivity;
+import wickeddevs.easywars.ui.noclan.join.JoinClanActivity;
+import wickeddevs.easywars.ui.noclan.verifyjoin.VerifyJoinClanActivity;
+import wickeddevs.easywars.ui.noclan.search.SearchClansActivity;
 
 /**
  * Created by hicke_000 on 8/2/2016.
  */
 public enum Injector {
     INSTANCE;
-
-    private StateServiceComponent stateServiceComponent = null;
-    private ViewInjectorComponent viewInjectorComponent = null;
-    private ServiceComponent serviceComponent = null;
 
     private Injector(){
     }
@@ -32,30 +32,37 @@ public enum Injector {
         getViewInjectorComponent().inject(chatFragment);
     }
 
-    public void inject(NoClanActivity noClanActivity) {
-        getViewInjectorComponent().inject(noClanActivity);
+    public void inject(SearchClansActivity searchClansActivity) {
+        getViewInjectorComponent().inject(searchClansActivity);
+    }
+
+    public void inject(CreateClanActivity createClanActivity) {
+        getViewInjectorComponent().inject(createClanActivity);
+    }
+
+    public void inject(JoinClanActivity joinClanActivity) {
+        getViewInjectorComponent().inject(joinClanActivity);
+    }
+
+    public void inject(VerifyCreateClanActivity verifyCreateClanActivity) {
+        getViewInjectorComponent().inject(verifyCreateClanActivity);
+    }
+
+    public void inject(VerifyJoinClanActivity verifyJoinClanActivity) {
+        getViewInjectorComponent().inject(verifyJoinClanActivity);
     }
 
     private ViewInjectorComponent getViewInjectorComponent() {
-        if (viewInjectorComponent == null) {
-            viewInjectorComponent = DaggerViewInjectorComponent.builder()
+        return DaggerViewInjectorComponent.builder()
                     .serviceComponent(getServiceComponent()).build();
-        }
-        return viewInjectorComponent;
     }
 
     private ServiceComponent getServiceComponent() {
-        if (serviceComponent ==  null) {
-            serviceComponent = DaggerServiceComponent.builder()
+        return DaggerServiceComponent.builder()
                     .stateServiceComponent(getStateServiceComponent()).build();
-        }
-        return serviceComponent;
     }
 
     private StateServiceComponent getStateServiceComponent() {
-        if (stateServiceComponent ==  null) {
-            stateServiceComponent = DaggerStateServiceComponent.builder().build();
-        }
-        return stateServiceComponent;
+        return DaggerStateServiceComponent.builder().build();
     }
 }

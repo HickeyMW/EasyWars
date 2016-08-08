@@ -21,7 +21,7 @@ public interface CreateClanService {
 
     void deleteCreateRequest();
 
-    void setCreateRequest(String username);
+    void setCreateRequest(String username, String clanTag);
 
     void verifyCreateRequest(VerifyCreateCallback callback);
 }

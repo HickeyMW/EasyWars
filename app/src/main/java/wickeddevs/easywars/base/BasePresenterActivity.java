@@ -15,14 +15,14 @@ public abstract class BasePresenterActivity<T extends Presenter> extends AppComp
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         getPresenter().onAttach();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         getPresenter().onDetach();
     }
 

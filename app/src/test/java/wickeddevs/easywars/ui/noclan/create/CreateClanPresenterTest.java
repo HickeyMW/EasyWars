@@ -1,11 +1,9 @@
 package wickeddevs.easywars.ui.noclan.create;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 
@@ -64,7 +62,7 @@ public class CreateClanPresenterTest {
         mCreateClanPresenter.search(query);
         verify(mApiService).searchClans(eq(query), mSearchApiClansCallbackArgumentCaptor.capture());
         mSearchApiClansCallbackArgumentCaptor.getValue().onApiClansLoaded(apiClans);
-        verify(mCreateClanView).showSearchResult(apiClans);
+        verify(mCreateClanView).displaySearchResult(apiClans);
     }
 
     @Test
@@ -73,7 +71,7 @@ public class CreateClanPresenterTest {
         mCreateClanPresenter.selectedClan(sApiClan);
         verify(mApiService).getApiClan(eq(sApiClan.tag), mLoadApiClanCallbackArgumentCaptor.capture());
         mLoadApiClanCallbackArgumentCaptor.getValue().onApiClanLoaded(apiClanDetailed);
-        verify(mCreateClanView).showDetailedClan(apiClanDetailed);
+        verify(mCreateClanView).displayDetailedClan(apiClanDetailed);
     }
 
 //    @Test

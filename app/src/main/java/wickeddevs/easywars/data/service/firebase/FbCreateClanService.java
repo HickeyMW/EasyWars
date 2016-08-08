@@ -14,14 +14,8 @@ import wickeddevs.easywars.data.service.contract.StateService;
  */
 public class FbCreateClanService implements CreateClanService {
 
-    public StateService stateService;
-
-    public FbCreateClanService(StateService stateService) {
-        this.stateService = stateService;
-    }
-
     private DatabaseReference getCreateRequestRef() {
-        return FbHelper.getDb().getReference("createRequests/" + FbHelper.getUid());
+        return FbInfo.INSTANCE.getDb().getReference("createRequests/" + FbInfo.INSTANCE.getUid());
     }
 
     @Override
@@ -46,14 +40,14 @@ public class FbCreateClanService implements CreateClanService {
     }
 
     @Override
-    public void setCreateRequest(String username) {
-        FbHelper.getRequestRef().child("createClan").setValue(new CreateRequest(username,
-                stateService.getNoHashClanTag(), FbHelper.getUid()));
+    public void setCreateRequest(String username, String clanTag) {
+        FbInfo.INSTANCE.getRequestRef().child("createClan").setValue(new CreateRequest(username,
+                clanTag, FbInfo.INSTANCE.getUid()));
     }
 
     @Override
     public void verifyCreateRequest(VerifyCreateCallback callback) {
-        FbHelper.getRequestRef().setValue("verifyCreateClan");
+        FbInfo.INSTANCE.getRequestRef().setValue("verifyCreateClan");
 
     }
 }

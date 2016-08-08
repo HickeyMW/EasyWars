@@ -3,9 +3,6 @@ package wickeddevs.easywars.ui.loadingsplash;
 import android.os.Handler;
 import android.util.Log;
 
-import javax.inject.Inject;
-
-import wickeddevs.easywars.data.model.User;
 import wickeddevs.easywars.data.service.contract.StateService;
 
 /**
@@ -13,7 +10,7 @@ import wickeddevs.easywars.data.service.contract.StateService;
  */
 public class LoadingSplashPresenter implements LoadingSplashContract.ViewListener {
 
-    final static String TAG = "LoadingSplashPresenter";
+    private final static String TAG = "LoadingSplashPresenter";
 
     private LoadingSplashContract.View loadingSplashView;
 
@@ -32,9 +29,9 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
     @Override
     public void onAttach() {
         if (stateService.isLoggedIn()) {
-            navigateOnUserState();
+            navigateOnUserState(0);
         } else {
-            loadingSplashView.showLoginUi();
+            loadingSplashView.navigateToLoginUi();
         }
     }
 
@@ -46,39 +43,43 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
     @Override
     public void returnedFromLogin(boolean successful) {
         if (successful) {
-            navigateOnUserState();
+            navigateOnUserState(0);
         } else {
-            loadingSplashView.showLoginError();
+            loadingSplashView.displayError("Error logging in. Please try again.");
         }
     }
 
-    private void navigateOnUserState() {
+    private void navigateOnUserState(final int tries) {
 
-        switch (stateService.getState()) {
-            case StateService.STATE_LOADING:
-                loadingSplashView.toggleProgressBar(true);
-                Log.i(TAG, "navigateOnUserState: tick");
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        navigateOnUserState();
-                    }
-                },100);
-                //Make it wait
-                break;
-            case StateService.STATE_BLANK:
-            case StateService.STATE_CREATING:
-            case StateService.STATE_JOINING:
-                loadingSplashView.showNoClanUi();
-                break;
-            case StateService.STATE_MEMBER:
-                loadingSplashView.showHomeUi(false);
-                break;
-            case StateService.STATE_ADMIN:
-                loadingSplashView.showHomeUi(true);
-                break;
-            default:
-                Log.e(TAG, "User doesn't have a valid state");
+        if (tries > 100) {
+            loadingSplashView.displayError("Couldn't load account info. Please try again");
+        } else {
+            switch (stateService.getState()) {
+                case StateService.STATE_LOADING:
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.i(TAG, "run: " + String.valueOf(tries));
+                            navigateOnUserState(1 + tries);
+                        }
+                    },100);
+                    break;
+                case StateService.STATE_BLANK:
+                    loadingSplashView.navigateToNoClanUi();
+                    break;
+                case StateService.STATE_CREATING:
+                    loadingSplashView.navigateToCreatingClanUi();
+                case StateService.STATE_JOINING:
+                    loadingSplashView.navigateToJoiningClanUi();
+                    break;
+                case StateService.STATE_MEMBER:
+                case StateService.STATE_ADMIN:
+                    loadingSplashView.navigateToHomeUi();
+                    break;
+                default:
+                    Log.e(TAG, "User doesn't have a valid state");
+            }
         }
+
     }
 }

@@ -14,6 +14,8 @@ import wickeddevs.easywars.dagger.Injector;
 import wickeddevs.easywars.databinding.ActivityLoadingSplashBinding;
 import wickeddevs.easywars.ui.home.HomeActivity;
 import wickeddevs.easywars.ui.noclan.NoClanActivity;
+import wickeddevs.easywars.ui.noclan.verifycreate.VerifyCreateClanActivity;
+import wickeddevs.easywars.ui.noclan.verifyjoin.VerifyJoinClanActivity;
 
 public class LoadingSplashActivity extends BasePresenterActivity<LoadingSplashContract.ViewListener> implements LoadingSplashContract.View {
 
@@ -23,6 +25,7 @@ public class LoadingSplashActivity extends BasePresenterActivity<LoadingSplashCo
 
     @Inject
     public LoadingSplashContract.ViewListener presenter;
+
     private ActivityLoadingSplashBinding binding;
 
     @Override
@@ -44,13 +47,41 @@ public class LoadingSplashActivity extends BasePresenterActivity<LoadingSplashCo
     }
 
     @Override
-    public void toggleProgressBar(boolean loading) {
+    public void displayError(String error) {
 
     }
 
     @Override
-    public void displayToast(String toast) {
+    public void navigateToLoginUi() {
+        startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().build(), RC_SIGN_IN);
+    }
 
+    @Override
+    public void navigateToHomeUi() {
+        Intent i = new Intent(this, HomeActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
+    public void navigateToNoClanUi() {
+        Intent i = new Intent(this, NoClanActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
+    public void navigateToCreatingClanUi() {
+        Intent i = new Intent(this, VerifyCreateClanActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
+    public void navigateToJoiningClanUi() {
+        Intent i = new Intent(this, VerifyJoinClanActivity.class);
+        startActivity(i);
+        finish();
     }
 
     @Override
@@ -62,26 +93,12 @@ public class LoadingSplashActivity extends BasePresenterActivity<LoadingSplashCo
     }
 
     @Override
-    public void showLoginUi() {
-        startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().build(), RC_SIGN_IN);
+    public void toggleProgressBar(boolean loading) {
+
     }
 
     @Override
-    public void showHomeUi(boolean isAdmin) {
-        Intent i = HomeActivity.createIntent(this, isAdmin);
-        startActivity(i);
-        finish();
-    }
-
-    @Override
-    public void showNoClanUi() {
-        Intent i = new Intent(this, NoClanActivity.class);
-        startActivity(i);
-        finish();
-    }
-
-    @Override
-    public void showLoginError() {
+    public void displayToast(String toast) {
 
     }
 }

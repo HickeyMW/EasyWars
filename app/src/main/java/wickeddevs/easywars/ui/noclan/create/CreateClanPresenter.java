@@ -1,65 +1,70 @@
 package wickeddevs.easywars.ui.noclan.create;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import wickeddevs.easywars.data.model.api.ApiClan;
 import wickeddevs.easywars.data.service.contract.ApiService;
 import wickeddevs.easywars.data.service.contract.CreateClanService;
-import wickeddevs.easywars.data.service.contract.StateService;
 
 /**
  * Created by hicke_000 on 7/27/2016.
  */
 public class CreateClanPresenter implements CreateClanContract.ViewListener {
 
+    final static String TAG = "CreateClanPresenter";
+
     private ApiClan apiClan;
     private String name;
-    private CreateClanContract.View createClanView;
-    private ApiService apiService;
-    private CreateClanService createClanService;
-    private StateService stateService;
 
-    public CreateClanPresenter(ApiClan apiClan, String name, CreateClanContract.View createClanView,
-                               ApiService apiService, CreateClanService createClanService,
-                               StateService stateService) {
-        this.apiClan = apiClan;
-        this.name = name;
-        this.createClanView = createClanView;
+    private CreateClanContract.View view;
+    private ApiService apiService;
+
+    private CreateClanService createClanService;
+
+    public CreateClanPresenter(ApiService apiService, CreateClanService createClanService) {
         this.apiService = apiService;
         this.createClanService = createClanService;
-        this.stateService = stateService;
-    }
-
-
-    @Override
-    public void selectedClan(ApiClan apiClan) {
-        this.apiClan = apiClan;
-        apiService.getApiClan(apiClan.tag, new ApiService.LoadApiClanCallback() {
-            @Override
-            public void onApiClanLoaded(ApiClan apiClan) {
-                createClanView.showDetailedClan(apiClan);
-            }
-        });
     }
 
     @Override
-    public void search(String query) {
-        apiService.searchClans(query, new ApiService.SearchApiClansCallback() {
-            @Override
-            public void onApiClansLoaded(ArrayList<ApiClan> apiClans) {
-                //createClanView.showDetailedClan(apiClans);
-            }
-        });
+    public void registerView(CreateClanContract.View activity) {
+        view = activity;
+    }
+
+    @Override
+    public void onAttach() {
+        String clanTag = view.getClanTag();
+        if (clanTag != null) {
+            apiService.getApiClan(view.getClanTag(), new ApiService.LoadApiClanCallback() {
+                @Override
+                public void onApiClanLoaded(ApiClan apiClan) {
+                    CreateClanPresenter.this.apiClan = apiClan;
+                    view.displayClanInfo(apiClan);
+                }
+            });
+        } else {
+            Log.e(TAG, "onAttach: Clan tag was null");
+        }
+
+    }
+
+    @Override
+    public void onDetach() {
+
     }
 
     @Override
     public void selectedName(String name) {
+        view.allowCreate();
         this.name = name;
     }
 
     @Override
-    public void createClan() {
-        //CreateRequest createRequest = new CreateRequest(name, )
-        //createClanService.setCreateRequest();
+    public void createClanRequest() {
+        createClanService.setCreateRequest(name, apiClan.tag);
     }
+
+
 }

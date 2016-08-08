@@ -36,7 +36,6 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //mPresenter = new ChatPresenter(this, Injection.chatService(), Injection.clanService());
     }
 
     protected ChatContract.ViewListener getPresenter() {

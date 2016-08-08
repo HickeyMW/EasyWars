@@ -70,10 +70,4 @@ public class HomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    public static Intent createIntent(Context context, boolean isAdmin) {
-        Intent i = new Intent(context, HomeActivity.class);
-        i.putExtra(EXTRA_IS_ADMIN, isAdmin);
-        return i;
-    }
 }

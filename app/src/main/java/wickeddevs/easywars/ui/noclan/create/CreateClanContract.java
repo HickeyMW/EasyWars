@@ -2,6 +2,8 @@ package wickeddevs.easywars.ui.noclan.create;
 
 import java.util.ArrayList;
 
+import wickeddevs.easywars.base.PView;
+import wickeddevs.easywars.base.Presenter;
 import wickeddevs.easywars.data.model.api.ApiClan;
 
 /**
@@ -9,21 +11,21 @@ import wickeddevs.easywars.data.model.api.ApiClan;
  */
 public interface CreateClanContract {
 
-    interface View {
+    interface View extends PView {
 
-        void showSearchResult(ArrayList<ApiClan> apiClans);
+        String getClanTag();
 
-        void showDetailedClan(ApiClan apiClan);
+        void displayClanInfo(ApiClan apiClan);
+
+        void allowCreate();
+
+        void navigateToCreatingClanUi();
     }
 
-    interface ViewListener {
-
-        void search(String query);
-
-        void selectedClan(ApiClan apiClan);
+    interface ViewListener extends Presenter<CreateClanContract.View> {
 
         void selectedName(String name);
 
-        void createClan();
+        void createClanRequest();
     }
 }

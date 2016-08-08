@@ -10,13 +10,17 @@ public interface LoadingSplashContract {
 
     interface View extends PView {
 
-        void showLoginUi();
+        void navigateToLoginUi();
 
-        void showHomeUi(boolean isAdmin);
+        void navigateToHomeUi();
 
-        void showNoClanUi();
+        void navigateToNoClanUi();
 
-        void showLoginError();
+        void navigateToCreatingClanUi();
+
+        void navigateToJoiningClanUi();
+
+        void displayError(String error);
     }
 
     interface ViewListener extends Presenter<LoadingSplashContract.View> {

@@ -104,7 +104,7 @@ public class NoClanPresenterTest {
 //        mCreateRequestListenerArgumentCaptor.getValue().onCreateRequestLoaded(createRequest);
 //        verify(mApiService).getApiClan(eq(createRequest.tag), mLoadApiClanCallbackArgumentCaptor.capture());
 //        mLoadApiClanCallbackArgumentCaptor.getValue().onApiClanLoaded(apiClan);
-//        verify(mNoClanView).showAwaitingCreateUi(createRequest, apiClan);
+//        verify(mNoClanView).displayCreateRequestDetails(createRequest, apiClan);
 //    }
 //
 //    @Test

@@ -11,28 +11,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import javax.inject.Inject;
-
 import wickeddevs.easywars.data.model.Message;
 import wickeddevs.easywars.data.service.contract.ChatService;
-import wickeddevs.easywars.data.service.contract.StateService;
 
 /**
  * Created by hicke_000 on 7/27/2016.
  */
 public class FbChatService implements ChatService, ChildEventListener {
 
-    @Inject
-    public StateService stateService;
     private MessageListener mMessageListener;
     private long messagesToIgnore = -1;
 
-    public FbChatService(StateService stateService) {
-        this.stateService = stateService;
-    }
 
     private DatabaseReference getChatRef() {
-        return FbHelper.getDb().getReference("messages/" + stateService.getNoHashClanTag());
+        return FbInfo.INSTANCE.getDb().getReference("messages/" + FbInfo.INSTANCE.getNoHashClanTag());
     }
 
     @Override
@@ -51,7 +43,7 @@ public class FbChatService implements ChatService, ChildEventListener {
                     DataSnapshot dSnap = iterator.next();
                     Message message = dSnap.getValue(Message.class);
                     message.key = dSnap.getKey();
-                    message.isSentMessage = (message.uid.equals(FbHelper.getUid()));
+                    message.isSentMessage = (message.uid.equals(FbInfo.INSTANCE.getUid()));
                     messages.add(message);
                 }
                 listener.initialMessages(messages);
@@ -74,7 +66,7 @@ public class FbChatService implements ChatService, ChildEventListener {
     public void sendMessage(String body) {
         final HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("body", body);
-        hashMap.put("uid", FbHelper.getUid());
+        hashMap.put("uid", FbInfo.INSTANCE.getUid());
         hashMap.put("timestamp", ServerValue.TIMESTAMP);
         getChatRef().push().setValue(hashMap);
     }
@@ -83,7 +75,7 @@ public class FbChatService implements ChatService, ChildEventListener {
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         if (messagesToIgnore == 0) {
             Message message = dataSnapshot.getValue(Message.class);
-            message.isSentMessage = (message.uid.equals(FbHelper.getUid()));
+            message.isSentMessage = (message.uid.equals(FbInfo.INSTANCE.getUid()));
             message.key = dataSnapshot.getKey();
             mMessageListener.newMessage(message);
         } else {

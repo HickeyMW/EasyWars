@@ -19,57 +19,57 @@ import wickeddevs.easywars.data.service.contract.ApiService;
 public class FbApiService implements ApiService {
 
     private GenericTypeIndicator<ArrayList<ApiClan>> gtiArrayListClan = new GenericTypeIndicator<ArrayList<ApiClan>>() {};
+    private GenericTypeIndicator<ArrayList<String>> gtiString = new GenericTypeIndicator<ArrayList<String>>() {};
 
     @Override
     public void getApiClan(String tag, final LoadApiClanCallback callback) {
-//        FbHelper.getRequestRef().child("api/searchClans").setValue(tag);
-//        final DatabaseReference responseRef = FbHelper.getRequestRef();
-//        responseRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.hasChild("clanInfo")) {
-//                    ApiClan apiClan = dataSnapshot.child("clanInfo").getValue(ApiClan.class);
-//                    if (apiClan != null) {
-//                        if (callback != null) {
-//                            callback.onApiClanLoaded(apiClan);
-//                        }
-//                        responseRef.removeEventListener(this);
-//                        responseRef.removeValue();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+        FbInfo.INSTANCE.getRequestRef().child("api/clanInfo").setValue(tag);
+        final DatabaseReference responseRef = FbInfo.INSTANCE.getResponseRef();
+        responseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild("clanInfo")) {
+                    ApiClan apiClan = dataSnapshot.child("clanInfo").getValue(ApiClan.class);
+                    if (apiClan != null) {
+                        if (callback != null) {
+                            callback.onApiClanLoaded(apiClan);
+                        }
+                        responseRef.removeEventListener(this);
+                        responseRef.removeValue();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
     public void searchClans(String query, final SearchApiClansCallback callback) {
-//        FbHelper.getRequestRef().child("api/searchClans").setValue(query);
-//        final DatabaseReference responseRef = FbHelper.getResponseRef();
-//        responseRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.hasChild("clanSearch")) {
-//                    ArrayList<ApiClan> apiClan = dataSnapshot.child("clanSearch").getValue(gtiArrayListClan);
-//                    if (apiClan != null) {
-//                        if (callback != null) {
-//                            callback.onApiClansLoaded(apiClan);
-//                        }
-//                        responseRef.removeEventListener(this);
-//                        responseRef.removeValue();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+        FbInfo.INSTANCE.getRequestRef().child("api/searchClans").setValue(query);
+        final DatabaseReference responseRef = FbInfo.INSTANCE.getResponseRef();
+        responseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild("clanSearch")) {
+                    ArrayList<ApiClan> apiClan = dataSnapshot.child("clanSearch").getValue(gtiArrayListClan);
+                    if (apiClan != null) {
+                        if (callback != null) {
+                            callback.onApiClansLoaded(apiClan);
+                        }
+                        responseRef.removeEventListener(this);
+                        responseRef.removeValue();
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

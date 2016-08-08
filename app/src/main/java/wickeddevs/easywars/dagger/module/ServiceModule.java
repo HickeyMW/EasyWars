@@ -27,28 +27,28 @@ public class ServiceModule {
     }
 
     @Provides
-    ChatService providesChatService(StateService stateService) {
-        return new FbChatService(stateService);
+    ChatService providesChatService() {
+        return new FbChatService();
     }
 
 //    @Provides
-//    StateService providesStateService(StateService stateService) {
+//    StateService providesStateService() {
 //        return stateService;
 //    }
 
     @Provides
-    ClanService providesClanService(StateService stateService) {
-        return new FbClanService(stateService);
+    ClanService providesClanService() {
+        return new FbClanService();
     }
 
     @Provides
-    CreateClanService providesCreateClanService(StateService stateService) {
-        return new FbCreateClanService(stateService);
+    CreateClanService providesCreateClanService() {
+        return new FbCreateClanService();
     }
 
     @Provides
-    JoinClanService providesJoinClanService(StateService stateService) {
-        return new FbJoinClanService(stateService);
+    JoinClanService providesJoinClanService() {
+        return new FbJoinClanService();
     }
 
 

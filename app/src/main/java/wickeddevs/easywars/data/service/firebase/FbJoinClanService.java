@@ -9,19 +9,13 @@ import wickeddevs.easywars.data.service.contract.StateService;
  */
 public class FbJoinClanService implements JoinClanService {
 
-    public StateService stateService;
-
-    public FbJoinClanService(StateService stateService) {
-        this.stateService = stateService;
-    }
-
     @Override
     public void setDecisionListener(DecisionListener listener) {
 
     }
 
     @Override
-    public void deleteJoinRequest() {
+    public void cancelJoinRequest() {
 
     }
 

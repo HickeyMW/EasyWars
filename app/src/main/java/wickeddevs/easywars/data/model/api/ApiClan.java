@@ -8,7 +8,15 @@ import java.util.ArrayList;
 public class ApiClan {
     public String name;
     public String tag;
-    public String badgeUrl;
+    public BadgeUrls badgeUrls;
     public int members;
-    public ArrayList<String> memberNames = new ArrayList<>();
+    public ArrayList<ApiMember> memberList = new ArrayList<>();
+
+    public ArrayList<String> getMemberNames(){
+        ArrayList<String> members = new ArrayList<>();
+        for (ApiMember apiMember : memberList) {
+            members.add(apiMember.name);
+        }
+        return members;
+    }
 }

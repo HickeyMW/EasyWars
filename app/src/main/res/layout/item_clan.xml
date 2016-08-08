@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/ivBadge"
+        android:adjustViewBounds="false"
+        android:layout_marginRight="10dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Clan Name"
+        android:id="@+id/tvSearchName"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ivBadge"
+        android:layout_toEndOf="@+id/ivBadge" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Members 50/50"
+        android:id="@+id/tvSearchMembers"
+        android:layout_toRightOf="@+id/ivBadge"
+        android:layout_toEndOf="@+id/ivBadge"
+        android:layout_alignBottom="@+id/ivBadge" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#clantag"
+        android:id="@+id/tvSearchTag"
+        android:layout_gravity="bottom|right"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/ivBadge" />
+
+
+</RelativeLayout>
