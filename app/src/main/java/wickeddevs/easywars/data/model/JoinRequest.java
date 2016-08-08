@@ -11,4 +11,9 @@ public class JoinRequest {
 
     public JoinRequest() {
     }
+
+    public JoinRequest(String name, String message) {
+        this.name = name;
+        this.message = message;
+    }
 }

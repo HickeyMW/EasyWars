@@ -5,6 +5,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+
 import javax.inject.Inject;
 
 import wickeddevs.easywars.R;
@@ -32,7 +34,14 @@ public class VerifyJoinClanActivity extends BasePresenterActivity<VerifyJoinClan
         binding.progressBar.setVisibility(View.GONE);
         binding.tvClanName.setText(apiClan.name);
         binding.tvTag.setText(apiClan.tag);
-        binding.layoutJoining.setVisibility(View.VISIBLE);
+        binding.layoutMain.setVisibility(View.VISIBLE);
+        Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().into(binding.ivBadge);
+        binding.btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.cancelJoinClan();
+            }
+        });
     }
 
     @Override

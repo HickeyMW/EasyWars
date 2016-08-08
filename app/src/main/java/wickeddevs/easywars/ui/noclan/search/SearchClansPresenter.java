@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import wickeddevs.easywars.data.model.api.ApiClan;
 import wickeddevs.easywars.data.service.contract.ApiService;
+import wickeddevs.easywars.data.service.firebase.FbInfo;
 
 /**
  * Created by hicke_000 on 8/6/2016.
@@ -30,6 +31,15 @@ public class SearchClansPresenter implements SearchClansContract.ViewListener {
 
     @Override
     public void onAttach() {
+        if (view.getStartedBy() == SearchClansActivity.STARTED_FOR_JOIN) {
+            view.clearDisplayedClans();
+            apiService.getJoinableClans(new ApiService.LoadApiClanCallback() {
+                @Override
+                public void onApiClanLoaded(ApiClan apiClan) {
+                    view.addClan(apiClan);
+                }
+            });
+        }
     }
 
     @Override
@@ -52,13 +62,13 @@ public class SearchClansPresenter implements SearchClansContract.ViewListener {
     @Override
     public void selectedClan(ApiClan apiClan) {
         int something = view.getStartedBy();
-
+        FbInfo.INSTANCE.setClanTag(apiClan.tag);
         switch (view.getStartedBy()) {
             case SearchClansActivity.STARTED_FOR_CREATE:
                 view.navigateToCreateClanUi(apiClan.tag);
                 break;
             case SearchClansActivity.STARTED_FOR_JOIN:
-                view.navigateToCreateClanUi(apiClan.tag);
+                view.navigateToJoinClanUi(apiClan.tag);
                 break;
             default:
                 Log.e(TAG, "selectedClan: Started by value is invalid");

@@ -27,9 +27,6 @@ import static org.mockito.Mockito.verify;
 public class NoClanPresenterTest {
 
     @Mock
-    private NoClanContract.View mNoClanView;
-
-    @Mock
     private StateService stateService;
 
     @Mock

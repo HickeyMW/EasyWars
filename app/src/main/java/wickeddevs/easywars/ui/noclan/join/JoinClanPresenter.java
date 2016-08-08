@@ -1,5 +1,8 @@
 package wickeddevs.easywars.ui.noclan.join;
 
+import android.util.Log;
+
+import wickeddevs.easywars.data.model.JoinRequest;
 import wickeddevs.easywars.data.model.api.ApiClan;
 import wickeddevs.easywars.data.service.contract.ApiService;
 import wickeddevs.easywars.data.service.contract.JoinClanService;
@@ -9,10 +12,12 @@ import wickeddevs.easywars.data.service.contract.JoinClanService;
  */
 public class JoinClanPresenter implements JoinClanContract.ViewListener {
 
+    final static String TAG = "CreateClanPresenter";
+
     private ApiClan apiClan;
     private String name;
 
-    private JoinClanContract.View joinClanView;
+    private JoinClanContract.View view;
     private ApiService apiService;
     private JoinClanService joinClanService;
 
@@ -23,12 +28,25 @@ public class JoinClanPresenter implements JoinClanContract.ViewListener {
 
     @Override
     public void registerView(JoinClanContract.View activity) {
-        joinClanView = activity;
+        view = activity;
     }
 
     @Override
     public void onAttach() {
-
+        String clanTag = view.getClanTag();
+        if (clanTag != null) {
+            view.toggleProgressBar(true);
+            apiService.getApiClan(view.getClanTag(), new ApiService.LoadApiClanCallback() {
+                @Override
+                public void onApiClanLoaded(ApiClan apiClan) {
+                    view.toggleProgressBar(false);
+                    JoinClanPresenter.this.apiClan = apiClan;
+                    view.displayClanInfo(apiClan);
+                }
+            });
+        } else {
+            Log.e(TAG, "onAttach: Clan tag was null");
+        }
     }
 
     @Override
@@ -36,23 +54,16 @@ public class JoinClanPresenter implements JoinClanContract.ViewListener {
 
     }
 
-    @Override
-    public void search(String query) {
-
-    }
-
-    @Override
-    public void selectedClan(ApiClan apiClan) {
-
-    }
 
     @Override
     public void selectedName(String name) {
-
+        this.name = name;
+        view.allowJoin();
     }
 
     @Override
-    public void createClan() {
-
+    public void requestJoin(String message) {
+        joinClanService.setJoinRequest(apiClan.tag, new JoinRequest(name, message));
+        view.navigateToVerifyJoinClanUi();
     }
 }

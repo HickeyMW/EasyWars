@@ -14,7 +14,7 @@ tools:context=".ui.noclan.create.CreateClanActivity">
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/layoutClan"
-        android:visibility="invisible">
+        android:visibility="visible">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -48,36 +48,36 @@ tools:context=".ui.noclan.create.CreateClanActivity">
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:id="@+id/layoutMembers"
-            android:layout_above="@+id/btnClan"
+            android:layout_above="@+id/btnCreate"
             android:layout_below="@+id/layoutClanText">
 
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:id="@+id/rvMembers"
                 android:layout_below="@+id/tvYourName"
                 android:visibility="visible"
-                android:layout_above="@+id/tvMembers" />
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your Name: Select below"
+                android:text="Your Name:"
                 android:id="@+id/tvYourName"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:layout_marginRight="8dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Members 50/50"
+                android:id="@+id/tvSelectedName"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/tvYourName"
+                android:layout_toEndOf="@+id/tvYourName"
                 android:textSize="20sp"
-                android:id="@+id/tvMembers"
-                android:visibility="visible"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true" />
+                android:textStyle="bold"/>
 
         </RelativeLayout>
 
@@ -85,12 +85,24 @@ tools:context=".ui.noclan.create.CreateClanActivity">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create Clan"
-            android:id="@+id/btnClan"
+            android:id="@+id/btnCreate"
             style="?attr/borderlessButtonStyle"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:visibility="invisible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Members 50/50"
+            android:textSize="20sp"
+            android:id="@+id/tvMembers"
+            android:visibility="visible"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="false"
+            android:layout_below="@+id/layoutMembers"/>
     </RelativeLayout>
 
     <ProgressBar
@@ -101,7 +113,7 @@ tools:context=".ui.noclan.create.CreateClanActivity">
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:indeterminate="false"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
 </RelativeLayout>
 </layout>

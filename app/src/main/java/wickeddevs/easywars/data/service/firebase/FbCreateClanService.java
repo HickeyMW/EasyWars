@@ -6,6 +6,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import wickeddevs.easywars.data.model.CreateRequest;
+import wickeddevs.easywars.data.model.User;
 import wickeddevs.easywars.data.service.contract.CreateClanService;
 import wickeddevs.easywars.data.service.contract.StateService;
 
@@ -20,11 +21,15 @@ public class FbCreateClanService implements CreateClanService {
 
     @Override
     public void getCreateRequest(final CreateRequestCallback callback) {
-        getCreateRequestRef().addListenerForSingleValueEvent(new ValueEventListener() {
+        getCreateRequestRef().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 CreateRequest createRequest = dataSnapshot.getValue(CreateRequest.class);
-                callback.onCreateRequestLoaded(createRequest);
+                if (createRequest != null) {
+                    callback.onCreateRequestLoaded(createRequest);
+                    getCreateRequestRef().removeEventListener(this);
+                }
+
             }
 
             @Override
@@ -42,12 +47,30 @@ public class FbCreateClanService implements CreateClanService {
     @Override
     public void setCreateRequest(String username, String clanTag) {
         FbInfo.INSTANCE.getRequestRef().child("createClan").setValue(new CreateRequest(username,
-                clanTag, FbInfo.INSTANCE.getUid()));
+                clanTag));
+        FbInfo.INSTANCE.setState(User.CREATING);
+        FbInfo.INSTANCE.setClanTag(clanTag);
     }
 
     @Override
-    public void verifyCreateRequest(VerifyCreateCallback callback) {
+    public void verifyCreateRequest(final VerifyCreateCallback callback) {
         FbInfo.INSTANCE.getRequestRef().setValue("verifyCreateClan");
+        FbInfo.INSTANCE.getResponseRef().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild("createVerification")) {
+                    boolean isVerified = dataSnapshot.child("createVerification").getValue(Boolean.class);
+                    callback.onVerificationLoaded(isVerified);
+                    dataSnapshot.getRef().removeValue();
+                    FbInfo.INSTANCE.setState(User.ADMIN);
+                    FbInfo.INSTANCE.getResponseRef().removeEventListener(this);
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

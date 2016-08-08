@@ -2,8 +2,6 @@ package wickeddevs.easywars.ui.noclan.create;
 
 import android.util.Log;
 
-import java.util.ArrayList;
-
 import wickeddevs.easywars.data.model.api.ApiClan;
 import wickeddevs.easywars.data.service.contract.ApiService;
 import wickeddevs.easywars.data.service.contract.CreateClanService;
@@ -20,7 +18,6 @@ public class CreateClanPresenter implements CreateClanContract.ViewListener {
 
     private CreateClanContract.View view;
     private ApiService apiService;
-
     private CreateClanService createClanService;
 
     public CreateClanPresenter(ApiService apiService, CreateClanService createClanService) {
@@ -37,9 +34,11 @@ public class CreateClanPresenter implements CreateClanContract.ViewListener {
     public void onAttach() {
         String clanTag = view.getClanTag();
         if (clanTag != null) {
+            view.toggleProgressBar(true);
             apiService.getApiClan(view.getClanTag(), new ApiService.LoadApiClanCallback() {
                 @Override
                 public void onApiClanLoaded(ApiClan apiClan) {
+                    view.toggleProgressBar(false);
                     CreateClanPresenter.this.apiClan = apiClan;
                     view.displayClanInfo(apiClan);
                 }
@@ -64,6 +63,7 @@ public class CreateClanPresenter implements CreateClanContract.ViewListener {
     @Override
     public void createClanRequest() {
         createClanService.setCreateRequest(name, apiClan.tag);
+        view.navigateToVerifyCreateClanUi();
     }
 
 

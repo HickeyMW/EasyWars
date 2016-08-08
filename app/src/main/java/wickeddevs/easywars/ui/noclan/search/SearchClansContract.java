@@ -19,6 +19,10 @@ public interface SearchClansContract {
 
         void navigateToJoinClanUi(String clanTag);
 
+        void clearDisplayedClans();
+
+        void addClan(ApiClan apiClan);
+
         int getStartedBy();
     }
 

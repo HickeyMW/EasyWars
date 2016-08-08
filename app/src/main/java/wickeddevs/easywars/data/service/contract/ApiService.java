@@ -24,4 +24,6 @@ public interface ApiService {
     void getApiClan(String tag, LoadApiClanCallback callback);
 
     void searchClans(String query, SearchApiClansCallback callback);
+
+    void getJoinableClans(LoadApiClanCallback callback);
 }

@@ -32,14 +32,14 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
         joinClanService.setDecisionListener(new JoinClanService.DecisionListener() {
             @Override
             public void onUpdate(final JoinDecision joinDecision) {
-                if (joinDecision.state == JoinDecision.APPROVED) {
+                if (joinDecision.approved == JoinDecision.APPROVED) {
                     joiningClanView.navigateToHomeUi();
                 } else {
                     apiService.getApiClan(stateService.getClanTag(), new ApiService.LoadApiClanCallback() {
                         @Override
                         public void onApiClanLoaded(ApiClan apiClan) {
                             joiningClanView.displayJoinInfo(apiClan);
-                            if (joinDecision.state == JoinDecision.DENIED) {
+                            if (joinDecision.approved == JoinDecision.DENIED) {
                                 joiningClanView.displayJoinDenied();
                             }
                         }
@@ -47,6 +47,7 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
                 }
             }
         });
+
     }
 
     @Override
@@ -56,6 +57,7 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
 
     @Override
     public void cancelJoinClan() {
-        joinClanService.cancelJoinRequest();
+        joinClanService.removeJoinRequest();
+        joiningClanView.navigateToNoClanUi();
     }
 }

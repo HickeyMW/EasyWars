@@ -31,6 +31,12 @@ public class ClanAdapter extends RecyclerView.Adapter<ClanAdapter.ClanViewHolder
         this.listener = listener;
     }
 
+    public ClanAdapter(Context context, View.OnClickListener listener) {
+        this.apiClans = new ArrayList<>();
+        this.context = context;
+        this.listener = listener;
+    }
+
     @Override
     public ClanViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_clan, parent, false);
@@ -51,6 +57,12 @@ public class ClanAdapter extends RecyclerView.Adapter<ClanAdapter.ClanViewHolder
     @Override
     public int getItemCount() {
         return apiClans.size();
+    }
+
+    public void addClan(ApiClan apiClan) {
+        apiClans.add(apiClan);
+
+        notifyItemInserted(apiClans.size() - 1);
     }
 
     public ApiClan getClan(int position) {

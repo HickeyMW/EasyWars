@@ -13,23 +13,21 @@ public interface JoinClanContract {
 
     interface View extends PView {
 
-        void displaySearchResult(ArrayList<ApiClan> apiClans);
+        void allowJoin();
 
-        void displayDetailedClan(ApiClan apiClan);
+        String getClanTag();
+
+        void displayClanInfo(ApiClan apiClan);
 
         void navigateToNoClanUi();
 
-        void navigateToJoiningClanUi();
+        void navigateToVerifyJoinClanUi();
     }
 
     interface ViewListener extends Presenter<JoinClanContract.View> {
 
-        void search(String query);
-
-        void selectedClan(ApiClan apiClan);
-
         void selectedName(String name);
 
-        void createClan();
+        void requestJoin(String message);
     }
 }

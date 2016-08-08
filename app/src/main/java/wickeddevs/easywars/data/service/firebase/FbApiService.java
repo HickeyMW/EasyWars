@@ -9,6 +9,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import wickeddevs.easywars.data.model.api.ApiClan;
 import wickeddevs.easywars.data.service.contract.ApiService;
@@ -20,6 +21,10 @@ public class FbApiService implements ApiService {
 
     private GenericTypeIndicator<ArrayList<ApiClan>> gtiArrayListClan = new GenericTypeIndicator<ArrayList<ApiClan>>() {};
     private GenericTypeIndicator<ArrayList<String>> gtiString = new GenericTypeIndicator<ArrayList<String>>() {};
+
+    private DatabaseReference getClanTagsRef() {
+        return FbInfo.INSTANCE.getDb().getReference("clanTags");
+    }
 
     @Override
     public void getApiClan(String tag, final LoadApiClanCallback callback) {
@@ -63,6 +68,31 @@ public class FbApiService implements ApiService {
                         responseRef.removeEventListener(this);
                         responseRef.removeValue();
                     }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getJoinableClans(final LoadApiClanCallback callback) {
+        getClanTagsRef().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> snapshots = dataSnapshot.getChildren().iterator();
+                while (snapshots.hasNext()) {
+                    DataSnapshot ds = snapshots.next();
+                    String clanTag = "#"  + ds.getKey();
+                    getApiClan(clanTag, new LoadApiClanCallback() {
+                        @Override
+                        public void onApiClanLoaded(ApiClan apiClan) {
+                            callback.onApiClanLoaded(apiClan);
+                        }
+                    });
                 }
             }
 

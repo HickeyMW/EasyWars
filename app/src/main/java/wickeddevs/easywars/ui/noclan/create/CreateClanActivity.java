@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 
@@ -28,9 +29,10 @@ import wickeddevs.easywars.dagger.Injector;
 import wickeddevs.easywars.data.model.Clan;
 import wickeddevs.easywars.data.model.api.ApiClan;
 import wickeddevs.easywars.databinding.ActivityCreateClanBinding;
+import wickeddevs.easywars.ui.noclan.verifycreate.VerifyCreateClanActivity;
 
 public class CreateClanActivity extends BasePresenterActivity<CreateClanContract.ViewListener>
-        implements CreateClanContract.View, View.OnClickListener {
+        implements CreateClanContract.View {
 
     public final static String EXTRA_CLAN_TAG = "EXTRA_CLAN_TAG";
 
@@ -45,6 +47,12 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
         getSupportActionBar().setHomeButtonEnabled(true);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_clan);
         binding.rvMembers.setLayoutManager(new LinearLayoutManager(this));
+        binding.btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.createClanRequest();
+            }
+        });
     }
 
     @Override
@@ -59,14 +67,16 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
                 ClanMembersAdapter clanAdapter = (ClanMembersAdapter) binding.rvMembers.getAdapter();
                 String memberName = clanAdapter.getMember(binding.rvMembers.getChildLayoutPosition(view));
                 presenter.selectedName(memberName);
+                binding.tvSelectedName.setText(memberName);
             }
         }));
+
 
     }
 
     @Override
     public void allowCreate() {
-
+        binding.btnCreate.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -75,8 +85,11 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
     }
 
     @Override
-    public void navigateToCreatingClanUi() {
-
+    public void navigateToVerifyCreateClanUi() {
+        Intent i = new Intent(this, VerifyCreateClanActivity.class);
+        startActivity(i);
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override
@@ -89,16 +102,16 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
 
     @Override
     public void toggleProgressBar(boolean loading) {
+        if (loading) {
+            binding.progressBar.setProgress(View.VISIBLE);
+        } else {
+            binding.progressBar.setProgress(View.INVISIBLE);
+        }
 
     }
 
     @Override
     public void displayToast(String toast) {
-
-    }
-
-    @Override
-    public void onClick(View view) {
 
     }
 

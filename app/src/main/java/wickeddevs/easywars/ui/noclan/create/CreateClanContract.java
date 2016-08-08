@@ -19,7 +19,7 @@ public interface CreateClanContract {
 
         void allowCreate();
 
-        void navigateToCreatingClanUi();
+        void navigateToVerifyCreateClanUi();
     }
 
     interface ViewListener extends Presenter<CreateClanContract.View> {

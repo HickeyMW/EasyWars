@@ -16,7 +16,7 @@ public interface JoinClanService {
 
     void setDecisionListener(DecisionListener listener);
 
-    void cancelJoinRequest();
+    void removeJoinRequest();
 
-    void setJoinRequest(JoinRequest joinRequest);
+    void setJoinRequest(String clanTag, JoinRequest joinRequest);
 }

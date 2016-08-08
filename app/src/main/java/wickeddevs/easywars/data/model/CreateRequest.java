@@ -10,10 +10,9 @@ public class CreateRequest {
     public String uid;
     public long verification;
 
-    public CreateRequest(String username, String tag, String uid) {
+    public CreateRequest(String username, String tag) {
         this.username = username;
         this.tag = tag;
-        this.uid = uid;
     }
 
 

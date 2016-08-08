@@ -37,12 +37,21 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
     public SearchClansContract.ViewListener presenter;
     private ActivitySearchClansBinding binding;
     private MenuItem searchItem;
+    private View.OnClickListener onClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_clans);
         binding.rvSearch.setLayoutManager(new LinearLayoutManager(this));
+        onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClanAdapter clanAdapter = (ClanAdapter) binding.rvSearch.getAdapter();
+                ApiClan apiClan = clanAdapter.getClan(binding.rvSearch.getChildLayoutPosition(view));
+                presenter.selectedClan(apiClan);
+            }
+        };
     }
 
     @Override
@@ -75,32 +84,49 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == STARTED_FOR_CREATE) {
+            if (resultCode == RESULT_OK) {
+                finish();
+            }
+        } else if (requestCode == STARTED_FOR_JOIN) {
+            if (resultCode == RESULT_OK) {
+                finish();
+            }
+        }
+    }
+
+    @Override
     public int getStartedBy() {
         return getIntent().getIntExtra(EXTRA_STARTED_BY, -1);
     }
 
     @Override
     public void displaySearchResult(ArrayList<ApiClan> apiClans) {
-        binding.rvSearch.setAdapter(new ClanAdapter(apiClans, this, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClanAdapter clanAdapter = (ClanAdapter) binding.rvSearch.getAdapter();
-                ApiClan apiClan = clanAdapter.getClan(binding.rvSearch.getChildLayoutPosition(view));
-                presenter.selectedClan(apiClan);
-            }
-        }));
-        binding.rvSearch.setVisibility(View.VISIBLE);
+        binding.rvSearch.setAdapter(new ClanAdapter(apiClans, this, onClickListener));
+    }
+
+    @Override
+    public void clearDisplayedClans() {
+        binding.rvSearch.setAdapter(new ClanAdapter(this, onClickListener));
+    }
+
+    @Override
+    public void addClan(ApiClan apiClan) {
+        ClanAdapter clanAdapter = (ClanAdapter) binding.rvSearch.getAdapter();
+        clanAdapter.addClan(apiClan);
     }
 
     @Override
     public void navigateToCreateClanUi(String clanTag) {
-        startActivity(CreateClanActivity.createIntent(this, clanTag));
+        startActivityForResult(CreateClanActivity.createIntent(this, clanTag), STARTED_FOR_CREATE);
 
     }
 
     @Override
     public void navigateToJoinClanUi(String clanTag) {
-        startActivity(JoinClanActivity.createIntent(this, clanTag));
+        startActivityForResult(JoinClanActivity.createIntent(this, clanTag), STARTED_FOR_JOIN);
     }
 
     @Override

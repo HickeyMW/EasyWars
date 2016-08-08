@@ -69,6 +69,7 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
                     break;
                 case StateService.STATE_CREATING:
                     loadingSplashView.navigateToCreatingClanUi();
+                    break;
                 case StateService.STATE_JOINING:
                     loadingSplashView.navigateToJoiningClanUi();
                     break;
