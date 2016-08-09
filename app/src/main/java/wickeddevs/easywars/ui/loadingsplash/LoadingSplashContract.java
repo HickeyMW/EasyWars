@@ -19,8 +19,6 @@ public interface LoadingSplashContract {
         void navigateToCreatingClanUi();
 
         void navigateToJoiningClanUi();
-
-        void displayError(String error);
     }
 
     interface ViewListener extends Presenter<LoadingSplashContract.View> {

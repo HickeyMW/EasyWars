@@ -143,7 +143,7 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
     }
 
     @Override
-    public void displayToast(String toast) {
+    public void displayMessage(String message) {
 
     }
 

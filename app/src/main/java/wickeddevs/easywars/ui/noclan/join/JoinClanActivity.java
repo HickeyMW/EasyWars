@@ -104,7 +104,7 @@ public class JoinClanActivity extends BasePresenterActivity<JoinClanContract.Vie
     }
 
     @Override
-    public void displayToast(String toast) {
+    public void displayMessage(String message) {
 
     }
 

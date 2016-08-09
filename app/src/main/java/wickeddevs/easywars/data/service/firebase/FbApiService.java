@@ -20,16 +20,12 @@ import wickeddevs.easywars.data.service.contract.ApiService;
 public class FbApiService implements ApiService {
 
     private GenericTypeIndicator<ArrayList<ApiClan>> gtiArrayListClan = new GenericTypeIndicator<ArrayList<ApiClan>>() {};
-    private GenericTypeIndicator<ArrayList<String>> gtiString = new GenericTypeIndicator<ArrayList<String>>() {};
-
-    private DatabaseReference getClanTagsRef() {
-        return FbInfo.INSTANCE.getDb().getReference("clanTags");
-    }
+    //private GenericTypeIndicator<ArrayList<String>> gtiString = new GenericTypeIndicator<ArrayList<String>>() {};
 
     @Override
     public void getApiClan(String tag, final LoadApiClanCallback callback) {
-        FbInfo.INSTANCE.getRequestRef().child("api/clanInfo").setValue(tag);
-        final DatabaseReference responseRef = FbInfo.INSTANCE.getResponseRef();
+        FbInfo.getRequestRef().child("api/clanInfo").setValue(tag);
+        final DatabaseReference responseRef = FbInfo.getResponseRef();
         responseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -54,8 +50,8 @@ public class FbApiService implements ApiService {
 
     @Override
     public void searchClans(String query, final SearchApiClansCallback callback) {
-        FbInfo.INSTANCE.getRequestRef().child("api/searchClans").setValue(query);
-        final DatabaseReference responseRef = FbInfo.INSTANCE.getResponseRef();
+        FbInfo.getRequestRef().child("api/searchClans").setValue(query);
+        final DatabaseReference responseRef = FbInfo.getResponseRef();
         responseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -80,7 +76,7 @@ public class FbApiService implements ApiService {
 
     @Override
     public void getJoinableClans(final LoadApiClanCallback callback) {
-        getClanTagsRef().addListenerForSingleValueEvent(new ValueEventListener() {
+        FbInfo.getClanTagsRef().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Iterator<DataSnapshot> snapshots = dataSnapshot.getChildren().iterator();

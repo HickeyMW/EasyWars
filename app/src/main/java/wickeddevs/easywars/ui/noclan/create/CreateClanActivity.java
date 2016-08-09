@@ -111,7 +111,7 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
     }
 
     @Override
-    public void displayToast(String toast) {
+    public void displayMessage(String message) {
 
     }
 

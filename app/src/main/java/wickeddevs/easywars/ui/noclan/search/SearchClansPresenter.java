@@ -62,7 +62,7 @@ public class SearchClansPresenter implements SearchClansContract.ViewListener {
     @Override
     public void selectedClan(ApiClan apiClan) {
         int something = view.getStartedBy();
-        FbInfo.INSTANCE.setClanTag(apiClan.tag);
+        //FbInfo.setClanTag(apiClan.tag);
         switch (view.getStartedBy()) {
             case SearchClansActivity.STARTED_FOR_CREATE:
                 view.navigateToCreateClanUi(apiClan.tag);

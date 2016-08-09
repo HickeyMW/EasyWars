@@ -22,60 +22,68 @@ public class FbChatService implements ChatService, ChildEventListener {
     private MessageListener mMessageListener;
     private long messagesToIgnore = -1;
 
-
-    private DatabaseReference getChatRef() {
-        return FbInfo.INSTANCE.getDb().getReference("messages/" + FbInfo.INSTANCE.getNoHashClanTag());
-    }
-
     @Override
     public void setMessageListener(final MessageListener listener) {
         mMessageListener = listener;
 
-        final DatabaseReference chatRef = getChatRef();
-
-        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        FbInfo.getChatRef(new FbInfo.DbRefCallback() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                messagesToIgnore = dataSnapshot.getChildrenCount();
-                Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-                ArrayList<Message> messages = new ArrayList<>();
-                while (iterator.hasNext()) {
-                    DataSnapshot dSnap = iterator.next();
-                    Message message = dSnap.getValue(Message.class);
-                    message.key = dSnap.getKey();
-                    message.isSentMessage = (message.uid.equals(FbInfo.INSTANCE.getUid()));
-                    messages.add(message);
-                }
-                listener.initialMessages(messages);
-                chatRef.addChildEventListener(FbChatService.this);
-            }
+            public void onLoaded(final DatabaseReference dbRef) {
+                dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        messagesToIgnore = dataSnapshot.getChildrenCount();
+                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                        ArrayList<Message> messages = new ArrayList<>();
+                        while (iterator.hasNext()) {
+                            DataSnapshot dSnap = iterator.next();
+                            Message message = dSnap.getValue(Message.class);
+                            message.key = dSnap.getKey();
+                            message.isSentMessage = (message.uid.equals(FbInfo.getUid()));
+                            messages.add(message);
+                        }
+                        listener.initialMessages(messages);
+                        dbRef.addChildEventListener(FbChatService.this);
+                    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
+                    }
+                });
             }
         });
     }
 
     @Override
     public void removeMessageListener() {
-        getChatRef().removeEventListener(this);
+        FbInfo.getChatRef(new FbInfo.DbRefCallback() {
+            @Override
+            public void onLoaded(DatabaseReference dbRef) {
+                dbRef.removeEventListener(FbChatService.this);
+            }
+        });
     }
 
     @Override
     public void sendMessage(String body) {
         final HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("body", body);
-        hashMap.put("uid", FbInfo.INSTANCE.getUid());
+        hashMap.put("uid", FbInfo.getUid());
         hashMap.put("timestamp", ServerValue.TIMESTAMP);
-        getChatRef().push().setValue(hashMap);
+        FbInfo.getChatRef(new FbInfo.DbRefCallback() {
+            @Override
+            public void onLoaded(DatabaseReference dbRef) {
+                dbRef.push().setValue(hashMap);
+            }
+        });
     }
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         if (messagesToIgnore == 0) {
             Message message = dataSnapshot.getValue(Message.class);
-            message.isSentMessage = (message.uid.equals(FbInfo.INSTANCE.getUid()));
+            message.isSentMessage = (message.uid.equals(FbInfo.getUid()));
             message.key = dataSnapshot.getKey();
             mMessageListener.newMessage(message);
         } else {

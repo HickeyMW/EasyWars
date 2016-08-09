@@ -1,17 +1,14 @@
 package wickeddevs.easywars.ui.noclan.create;
 
-import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-
-import java.util.ArrayList;
 
 import wickeddevs.easywars.data.model.CreateRequest;
 import wickeddevs.easywars.data.model.api.ApiClan;
 import wickeddevs.easywars.data.service.contract.ApiService;
 import wickeddevs.easywars.data.service.contract.CreateClanService;
-import wickeddevs.easywars.data.service.contract.StateService;
+import wickeddevs.easywars.data.service.contract.UserService;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -36,7 +33,7 @@ public class CreateClanPresenterTest {
     private CreateClanService mCreateClanService;
 
     @Mock
-    private StateService mUserService;
+    private UserService mUserService;
 
     @Captor
     private ArgumentCaptor<ApiService.SearchApiClansCallback> mSearchApiClansCallbackArgumentCaptor;

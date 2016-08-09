@@ -78,7 +78,7 @@ public class VerifyJoinClanActivity extends BasePresenterActivity<VerifyJoinClan
     }
 
     @Override
-    public void displayToast(String toast) {
+    public void displayMessage(String message) {
 
     }
 }

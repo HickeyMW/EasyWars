@@ -8,7 +8,6 @@ import wickeddevs.easywars.data.model.Member;
 import wickeddevs.easywars.data.model.Message;
 import wickeddevs.easywars.data.service.contract.ChatService;
 import wickeddevs.easywars.data.service.contract.ClanService;
-import wickeddevs.easywars.data.service.contract.StateService;
 import wickeddevs.easywars.util.General;
 
 /**

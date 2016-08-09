@@ -2,13 +2,11 @@ package wickeddevs.easywars.dagger.module;
 
 import dagger.Module;
 import dagger.Provides;
-import wickeddevs.easywars.dagger.scope.ActivityScope;
 import wickeddevs.easywars.data.service.contract.ApiService;
 import wickeddevs.easywars.data.service.contract.ChatService;
 import wickeddevs.easywars.data.service.contract.ClanService;
 import wickeddevs.easywars.data.service.contract.CreateClanService;
 import wickeddevs.easywars.data.service.contract.JoinClanService;
-import wickeddevs.easywars.data.service.contract.StateService;
 import wickeddevs.easywars.data.service.firebase.FbApiService;
 import wickeddevs.easywars.data.service.firebase.FbChatService;
 import wickeddevs.easywars.data.service.firebase.FbClanService;

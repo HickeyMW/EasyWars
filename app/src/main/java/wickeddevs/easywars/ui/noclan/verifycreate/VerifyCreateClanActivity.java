@@ -59,11 +59,6 @@ public class VerifyCreateClanActivity extends BasePresenterActivity<VerifyCreate
     }
 
     @Override
-    public void displayCreateNotVerified() {
-        Toast.makeText(this, "The code was not found in the clan description", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     public void navigateToHomeUi() {
         Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
@@ -95,7 +90,11 @@ public class VerifyCreateClanActivity extends BasePresenterActivity<VerifyCreate
     }
 
     @Override
-    public void displayToast(String toast) {
+    public void displayMessage(String message) {
+        Toast toast = getToast();
+        toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        toast.show();
+
 
     }
 }

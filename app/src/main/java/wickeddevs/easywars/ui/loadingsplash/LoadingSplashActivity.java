@@ -3,6 +3,7 @@ package wickeddevs.easywars.ui.loadingsplash;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 
@@ -41,14 +42,9 @@ public class LoadingSplashActivity extends BasePresenterActivity<LoadingSplashCo
             if (resultCode == RESULT_OK) {
                 presenter.returnedFromLogin(true);
             } else {
-                presenter.returnedFromLogin(true);
+                presenter.returnedFromLogin(false);
             }
         }
-    }
-
-    @Override
-    public void displayError(String error) {
-
     }
 
     @Override
@@ -98,7 +94,7 @@ public class LoadingSplashActivity extends BasePresenterActivity<LoadingSplashCo
     }
 
     @Override
-    public void displayToast(String toast) {
-
+    public void displayMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

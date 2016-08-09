@@ -3,7 +3,8 @@ package wickeddevs.easywars.ui.loadingsplash;
 import android.os.Handler;
 import android.util.Log;
 
-import wickeddevs.easywars.data.service.contract.StateService;
+import wickeddevs.easywars.data.model.User;
+import wickeddevs.easywars.data.service.contract.UserService;
 
 /**
  * Created by 375csptssce on 7/26/16.
@@ -13,11 +14,10 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
     private final static String TAG = "LoadingSplashPresenter";
 
     private LoadingSplashContract.View loadingSplashView;
+    private UserService mUserService;
 
-    private StateService stateService;
-
-    public LoadingSplashPresenter(StateService stateService) {
-        this.stateService = stateService;
+    public LoadingSplashPresenter(UserService userService) {
+        this.mUserService = userService;
     }
 
 
@@ -28,8 +28,8 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
 
     @Override
     public void onAttach() {
-        if (stateService.isLoggedIn()) {
-            navigateOnUserState(0);
+        if (mUserService.isLoggedIn()) {
+            navigateOnUserState();
         } else {
             loadingSplashView.navigateToLoginUi();
         }
@@ -43,44 +43,35 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
     @Override
     public void returnedFromLogin(boolean successful) {
         if (successful) {
-            navigateOnUserState(0);
+            navigateOnUserState();
         } else {
-            loadingSplashView.displayError("Error logging in. Please try again.");
+            loadingSplashView.displayMessage("Error logging in. Please try again.");
         }
     }
 
-    private void navigateOnUserState(final int tries) {
+    private void navigateOnUserState() {
 
-        if (tries > 100) {
-            loadingSplashView.displayError("Couldn't load account info. Please try again");
-        } else {
-            switch (stateService.getState()) {
-                case StateService.STATE_LOADING:
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.i(TAG, "run: " + String.valueOf(tries));
-                            navigateOnUserState(1 + tries);
-                        }
-                    },100);
-                    break;
-                case StateService.STATE_BLANK:
-                    loadingSplashView.navigateToNoClanUi();
-                    break;
-                case StateService.STATE_CREATING:
-                    loadingSplashView.navigateToCreatingClanUi();
-                    break;
-                case StateService.STATE_JOINING:
-                    loadingSplashView.navigateToJoiningClanUi();
-                    break;
-                case StateService.STATE_MEMBER:
-                case StateService.STATE_ADMIN:
-                    loadingSplashView.navigateToHomeUi();
-                    break;
-                default:
-                    Log.e(TAG, "User doesn't have a valid state");
+        mUserService.getUser(new UserService.LoadUserCallback() {
+            @Override
+            public void onUserLoaded(User user) {
+                switch (user.state) {
+                    case User.STATE_BLANK:
+                        loadingSplashView.navigateToNoClanUi();
+                        break;
+                    case User.STATE_CREATING:
+                        loadingSplashView.navigateToCreatingClanUi();
+                        break;
+                    case User.STATE_JOINING:
+                        loadingSplashView.navigateToJoiningClanUi();
+                        break;
+                    case User.STATE_MEMBER:
+                    case User.STATE_ADMIN:
+                        loadingSplashView.navigateToHomeUi();
+                        break;
+                    default:
+                        Log.e(TAG, "User doesn't have a valid state");
+                }
             }
-        }
-
+        });
     }
 }

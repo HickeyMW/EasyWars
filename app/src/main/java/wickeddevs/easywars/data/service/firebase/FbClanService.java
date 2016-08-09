@@ -1,5 +1,7 @@
 package wickeddevs.easywars.data.service.firebase;
 
+import android.util.Log;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -14,26 +16,36 @@ import wickeddevs.easywars.data.service.contract.ClanService;
  */
 public class FbClanService implements ClanService {
 
-
-    private DatabaseReference getClanRef() {
-        return FbInfo.INSTANCE.getDb().getReference("clans/" + FbInfo.INSTANCE.getNoHashClanTag());
-    }
+    final static String TAG = "FbClanService";
 
     @Override
     public void getMember(final String uid, final LoadMemberCallback callback) {
-        getClanRef().addListenerForSingleValueEvent(new ValueEventListener() {
+        FbInfo.getClanRef(new FbInfo.DbRefCallback() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Clan clan = dataSnapshot.getValue(Clan.class);
-                //TODO: Contains cause could crash
-                Member member = clan.members.get(uid);
-                member.uid = uid;
-                callback.onMemberLoaded(member);
-            }
+            public void onLoaded(DatabaseReference dbRef) {
+                dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Clan clan = dataSnapshot.getValue(Clan.class);
+                        if (clan != null) {
+                            if (clan.members.containsKey(uid)) {
+                                Member member = clan.members.get(uid);
+                                member.uid = uid;
+                                callback.onMemberLoaded(member);
+                            } else {
+                                Log.e(TAG, "onDataChange: Member didn't exist in clan");
+                            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                        } else {
+                            Log.e(TAG, "onDataChange: Clan was null when trying to parse");
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
     }
@@ -41,16 +53,25 @@ public class FbClanService implements ClanService {
     @Override
     public void getClan(final LoadClanCallback callback) {
 
-        getClanRef().addListenerForSingleValueEvent(new ValueEventListener() {
+        FbInfo.getClanRef(new FbInfo.DbRefCallback() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Clan clan = dataSnapshot.getValue(Clan.class);
-                callback.onClanLoaded(clan);
-            }
+            public void onLoaded(DatabaseReference dbRef) {
+                dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Clan clan = dataSnapshot.getValue(Clan.class);
+                        if (clan != null) {
+                            callback.onClanLoaded(clan);
+                        } else {
+                            Log.e(TAG, "onDataChange: Clan was null when trying to parse");
+                        }
+                    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
+                    }
+                });
             }
         });
     }
@@ -60,7 +81,7 @@ public class FbClanService implements ClanService {
         getClan(new LoadClanCallback() {
             @Override
             public void onClanLoaded(Clan clan) {
-                Member member = clan.members.get(FbInfo.INSTANCE.getUid());
+                Member member = clan.members.get(FbInfo.getUid());
                 callback.onLoaded(member.admin);
             }
         });

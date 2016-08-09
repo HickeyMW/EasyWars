@@ -68,7 +68,7 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
     }
 
     @Override
-    public void displayToast(String toast) {
+    public void displayMessage(String message) {
 
     }
 

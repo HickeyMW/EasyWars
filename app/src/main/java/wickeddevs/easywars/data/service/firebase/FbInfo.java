@@ -10,30 +10,128 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import wickeddevs.easywars.data.service.contract.StateService;
+import wickeddevs.easywars.data.model.User;
+import wickeddevs.easywars.data.service.contract.UserService;
 
 /**
  * Created by hicke_000 on 8/2/2016.
  */
-public enum FbInfo implements StateService {
+public enum FbInfo {
     INSTANCE;
 
     final static String TAG = "FbInfo";
 
-    private int state = STATE_LOADING;
-    private String clanTag = null;
-    private int test = 0;
+    private FbInfo() {
+    }
 
-    FbInfo() {
-        getDb().getReference("users/" + getUid()).addValueEventListener(new ValueEventListener() {
+    public static void syncUserRef() {
+        getUserRef().keepSynced(true);
+    }
+
+    public static void setUser(User user) {
+        if (getUid() != null) {
+            getDb().getReference("users/" + getUid()).setValue(user);
+        } else {
+            Log.e(TAG, "Tried to set user while uid is null");
+        }
+    }
+
+    public static void setState(int state) {
+        if (getUid() != null) {
+            getUserRef().child("state").setValue(state);
+        } else {
+            Log.e(TAG, "Tried to set state while uid is null");
+        }
+    }
+
+    public static void setClanTag(String clanTag) {
+        if (getUid() != null) {
+            getUserRef().child("clanTag").setValue(clanTag);
+        } else {
+            Log.e(TAG, "Tried to set clanTag while uid is null");
+        }
+
+    }
+
+    public static FirebaseDatabase getDb() {
+        return FirebaseDatabase.getInstance();
+    }
+
+    public static String getUid() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null){
+            return currentUser.getUid();
+        }
+        return null;
+    }
+
+    public static DatabaseReference getUserRef() {
+        return FbInfo.getDb().getReference("users/" + getUid());
+    }
+
+    public static DatabaseReference getClanTagsRef() {
+        return getDb().getReference("clanTags");
+    }
+
+    public static DatabaseReference getRequestRef() {
+        return getDb().getReference("server/request/" + getUid());
+    }
+
+    public static DatabaseReference getResponseRef() {
+        return getDb().getReference("server/response/" + getUid());
+    }
+
+    public static DatabaseReference getCreateRequestRef() {
+        return getDb().getReference("createRequests" + getUid());
+    }
+
+    public static void getChatRef(final DbRefCallback callback) {
+        getClanTagNoHash(new ClanTagCallBack() {
+            @Override
+            public void onLoaded(String clanTag) {
+                callback.onLoaded(getDb().getReference("messages/" + clanTag));
+            }
+        });
+    }
+
+    public static void getClanRef(final DbRefCallback callback) {
+        getClanTagNoHash(new ClanTagCallBack() {
+            @Override
+            public void onLoaded(String clanTag) {
+                callback.onLoaded(getDb().getReference("clans/" + clanTag));
+            }
+        });
+    }
+
+    public static void getJoinRequestRef(final DbRefCallback callback) {
+        getClanTagNoHash(new ClanTagCallBack() {
+            @Override
+            public void onLoaded(String clanTag) {
+                callback.onLoaded(getDb().getReference("joinRequests/" + clanTag + "/requests/" + getUid()));
+            }
+        });
+    }
+
+    public static void getJoinDecisionRef(final DbRefCallback callback) {
+        getClanTagNoHash(new ClanTagCallBack() {
+            @Override
+            public void onLoaded(String clanTag) {
+                callback.onLoaded(getDb().getReference("joinRequests/" + clanTag + "/decisions/" + getUid()));
+            }
+        });
+    }
+
+
+
+    private static void getClanTagNoHash(final ClanTagCallBack callBack) {
+        getDb().getReference("users/" + getUid() + "/clanTag").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild("state")) {
-                    state = dataSnapshot.child("state").getValue(Integer.class);
-                } else {
-                    setState(STATE_BLANK);
+                String clanTag = dataSnapshot.getValue(String.class);
+                if (clanTag != null) {
+                    clanTag = clanTag.substring(1);
+                    callBack.onLoaded(clanTag);
                 }
-                clanTag = dataSnapshot.child("clanTag").getValue(String.class);
             }
 
             @Override
@@ -43,66 +141,11 @@ public enum FbInfo implements StateService {
         });
     }
 
-    @Override
-    public void setState(int state) {
-        if (getUid() != null) {
-            getDb().getReference("users/" + getUid() + "/state").setValue(state);
-        } else {
-            Log.e(TAG, "Tried to set state while uid is null");
-        }
-
+    public interface DbRefCallback {
+        void onLoaded(DatabaseReference dbRef);
     }
 
-    @Override
-    public boolean isLoggedIn() {
-        return (FirebaseAuth.getInstance().getCurrentUser() != null);
-    }
-
-    @Override
-    public int getState() {
-        return state;
-    }
-
-    @Override
-    public void setClanTag(String clanTag) {
-        if (getUid() != null) {
-            getDb().getReference("users/" + getUid() + "/clanTag").setValue(clanTag);
-        } else {
-            Log.e(TAG, "Tried to set clanTag while uid is null");
-        }
-
-    }
-
-    @Override
-    public String getClanTag() {
-        return clanTag;
-    }
-
-    @Override
-    public String getNoHashClanTag() {
-        if (clanTag != null) {
-            return clanTag.substring(1);
-        }
-        return null;
-    }
-
-    public FirebaseDatabase getDb() {
-        return FirebaseDatabase.getInstance();
-    }
-
-    public String getUid() {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null){
-            return currentUser.getUid();
-        }
-        return null;
-    }
-
-    public DatabaseReference getRequestRef() {
-        return getDb().getReference("server/request/" + getUid());
-    }
-
-    public DatabaseReference getResponseRef() {
-        return getDb().getReference("server/response/" + getUid());
+    private interface ClanTagCallBack {
+        void onLoaded(String clanTag);
     }
 }

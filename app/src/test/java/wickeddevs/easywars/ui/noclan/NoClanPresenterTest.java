@@ -1,21 +1,12 @@
 package wickeddevs.easywars.ui.noclan;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
-import wickeddevs.easywars.data.model.CreateRequest;
-import wickeddevs.easywars.data.model.JoinDecision;
-import wickeddevs.easywars.data.model.User;
-import wickeddevs.easywars.data.model.api.ApiClan;
 import wickeddevs.easywars.data.service.contract.ApiService;
 import wickeddevs.easywars.data.service.contract.ClanService;
 import wickeddevs.easywars.data.service.contract.CreateClanService;
 import wickeddevs.easywars.data.service.contract.JoinClanService;
-import wickeddevs.easywars.data.service.contract.StateService;
+import wickeddevs.easywars.data.service.contract.UserService;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -27,7 +18,7 @@ import static org.mockito.Mockito.verify;
 public class NoClanPresenterTest {
 
     @Mock
-    private StateService stateService;
+    private UserService mUserService;
 
     @Mock
     private ApiService mApiService;

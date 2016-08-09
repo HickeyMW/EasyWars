@@ -1,19 +1,11 @@
 package wickeddevs.easywars.ui.loadingsplash;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
-import wickeddevs.easywars.data.model.User;
-import wickeddevs.easywars.data.service.contract.StateService;
+import wickeddevs.easywars.data.service.contract.UserService;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by 375csptssce on 7/26/16.
@@ -24,7 +16,7 @@ public class LoadingSplashPresenterTest {
     private LoadingSplashContract.View mLoadingSplashView;
 
     @Mock
-    private StateService stateService;
+    private UserService mUserService;
 
 //    @Captor
 //    private ArgumentCaptor<UserService.LoadUserCallback> mLoadUserCallbackArgumentCaptor;

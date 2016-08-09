@@ -7,5 +7,5 @@ public interface PView {
 
     public void toggleProgressBar(boolean loading);
 
-    public void displayToast(String toast);
+    public void displayMessage(String message);
 }

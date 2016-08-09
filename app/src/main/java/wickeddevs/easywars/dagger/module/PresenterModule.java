@@ -8,7 +8,7 @@ import wickeddevs.easywars.data.service.contract.ChatService;
 import wickeddevs.easywars.data.service.contract.ClanService;
 import wickeddevs.easywars.data.service.contract.CreateClanService;
 import wickeddevs.easywars.data.service.contract.JoinClanService;
-import wickeddevs.easywars.data.service.contract.StateService;
+import wickeddevs.easywars.data.service.contract.UserService;
 import wickeddevs.easywars.ui.home.chat.ChatContract;
 import wickeddevs.easywars.ui.home.chat.ChatPresenter;
 import wickeddevs.easywars.ui.loadingsplash.LoadingSplashContract;
@@ -32,8 +32,8 @@ public class PresenterModule {
 
     @Provides
     @ActivityScope
-    LoadingSplashContract.ViewListener providesLoadingSplashPresenter(StateService stateService) {
-        return new LoadingSplashPresenter(stateService);
+    LoadingSplashContract.ViewListener providesLoadingSplashPresenter(UserService userService) {
+        return new LoadingSplashPresenter(userService);
     }
 
     @Provides
@@ -69,7 +69,7 @@ public class PresenterModule {
     @Provides
     @ActivityScope
     VerifyJoinClanContract.ViewListener providesJoiningClanPresenter(ApiService apiService, JoinClanService joinClanService,
-                                                                     StateService stateService) {
-        return new VerifyJoinClanPresenter(apiService,joinClanService, stateService);
+                                                                     UserService userService) {
+        return new VerifyJoinClanPresenter(apiService,joinClanService, userService);
     }
 }

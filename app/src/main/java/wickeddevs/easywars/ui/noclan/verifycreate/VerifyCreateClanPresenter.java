@@ -10,9 +10,11 @@ import wickeddevs.easywars.data.service.contract.CreateClanService;
  */
 public class VerifyCreateClanPresenter implements VerifyCreateClanContract.ViewListener {
 
-    private VerifyCreateClanContract.View creatingClanView;
+    private VerifyCreateClanContract.View view;
     private ApiService apiService;
     private CreateClanService createClanService;
+
+    long timeOfLastVerification = 0;
 
     public VerifyCreateClanPresenter(ApiService apiService, CreateClanService createClanService) {
         this.apiService = apiService;
@@ -22,7 +24,7 @@ public class VerifyCreateClanPresenter implements VerifyCreateClanContract.ViewL
 
     @Override
     public void registerView(VerifyCreateClanContract.View activity) {
-        creatingClanView = activity;
+        view = activity;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class VerifyCreateClanPresenter implements VerifyCreateClanContract.ViewL
                 apiService.getApiClan(createRequest.tag, new ApiService.LoadApiClanCallback() {
                     @Override
                     public void onApiClanLoaded(ApiClan apiClan) {
-                        creatingClanView.displayCreateRequestDetails(createRequest, apiClan);
+                        view.displayCreateRequestDetails(createRequest, apiClan);
                     }
                 });
             }
@@ -47,22 +49,30 @@ public class VerifyCreateClanPresenter implements VerifyCreateClanContract.ViewL
 
     @Override
     public void verifyCreateClan() {
-        createClanService.verifyCreateRequest(new CreateClanService.VerifyCreateCallback() {
-            @Override
-            public void onVerificationLoaded(boolean isVerified) {
-                if (isVerified) {
-                    createClanService.deleteCreateRequest();
-                    creatingClanView.navigateToHomeUi();
-                } else {
-                    creatingClanView.displayCreateNotVerified();
+        if (System.currentTimeMillis() > timeOfLastVerification + 5000) {
+            createClanService.verifyCreateRequest(new CreateClanService.VerifyCreateCallback() {
+                @Override
+                public void onVerificationLoaded(boolean isVerified) {
+                    if (isVerified) {
+                        createClanService.deleteCreateRequest();
+                        view.navigateToHomeUi();
+                    } else {
+                        view.displayMessage("The code was not found in the clan description");
+                        timeOfLastVerification = System.currentTimeMillis();
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            long milisRemaining = (timeOfLastVerification + 5000) - System.currentTimeMillis();
+            double secondsRemaining = (double) Math.round((milisRemaining) / 100) / 10;
+            view.displayMessage("Please wait " + secondsRemaining + " more seconds before trying again");
+        }
+
     }
 
     @Override
     public void cancelCreateClan() {
         createClanService.deleteCreateRequest();
-        creatingClanView.navigateToNoClanUi();
+        view.navigateToNoClanUi();
     }
 }

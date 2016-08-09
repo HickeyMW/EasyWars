@@ -14,8 +14,6 @@ public interface VerifyCreateClanContract {
 
         void displayCreateRequestDetails(CreateRequest createRequest, ApiClan apiClan);
 
-        void displayCreateNotVerified();
-
         void navigateToHomeUi();
 
         void navigateToNoClanUi();
