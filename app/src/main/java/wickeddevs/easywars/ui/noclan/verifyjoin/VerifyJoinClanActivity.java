@@ -74,7 +74,11 @@ public class VerifyJoinClanActivity extends BasePresenterActivity<VerifyJoinClan
 
     @Override
     public void toggleProgressBar(boolean loading) {
-
+        if (loading) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            binding.progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

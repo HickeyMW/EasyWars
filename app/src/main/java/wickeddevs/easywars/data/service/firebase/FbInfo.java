@@ -82,7 +82,7 @@ public enum FbInfo {
     }
 
     public static DatabaseReference getCreateRequestRef() {
-        return getDb().getReference("createRequests" + getUid());
+        return getDb().getReference("createRequests/" + getUid());
     }
 
     public static void getChatRef(final DbRefCallback callback) {

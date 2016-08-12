@@ -72,5 +72,7 @@ public class FbJoinClanService implements JoinClanService {
         });
         User user = new User(User.STATE_JOINING, clanTag);
         FbInfo.setUser(user);
+        FbInfo.setState(User.STATE_JOINING);
+        FbInfo.setClanTag(clanTag);
     }
 }

@@ -8,7 +8,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.loadingsplash.LoadingSplashActivity">
+        <activity android:name=".ui.loadingsplash.LoadingSplashActivity"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,13 +20,32 @@
             android:name=".ui.home.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.noclan.NoClanActivity" />
-        <activity android:name=".ui.noclan.create.CreateClanActivity" />
-        <activity android:name=".ui.noclan.verifycreate.VerifyCreateClanActivity" />
-        <activity android:name=".ui.noclan.join.JoinClanActivity" />
-        <activity android:name=".ui.noclan.verifyjoin.VerifyJoinClanActivity" />
-        <activity android:name=".ui.noclan.search.SearchClansActivity"></activity>
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.noclan.NoClanActivity"
+            android:label="Setup"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.noclan.create.CreateClanActivity"
+            android:label="Create Clan"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.noclan.verifycreate.VerifyCreateClanActivity"
+            android:label="Verify Ownership"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.noclan.join.JoinClanActivity"
+            android:label="Join Clan"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.noclan.verifyjoin.VerifyJoinClanActivity"
+            android:label="Awaiting Approval"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.noclan.search.SearchClansActivity"
+            android:label=""
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

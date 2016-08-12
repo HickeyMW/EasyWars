@@ -14,7 +14,7 @@ tools:context=".ui.noclan.create.CreateClanActivity">
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/layoutClan"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -57,7 +57,7 @@ tools:context=".ui.noclan.create.CreateClanActivity">
                 android:id="@+id/rvMembers"
                 android:layout_below="@+id/tvYourName"
                 android:visibility="visible"
-                />
+                android:background="#dcdcdc"/>
 
             <TextView
                 android:layout_width="wrap_content"

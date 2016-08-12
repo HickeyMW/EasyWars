@@ -6,6 +6,7 @@ package wickeddevs.easywars.data.model.api;
 public class ApiMember {
 
     public String name;
+    public String tag;
     public int clanRank;
     public int donationsReceived;
     public int donations;
@@ -13,6 +14,12 @@ public class ApiMember {
     public Object league;
     public int previousClanRank;
     public String role;
-    public String tag;
     public int trophies;
+
+    public ApiMember(String name, String tag) {
+        this.name = name;
+        this.tag = tag;
+    }
+
+
 }

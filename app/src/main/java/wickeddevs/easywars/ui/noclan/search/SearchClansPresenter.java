@@ -32,10 +32,12 @@ public class SearchClansPresenter implements SearchClansContract.ViewListener {
     @Override
     public void onAttach() {
         if (view.getStartedBy() == SearchClansActivity.STARTED_FOR_JOIN) {
+            view.toggleProgressBar(true);
             view.clearDisplayedClans();
             apiService.getJoinableClans(new ApiService.LoadApiClanCallback() {
                 @Override
                 public void onApiClanLoaded(ApiClan apiClan) {
+                    view.toggleProgressBar(false);
                     view.addClan(apiClan);
                 }
             });
@@ -75,11 +77,4 @@ public class SearchClansPresenter implements SearchClansContract.ViewListener {
                 break;
         }
     }
-
-    @Override
-    public void pressedBack() {
-
-    }
-
-
 }

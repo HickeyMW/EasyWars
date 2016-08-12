@@ -31,8 +31,5 @@ public interface SearchClansContract {
         void search(String query);
 
         void selectedClan(ApiClan apiClan);
-
-        void pressedBack();
-
     }
 }

@@ -25,7 +25,7 @@ tools:context=".ui.noclan.verifyjoin.VerifyJoinClanActivity">
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/layoutMain"
-        >
+        android:visibility="invisible">
 
         <ImageView
             android:layout_width="100dp"

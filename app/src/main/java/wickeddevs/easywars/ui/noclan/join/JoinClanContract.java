@@ -19,8 +19,6 @@ public interface JoinClanContract {
 
         void displayClanInfo(ApiClan apiClan);
 
-        void navigateToNoClanUi();
-
         void navigateToVerifyJoinClanUi();
     }
 

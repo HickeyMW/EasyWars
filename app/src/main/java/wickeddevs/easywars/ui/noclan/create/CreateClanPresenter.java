@@ -35,7 +35,7 @@ public class CreateClanPresenter implements CreateClanContract.ViewListener {
         String clanTag = view.getClanTag();
         if (clanTag != null) {
             view.toggleProgressBar(true);
-            apiService.getApiClan(view.getClanTag(), new ApiService.LoadApiClanCallback() {
+            apiService.getApiClan(clanTag, new ApiService.LoadApiClanCallback() {
                 @Override
                 public void onApiClanLoaded(ApiClan apiClan) {
                     view.toggleProgressBar(false);

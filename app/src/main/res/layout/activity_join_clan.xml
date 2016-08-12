@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/layoutMain"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -95,7 +95,8 @@
                 android:layout_weight="1"
                 android:layout_marginBottom="10dp"
                 android:layout_below="@+id/tvMembers"
-                android:layout_above="@+id/textView5" />
+                android:layout_above="@+id/textView5"
+                android:background="#dcdcdc"/>
 
             <Button
                 android:layout_width="wrap_content"

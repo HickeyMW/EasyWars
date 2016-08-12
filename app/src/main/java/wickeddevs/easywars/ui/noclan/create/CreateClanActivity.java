@@ -103,9 +103,9 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
     @Override
     public void toggleProgressBar(boolean loading) {
         if (loading) {
-            binding.progressBar.setProgress(View.VISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
         } else {
-            binding.progressBar.setProgress(View.INVISIBLE);
+            binding.progressBar.setVisibility(View.INVISIBLE);
         }
 
     }

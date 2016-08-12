@@ -1,109 +1,120 @@
 package wickeddevs.easywars.ui.loadingsplash;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Assert.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
-
-import wickeddevs.easywars.data.service.contract.UserService;
+import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import wickeddevs.easywars.data.model.User;
+import wickeddevs.easywars.data.service.contract.CreateClanService;
+import wickeddevs.easywars.data.service.contract.UserService;
 
 /**
  * Created by 375csptssce on 7/26/16.
  */
 public class LoadingSplashPresenterTest {
 
-    @Mock
-    private LoadingSplashContract.View mLoadingSplashView;
+    private LoadingSplashPresenter presenter;
 
     @Mock
-    private UserService mUserService;
+    private LoadingSplashContract.View view;
 
-//    @Captor
-//    private ArgumentCaptor<UserService.LoadUserCallback> mLoadUserCallbackArgumentCaptor;
-//
-//    @Captor
-//    private ArgumentCaptor<Boolean> mIsAdminArgumentCaptor;
-//
-//    private LoadingSplashPresenter mLoadingSplashPresenter;
-//
-//    @Before
-//    public void setupLoadingSplashPresenter() {
-//        MockitoAnnotations.initMocks(this);
-//
-//        mLoadingSplashPresenter = new LoadingSplashPresenter(mLoadingSplashView, stateService);
-//    }
-//
-//    @Test
-//    public void checkIfLoggedIn_isNotLoggedIn_showLoginUi() {
-//        when(stateService.isLoggedIn()).thenReturn(false);
-//        mLoadingSplashPresenter.start();
-//        verify(mLoadingSplashView).showLoginUi();
-//    }
-//
-//    @Test
-//    public void checkIfLoggedIn_isLoggedInStateBlank_showNoClanUi() {
-//        when(stateService.isLoggedIn()).thenReturn(true);
-//        mLoadingSplashPresenter.start();
-//        verify(stateService).getUser(mLoadUserCallbackArgumentCaptor.capture());
-//        mLoadUserCallbackArgumentCaptor.getValue().onUserLoaded(new User());
-//        verify(mLoadingSplashView).showNoClanUi();
-//    }
-//
-//    @Test
-//    public void checkIfLoggedIn_isLoggedInStateCreating_showCreatingClanUi() {
-//        when(stateService.isLoggedIn()).thenReturn(true);
-//        mLoadingSplashPresenter.start();
-//        verify(stateService).getUser(mLoadUserCallbackArgumentCaptor.capture());
-//        User user = new User();
-//        user.state = User.CREATING;
-//        mLoadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
-//        verify(mLoadingSplashView).showCreatingClanUi();
-//    }
-//
-//    @Test
-//    public void checkIfLoggedIn_isLoggedInStateJoining_showJoiningClanUi() {
-//        when(stateService.isLoggedIn()).thenReturn(true);
-//        mLoadingSplashPresenter.start();
-//        verify(stateService).getUser(mLoadUserCallbackArgumentCaptor.capture());
-//        User user = new User();
-//        user.state = User.JOINING;
-//        mLoadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
-//        verify(mLoadingSplashView).showJoiningClanUi();
-//    }
-//
-//    @Test
-//    public void checkIfLoggedIn_isLoggedInStateMember_showHomeUiMember() {
-//        when(stateService.isLoggedIn()).thenReturn(true);
-//        mLoadingSplashPresenter.start();
-//        verify(stateService).getUser(mLoadUserCallbackArgumentCaptor.capture());
-//        User user = new User();
-//        user.state = User.MEMBER;
-//        mLoadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
-//        verify(mLoadingSplashView).showHomeUi(mIsAdminArgumentCaptor.capture());
-//        assertEquals(mIsAdminArgumentCaptor.getValue(), false);
-//    }
-//
-//    @Test
-//    public void checkIfLoggedIn_isLoggedInStateAdmin_showNoClanUiAdmin() {
-//        when(stateService.isLoggedIn()).thenReturn(true);
-//        mLoadingSplashPresenter.start();
-//        verify(stateService).getUser(mLoadUserCallbackArgumentCaptor.capture());
-//        User user = new User();
-//        user.state = User.ADMIN;
-//        mLoadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
-//        verify(mLoadingSplashView).showHomeUi(mIsAdminArgumentCaptor.capture());
-//        assertEquals(mIsAdminArgumentCaptor.getValue(), true);
-//    }
-//
-//    @Test
-//    public void returnedFromLogin_loginSuccessful_navigateOnUserState() {
-//        mLoadingSplashPresenter.returnedFromLogin(true);
-//        verify(stateService).getUser(mLoadUserCallbackArgumentCaptor.capture());
-//    }
-//
-//    @Test
-//    public void returnedFromLogin_loginFailed_navigateOnUserState() {
-//        mLoadingSplashPresenter.returnedFromLogin(false);
-//        verify(mLoadingSplashView).showLoginError();
-//    }
+    @Mock
+    private UserService userService;
+
+    @Captor
+    private ArgumentCaptor<UserService.LoadUserCallback> loadUserCallbackArgumentCaptor;
+
+    @Before
+    public void setupLoadingSplashPresenter() {
+        MockitoAnnotations.initMocks(this);
+        presenter = new LoadingSplashPresenter(userService);
+        presenter.registerView(view);
+    }
+
+    @Test
+    public void attach_isNotLoggedIn_NavigateToLogInUi() {
+        when(userService.isLoggedIn()).thenReturn(false);
+        presenter.onAttach();
+        verify(userService).isLoggedIn();
+        verify(view).navigateToLoginUi();
+    }
+
+    @Test
+    public void retunedFromLogin_loginSuccessful() {
+        presenter.returnedFromLogin(true);
+    }
+
+    @Test
+    public void retunedFromLogin_loginFailed() {
+        presenter.returnedFromLogin(false);
+        verify(view).displayMessage(anyString());
+    }
+
+    @Test
+    public void attach_isLoggedIn_stateBlank_navigateNoClanUi() {
+        User user = new User(User.STATE_BLANK, "");
+        when(userService.isLoggedIn()).thenReturn(true);
+        presenter.onAttach();
+        verify(userService).isLoggedIn();
+        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
+        loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
+        verify(view).navigateToNoClanUi();
+    }
+
+    @Test
+    public void attach_isLoggedIn_stateCreating_navigateCreatingClanUi() {
+        User user = new User(User.STATE_CREATING, "");
+        when(userService.isLoggedIn()).thenReturn(true);
+        presenter.onAttach();
+        verify(userService).isLoggedIn();
+        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
+        loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
+        verify(view).navigateToCreatingClanUi();
+    }
+
+    @Test
+    public void attach_isLoggedIn_stateJoining_navigateJoiningClanUi() {
+        User user = new User(User.STATE_JOINING, "");
+        when(userService.isLoggedIn()).thenReturn(true);
+        presenter.onAttach();
+        verify(userService).isLoggedIn();
+        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
+        loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
+        verify(view).navigateToJoiningClanUi();
+    }
+
+    @Test
+    public void attach_isLoggedIn_stateMember_navigateToHomeUi() {
+        User user = new User(User.STATE_MEMBER, "");
+        when(userService.isLoggedIn()).thenReturn(true);
+        presenter.onAttach();
+        verify(userService).isLoggedIn();
+        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
+        loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
+        verify(view).navigateToHomeUi();
+    }
+
+    @Test
+    public void attach_isLoggedIn_stateAdmin_navigateToHomeUi() {
+        User user = new User(User.STATE_ADMIN, "");
+        when(userService.isLoggedIn()).thenReturn(true);
+        presenter.onAttach();
+        verify(userService).isLoggedIn();
+        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
+        loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
+        verify(view).navigateToHomeUi();
+    }
+
 }

@@ -12,20 +12,20 @@ import wickeddevs.easywars.data.service.contract.UserService;
  */
 public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListener {
 
-    private VerifyJoinClanContract.View joiningClanView;
+    private VerifyJoinClanContract.View view;
     private ApiService apiService;
     private JoinClanService joinClanService;
-    private UserService mUserService;
+    private UserService userService;
 
     public VerifyJoinClanPresenter(ApiService apiService, JoinClanService joinClanService, UserService userService) {
         this.apiService = apiService;
         this.joinClanService = joinClanService;
-        this.mUserService = userService;
+        this.userService = userService;
     }
 
     @Override
     public void registerView(VerifyJoinClanContract.View activity) {
-        joiningClanView = activity;
+        view = activity;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
             @Override
             public void onUpdate(final JoinDecision joinDecision) {
             if (joinDecision.approved == JoinDecision.APPROVED) {
-                joiningClanView.navigateToHomeUi();
+                view.navigateToHomeUi();
             } else {
                 loadDisplayClanInfo(joinDecision.approved);
             }
@@ -51,19 +51,21 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
     @Override
     public void cancelJoinClan() {
         joinClanService.removeJoinRequest();
-        joiningClanView.navigateToNoClanUi();
+        view.navigateToNoClanUi();
     }
 
     private void loadDisplayClanInfo(final int joinDecision) {
-        mUserService.getUser(new UserService.LoadUserCallback() {
+        view.toggleProgressBar(true);
+        userService.getUser(new UserService.LoadUserCallback() {
             @Override
             public void onUserLoaded(User user) {
                 apiService.getApiClan(user.clanTag, new ApiService.LoadApiClanCallback() {
                     @Override
                     public void onApiClanLoaded(ApiClan apiClan) {
-                        joiningClanView.displayJoinInfo(apiClan);
+                        view.toggleProgressBar(false);
+                        view.displayJoinInfo(apiClan);
                         if (joinDecision == JoinDecision.DENIED) {
-                            joiningClanView.displayJoinDenied();
+                            view.displayJoinDenied();
                         }
                     }
                 });

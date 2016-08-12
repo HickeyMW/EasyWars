@@ -1,4 +1,4 @@
-package wickeddevs.easywars.ui.noclan.create;
+package wickeddevs.easywars.ui.noclan.join;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,21 +14,20 @@ import java.util.ArrayList;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import wickeddevs.easywars.data.model.CreateRequest;
+import wickeddevs.easywars.data.model.JoinRequest;
 import wickeddevs.easywars.data.model.api.ApiClan;
 import wickeddevs.easywars.data.model.api.ApiMember;
 import wickeddevs.easywars.data.model.api.BadgeUrls;
 import wickeddevs.easywars.data.service.contract.ApiService;
-import wickeddevs.easywars.data.service.contract.CreateClanService;
-import wickeddevs.easywars.data.service.contract.UserService;
+import wickeddevs.easywars.data.service.contract.JoinClanService;
 
+import static org.mockito.Mockito.when;
 
 /**
- * Created by hicke_000 on 7/27/2016.
+ * Created by 375csptssce on 8/12/16.
  */
-public class CreateClanPresenterTest {
+public class JoinClanPresenterTest {
 
     private String tag1 = "#FOI30FJ";
     private ApiMember apiMember1 = new ApiMember("Mem1Name", "Mem1Tag");
@@ -36,24 +35,27 @@ public class CreateClanPresenterTest {
     private ArrayList<ApiMember> apiMembers = new ArrayList<>();
     private ApiClan apiClan;
 
-    private CreateClanPresenter presenter;
+    private JoinClanPresenter presenter;
 
     @Mock
-    private CreateClanContract.View view;
+    private JoinClanContract.View view;
 
     @Mock
     private ApiService apiService;
 
     @Mock
-    private CreateClanService createClanService;
+    private JoinClanService joinClanService;
 
     @Captor
     private ArgumentCaptor<ApiService.LoadApiClanCallback> loadApiClanCallbackArgumentCaptor;
 
+    @Captor
+    private ArgumentCaptor<JoinRequest> joinRequestArgumentCaptor;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        presenter = new CreateClanPresenter(apiService, createClanService);
+        presenter = new JoinClanPresenter(apiService, joinClanService);
         presenter.registerView(view);
         apiMembers.add(apiMember1);
         apiMembers.add(apiMember2);
@@ -71,13 +73,17 @@ public class CreateClanPresenterTest {
     }
 
     @Test
-    public void selectedName_createRequest_requestCreated() {
+    public void selectedName_requestJoin_requestCreated() {
         attach_loadClanInfo_DisplayClanInfo();
         String name = "selectedName";
+        String message = "Message sent with request";
         presenter.selectedName(name);
-        verify(view).allowCreate();
-        presenter.createClanRequest();
-        verify(createClanService).setCreateRequest(name, apiClan.tag);
-        verify(view).navigateToVerifyCreateClanUi();
+        verify(view).allowJoin();
+        presenter.requestJoin(message);
+        verify(joinClanService).setJoinRequest(eq(apiClan.tag), joinRequestArgumentCaptor.capture());
+        Assert.assertEquals(joinRequestArgumentCaptor.getValue().message, message);
+        Assert.assertEquals(joinRequestArgumentCaptor.getValue().name, name);
+        verify(view).navigateToVerifyJoinClanUi();
     }
+
 }

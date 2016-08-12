@@ -62,12 +62,6 @@ public class JoinClanActivity extends BasePresenterActivity<JoinClanContract.Vie
         }));
     }
 
-
-    @Override
-    public void navigateToNoClanUi() {
-
-    }
-
     @Override
     public void allowJoin() {
         binding.btnJoin.setVisibility(View.VISIBLE);
@@ -97,9 +91,9 @@ public class JoinClanActivity extends BasePresenterActivity<JoinClanContract.Vie
     @Override
     public void toggleProgressBar(boolean loading) {
         if (loading) {
-            binding.progressBar.setProgress(View.VISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
         } else {
-            binding.progressBar.setProgress(View.INVISIBLE);
+            binding.progressBar.setVisibility(View.INVISIBLE);
         }
     }
 

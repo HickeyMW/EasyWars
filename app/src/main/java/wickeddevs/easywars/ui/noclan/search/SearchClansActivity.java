@@ -56,31 +56,34 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search, menu);
-        searchItem = menu.findItem(R.id.action_search);
-        searchItem.expandActionView();
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setQueryHint("Search for a clan");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                presenter.search(query);
-                return false;
-            }
+        if (getIntent().getIntExtra(EXTRA_STARTED_BY, -1) != STARTED_FOR_JOIN) {
+            getMenuInflater().inflate(R.menu.search, menu);
+            searchItem = menu.findItem(R.id.action_search);
+            searchItem.expandActionView();
+            final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            searchView.setQueryHint("Search for a clan");
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    presenter.search(query);
+                    return false;
+                }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                finish();
-                return true;
-            };
-        });
-        return true;
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
+            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    finish();
+                    return true;
+                };
+            });
+            return true;
+        }
+       return true;
     }
 
     @Override
@@ -139,7 +142,11 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
 
     @Override
     public void toggleProgressBar(boolean loading) {
-
+        if (loading) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            binding.progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

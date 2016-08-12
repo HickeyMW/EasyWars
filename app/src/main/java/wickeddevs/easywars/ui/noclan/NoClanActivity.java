@@ -22,7 +22,6 @@ public class NoClanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Setup");
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_no_clan);
         mBinding.btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override

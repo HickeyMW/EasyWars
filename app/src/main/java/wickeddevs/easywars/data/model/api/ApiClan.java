@@ -10,6 +10,7 @@ public class ApiClan {
     public String tag;
     public BadgeUrls badgeUrls;
     public int members;
+    public ArrayList<ApiMember> memberList = new ArrayList<>();
     public String description;
     public String type;
     public String warFrequency;
@@ -21,7 +22,17 @@ public class ApiClan {
     public int warTies;
     public int warWinStreak;
     public int warWins;
-    public ArrayList<ApiMember> memberList = new ArrayList<>();
+
+    public ApiClan(String name, String tag, BadgeUrls badgeUrls, int members, ArrayList<ApiMember> memberList) {
+        this.name = name;
+        this.tag = tag;
+        this.badgeUrls = badgeUrls;
+        this.members = members;
+        this.memberList = memberList;
+    }
+
+    public ApiClan() {
+    }
 
     public ArrayList<String> getMemberNames(){
         ArrayList<String> members = new ArrayList<>();

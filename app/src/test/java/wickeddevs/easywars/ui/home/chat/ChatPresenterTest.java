@@ -44,13 +44,13 @@ public class ChatPresenterTest {
     private static List<Message> EMPTY_MESSAGES = new ArrayList<>();
 
     @Mock
-    private ChatContract.View mChatView;
+    private ChatContract.View view;
 
     @Mock
-    private ChatService mChatService;
+    private ChatService chatService;
 
     @Mock
-    private ClanService mClanService;
+    private ClanService clanService;
 
     @Captor
     private ArgumentCaptor<ChatService.MessageListener> mMessageListenerArgumentCaptor;
@@ -64,54 +64,55 @@ public class ChatPresenterTest {
     @Captor
     private ArgumentCaptor<String> mMessageBodyArgumentCaptor;
 
-    private ChatPresenter mChatPresenter;
+    private ChatPresenter presenter;
 
     @Before
     public void setupLoadingSplashPresenter() {
         MockitoAnnotations.initMocks(this);
+        presenter = new ChatPresenter(chatService, clanService);
+        presenter.registerView(view);
         members = new HashMap<>();
         members.put(key1, member1);
         members.put(key2, member2);
         members.put(key3, member3);
         clan = new Clan();
         clan.members = members;
-        //mChatPresenter = new ChatPresenter(mChatView, mChatService, mClanService);
     }
 
     @Test
     public void startListeningForMessages_loadsInitialMessages() {
-        //mChatPresenter.start();
-        verify(mChatService).setMessageListener(mMessageListenerArgumentCaptor.capture());
+        presenter.onAttach();
+        verify(chatService).setMessageListener(mMessageListenerArgumentCaptor.capture());
         mMessageListenerArgumentCaptor.getValue().initialMessages(messages);
-        verify(mClanService).getClan(mLoadClanCallbackArgumentCaptor.capture());
+        verify(clanService).getClan(mLoadClanCallbackArgumentCaptor.capture());
         mLoadClanCallbackArgumentCaptor.getValue().onClanLoaded(clan);
-        verify(mChatView).setMessages(messages);
+        verify(view).setMessages(messages);
     }
 
     @Test
     public void newMessageFromService_messageSentToView() {
-        //mChatPresenter.start();
-        verify(mChatService).setMessageListener(mMessageListenerArgumentCaptor.capture());
+        presenter.onAttach();
+        verify(chatService).setMessageListener(mMessageListenerArgumentCaptor.capture());
         Message message = messages.get(1);
         mMessageListenerArgumentCaptor.getValue().newMessage(message);
-        verify(mClanService).getMember(eq(message.uid), mLoadMemberCallbackArgumentCaptor.capture());
+        verify(clanService).getMember(eq(message.uid), mLoadMemberCallbackArgumentCaptor.capture());
         mLoadMemberCallbackArgumentCaptor.getValue().onMemberLoaded(member3);
-        verify(mChatView).addMessage(message);
+        verify(view).addMessage(message);
     }
 
     @Test
     public void sendMessage_isSent() {
         String body = "This is the text of a test message";
-        mChatPresenter.sendMessage(body);
-        verify(mChatService).sendMessage(mMessageBodyArgumentCaptor.capture());
-        verify(mChatView).clearSendText();
+        presenter.sendMessage(body);
+        verify(chatService).sendMessage(mMessageBodyArgumentCaptor.capture());
+        verify(view).clearSendText();
         assertEquals(mMessageBodyArgumentCaptor.getValue(), body);
     }
 
     @Test
     public void stopListeningForMessages() {
-        //mChatPresenter.stop();
-        verify(mChatService).removeMessageListener();
+        presenter.onDetach();
+        verify(chatService).removeMessageListener();
     }
 
 }
