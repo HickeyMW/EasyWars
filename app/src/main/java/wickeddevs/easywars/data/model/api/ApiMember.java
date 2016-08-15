@@ -21,5 +21,6 @@ public class ApiMember {
         this.tag = tag;
     }
 
-
+    public ApiMember() {
+    }
 }

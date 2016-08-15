@@ -5,13 +5,19 @@ package wickeddevs.easywars.data.model;
  */
 public class Member {
 
-    public boolean admin;
     public String name;
+    public boolean admin;
     public String uid;
 
-    public Member(boolean admin, String name, String uid) {
+    public Member(String name, boolean admin) {
         this.admin = admin;
         this.name = name;
+    }
+
+    public Member(String name, boolean admin, String uid) {
+        this.admin = admin;
+        this.name = name;
+
         this.uid = uid;
     }
 

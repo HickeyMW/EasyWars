@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="wickeddevs.easywars">
+          package="wickeddevs.easywars">
 
     <application
         android:allowBackup="true"
@@ -8,20 +8,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.loadingsplash.LoadingSplashActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".ui.loadingsplash.LoadingSplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.home.HomeActivity"
             android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ui.noclan.NoClanActivity"
             android:label="Setup"
@@ -46,6 +47,13 @@
             android:name=".ui.noclan.search.SearchClansActivity"
             android:label=""
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.TestingActivity"
+            android:label="Testing">
+        </activity>
+        <activity
+            android:name=".ui.joinrequests.JoinRequestsActivity"
+            android:label="Join Requests">
+        </activity>
     </application>
-
 </manifest>

@@ -48,7 +48,7 @@ public class VerifyCreateClanActivity extends BasePresenterActivity<VerifyCreate
         binding.layoutMain.setVisibility(View.VISIBLE);
         binding.tvClanName.setText(apiClan.name);
         binding.tvTag.setText(apiClan.tag);
-        binding.tvVerification.setText(String.valueOf(createRequest.verification));
+        binding.tvVerification.setText("Code: " + String.valueOf(createRequest.verification));
         Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().into(binding.ivBadge);
         binding.btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,8 +91,10 @@ public class VerifyCreateClanActivity extends BasePresenterActivity<VerifyCreate
 
     @Override
     public void displayMessage(String message) {
-        Toast toast = getToast();
-        toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.show();
 
 

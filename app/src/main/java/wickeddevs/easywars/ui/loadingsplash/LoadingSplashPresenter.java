@@ -1,6 +1,5 @@
 package wickeddevs.easywars.ui.loadingsplash;
 
-import android.os.Handler;
 import android.util.Log;
 
 import wickeddevs.easywars.data.model.User;
@@ -13,25 +12,25 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
 
     private final static String TAG = "LoadingSplashPresenter";
 
-    private LoadingSplashContract.View loadingSplashView;
-    private UserService mUserService;
+    private LoadingSplashContract.View view;
+    private UserService userService;
 
     public LoadingSplashPresenter(UserService userService) {
-        this.mUserService = userService;
+        this.userService = userService;
     }
 
 
     @Override
     public void registerView(LoadingSplashContract.View activity) {
-        loadingSplashView = activity;
+        view = activity;
     }
 
     @Override
     public void onAttach() {
-        if (mUserService.isLoggedIn()) {
+        if (userService.isLoggedIn()) {
             navigateOnUserState();
         } else {
-            loadingSplashView.navigateToLoginUi();
+            view.navigateToLoginUi();
         }
     }
 
@@ -45,28 +44,28 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
         if (successful) {
             navigateOnUserState();
         } else {
-            loadingSplashView.displayMessage("Error logging in. Please try again.");
+            view.displayMessage("Error logging in. Please try again.");
         }
     }
 
     private void navigateOnUserState() {
 
-        mUserService.getUser(new UserService.LoadUserCallback() {
+        userService.getUser(new UserService.LoadUserCallback() {
             @Override
             public void onUserLoaded(User user) {
                 switch (user.state) {
                     case User.STATE_BLANK:
-                        loadingSplashView.navigateToNoClanUi();
+                        view.navigateToNoClanUi();
                         break;
                     case User.STATE_CREATING:
-                        loadingSplashView.navigateToCreatingClanUi();
+                        view.navigateToCreatingClanUi();
                         break;
                     case User.STATE_JOINING:
-                        loadingSplashView.navigateToJoiningClanUi();
+                        view.navigateToJoiningClanUi();
                         break;
                     case User.STATE_MEMBER:
                     case User.STATE_ADMIN:
-                        loadingSplashView.navigateToHomeUi();
+                        view.navigateToHomeUi();
                         break;
                     default:
                         Log.e(TAG, "User doesn't have a valid state");

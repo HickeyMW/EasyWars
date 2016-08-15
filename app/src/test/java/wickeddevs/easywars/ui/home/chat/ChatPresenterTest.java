@@ -35,9 +35,9 @@ public class ChatPresenterTest {
     private String key1 = "KEY1";
     private String key2 = "KEY2";
     private String key3 = "KEY3";
-    private Member member1 = new Member(true, "Name1", "UID1");
-    private Member member2 = new Member(true, "Name2", "UID2");
-    private Member member3 = new Member(false, "Name3", "UID3");
+    private Member member1 = new Member("Name1", true, "UID1");
+    private Member member2 = new Member("Name2", true, "UID2");
+    private Member member3 = new Member("Name3", false, "UID3");
     private HashMap<String, Member> members;
     private Clan clan;
 

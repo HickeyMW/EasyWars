@@ -112,6 +112,15 @@ public enum FbInfo {
         });
     }
 
+    public static void getJoinRequestsRef(final DbRefCallback callback) {
+        getClanTagNoHash(new ClanTagCallBack() {
+            @Override
+            public void onLoaded(String clanTag) {
+                callback.onLoaded(getDb().getReference("joinRequests/" + clanTag + "/requests"));
+            }
+        });
+    }
+
     public static void getJoinDecisionRef(final DbRefCallback callback) {
         getClanTagNoHash(new ClanTagCallBack() {
             @Override
@@ -121,6 +130,23 @@ public enum FbInfo {
         });
     }
 
+    public static void getJoinDecisionsRef(final DbRefCallback callback) {
+        getClanTagNoHash(new ClanTagCallBack() {
+            @Override
+            public void onLoaded(String clanTag) {
+                callback.onLoaded(getDb().getReference("joinRequests/" + clanTag + "/decisions"));
+            }
+        });
+    }
+
+    public static void getClanMembersRef(final DbRefCallback callback) {
+        getClanTagNoHash(new ClanTagCallBack() {
+            @Override
+            public void onLoaded(String clanTag) {
+                callback.onLoaded(getDb().getReference("clans/" + clanTag + "/members"));
+            }
+        });
+    }
 
 
     private static void getClanTagNoHash(final ClanTagCallBack callBack) {

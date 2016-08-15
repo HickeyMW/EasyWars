@@ -13,7 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import wickeddevs.easywars.R;
+import wickeddevs.easywars.ui.TestingActivity;
 import wickeddevs.easywars.ui.home.chat.ChatFragment;
+import wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -59,9 +61,14 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.nav_chat) {
 
         } else if (id == R.id.nav_join_requests) {
-
+            Intent i = new Intent(this, JoinRequestsActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_war_planner) {
 
+        } else if (id == R.id.nav_test) {
+            Intent i = new Intent(this, TestingActivity.class);
+            startActivity(i);
+            finish();
         } else {
             Log.i(TAG, "We don't navigate anywhere else");
         }

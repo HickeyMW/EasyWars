@@ -40,7 +40,6 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
             }
             }
         });
-
     }
 
     @Override

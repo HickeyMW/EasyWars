@@ -5,6 +5,7 @@ import wickeddevs.easywars.dagger.module.PresenterModule;
 import wickeddevs.easywars.dagger.scope.ActivityScope;
 
 import wickeddevs.easywars.ui.home.chat.ChatFragment;
+import wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
 import wickeddevs.easywars.ui.loadingsplash.LoadingSplashActivity;
 import wickeddevs.easywars.ui.noclan.NoClanActivity;
 import wickeddevs.easywars.ui.noclan.create.CreateClanActivity;
@@ -33,4 +34,6 @@ public interface ViewInjectorComponent {
     void inject(VerifyCreateClanActivity verifyCreateClanActivity);
 
     void inject(VerifyJoinClanActivity verifyJoinClanActivity);
+
+    void inject(JoinRequestsActivity joinRequestsActivity);
 }

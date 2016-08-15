@@ -50,11 +50,11 @@
 
             <EditText
                 android:layout_width="fill_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:id="@+id/etMessage"
                 android:layout_above="@+id/btnJoin"
-                android:inputType="text|textMultiLine" />
+                android:inputType="textCapSentences|textMultiLine" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

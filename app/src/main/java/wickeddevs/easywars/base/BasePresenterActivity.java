@@ -9,32 +9,21 @@ import android.widget.Toast;
  */
 public abstract class BasePresenterActivity<T extends Presenter> extends AppCompatActivity implements PView {
 
-    private Toast toast;
+    protected Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getPresenter().registerView(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         getPresenter().onAttach();
     }
 
+
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         getPresenter().onDetach();
     }
 
     protected abstract T getPresenter();
-
-    protected Toast getToast() {
-        if (toast != null) {
-            toast.cancel();
-        }
-        return toast;
-    }
 }

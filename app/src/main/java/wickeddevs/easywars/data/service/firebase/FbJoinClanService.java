@@ -5,11 +5,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import wickeddevs.easywars.data.model.JoinDecision;
 import wickeddevs.easywars.data.model.JoinRequest;
+import wickeddevs.easywars.data.model.Member;
 import wickeddevs.easywars.data.model.User;
 import wickeddevs.easywars.data.service.contract.JoinClanService;
-import wickeddevs.easywars.data.service.contract.UserService;
 
 /**
  * Created by hicke_000 on 8/2/2016.
@@ -27,8 +30,13 @@ public class FbJoinClanService implements JoinClanService {
                         JoinDecision joinDecision = dataSnapshot.getValue(JoinDecision.class);
                         if (joinDecision != null) {
                             listener.onUpdate(joinDecision);
-                            if (joinDecision.approved != 0) {
+                            if (joinDecision.approved != JoinDecision.PENDING) {
                                 dbRef.removeEventListener(this);
+                                if (joinDecision.approved == JoinDecision.APPROVED) {
+                                    FbInfo.setState(User.STATE_MEMBER);
+                                } else {
+                                    FbInfo.setState(User.STATE_BLANK);
+                                }
                             }
                         } else {
                             listener.onUpdate(new JoinDecision());
@@ -74,5 +82,57 @@ public class FbJoinClanService implements JoinClanService {
         FbInfo.setUser(user);
         FbInfo.setState(User.STATE_JOINING);
         FbInfo.setClanTag(clanTag);
+    }
+
+    @Override
+    public void getJoinRequests(final JoinRequestsCallback callback) {
+        FbInfo.getJoinRequestsRef(new FbInfo.DbRefCallback() {
+            @Override
+            public void onLoaded(DatabaseReference dbRef) {
+                dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterator<DataSnapshot> snapshots = dataSnapshot.getChildren().iterator();
+                        ArrayList<JoinRequest> joinRequests = new ArrayList<>();
+                        while (snapshots.hasNext()) {
+                            DataSnapshot ds = snapshots.next();
+                            JoinRequest joinRequest = ds.getValue(JoinRequest.class);
+                            joinRequest.id = ds.getKey();
+                            joinRequests.add(joinRequest);
+                        }
+                        callback.onLoaded(joinRequests);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void setDecision(final JoinRequest joinRequest, final boolean approved) {
+        FbInfo.getJoinRequestsRef(new FbInfo.DbRefCallback() {
+            @Override
+            public void onLoaded(DatabaseReference dbRef) {
+                dbRef.child(joinRequest.id).removeValue();
+                FbInfo.getJoinDecisionsRef(new FbInfo.DbRefCallback() {
+                    @Override
+                    public void onLoaded(DatabaseReference dbRef) {
+                        dbRef.child(joinRequest.id).setValue(new JoinDecision(approved));
+                        if (approved) {
+                            FbInfo.getClanMembersRef(new FbInfo.DbRefCallback() {
+                                @Override
+                                public void onLoaded(DatabaseReference dbRef) {
+                                    dbRef.child(joinRequest.id).setValue(new Member(joinRequest.name, false));
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
     }
 }

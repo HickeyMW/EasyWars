@@ -7,6 +7,7 @@ import wickeddevs.easywars.dagger.component.ServiceComponent;
 import wickeddevs.easywars.dagger.component.StateServiceComponent;
 import wickeddevs.easywars.dagger.component.ViewInjectorComponent;
 import wickeddevs.easywars.ui.home.chat.ChatFragment;
+import wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
 import wickeddevs.easywars.ui.loadingsplash.LoadingSplashActivity;
 import wickeddevs.easywars.ui.noclan.NoClanActivity;
 import wickeddevs.easywars.ui.noclan.create.CreateClanActivity;
@@ -51,6 +52,12 @@ public enum Injector {
     public void inject(VerifyJoinClanActivity verifyJoinClanActivity) {
         getViewInjectorComponent().inject(verifyJoinClanActivity);
     }
+
+    public void inject(JoinRequestsActivity joinRequestsActivity) {
+        getViewInjectorComponent().inject(joinRequestsActivity);
+    }
+
+
 
     private ViewInjectorComponent getViewInjectorComponent() {
         return DaggerViewInjectorComponent.builder()
