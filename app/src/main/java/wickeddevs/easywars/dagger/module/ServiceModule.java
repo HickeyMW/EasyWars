@@ -7,11 +7,15 @@ import wickeddevs.easywars.data.service.contract.ChatService;
 import wickeddevs.easywars.data.service.contract.ClanService;
 import wickeddevs.easywars.data.service.contract.CreateClanService;
 import wickeddevs.easywars.data.service.contract.JoinClanService;
+import wickeddevs.easywars.data.service.contract.UserService;
+import wickeddevs.easywars.data.service.contract.WarService;
 import wickeddevs.easywars.data.service.firebase.FbApiService;
 import wickeddevs.easywars.data.service.firebase.FbChatService;
 import wickeddevs.easywars.data.service.firebase.FbClanService;
 import wickeddevs.easywars.data.service.firebase.FbCreateClanService;
 import wickeddevs.easywars.data.service.firebase.FbJoinClanService;
+import wickeddevs.easywars.data.service.firebase.FbUserService;
+import wickeddevs.easywars.data.service.firebase.FbWarService;
 
 /**
  * Created by hicke_000 on 8/2/2016.
@@ -29,11 +33,6 @@ public class ServiceModule {
         return new FbChatService();
     }
 
-//    @Provides
-//    StateService providesStateService() {
-//        return stateService;
-//    }
-
     @Provides
     ClanService providesClanService() {
         return new FbClanService();
@@ -47,6 +46,16 @@ public class ServiceModule {
     @Provides
     JoinClanService providesJoinClanService() {
         return new FbJoinClanService();
+    }
+
+    @Provides
+    UserService providesStateService() {
+        return new FbUserService();
+    }
+
+    @Provides
+    WarService providesWarService() {
+        return new FbWarService();
     }
 
 

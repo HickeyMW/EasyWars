@@ -148,6 +148,15 @@ public enum FbInfo {
         });
     }
 
+    public static void getWarRef(final DbRefCallback callback) {
+        getClanTagNoHash(new ClanTagCallBack() {
+            @Override
+            public void onLoaded(String clanTag) {
+                callback.onLoaded(getDb().getReference("wars/" + clanTag));
+            }
+        });
+    }
+
 
     private static void getClanTagNoHash(final ClanTagCallBack callBack) {
         getDb().getReference("users/" + getUid() + "/clanTag").addListenerForSingleValueEvent(new ValueEventListener() {

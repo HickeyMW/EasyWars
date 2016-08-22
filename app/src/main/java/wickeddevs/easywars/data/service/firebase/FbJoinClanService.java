@@ -33,6 +33,7 @@ public class FbJoinClanService implements JoinClanService {
                             if (joinDecision.approved != JoinDecision.PENDING) {
                                 dbRef.removeEventListener(this);
                                 if (joinDecision.approved == JoinDecision.APPROVED) {
+                                    removeJoinRequest();
                                     FbInfo.setState(User.STATE_MEMBER);
                                 } else {
                                     FbInfo.setState(User.STATE_BLANK);

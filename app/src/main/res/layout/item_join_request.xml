@@ -22,14 +22,16 @@
             android:layout_height="wrap_content"
             android:text="Accept"
             android:id="@+id/btnAccept"
-            android:layout_toLeftOf="@+id/btnDeny" />
+            android:layout_toLeftOf="@+id/btnDeny"
+            style="?attr/borderlessButtonStyle"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Deny"
             android:id="@+id/btnDeny"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            style="?attr/borderlessButtonStyle"/>
 
         <TextView
             android:layout_width="wrap_content"

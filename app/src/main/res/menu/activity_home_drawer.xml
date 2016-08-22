@@ -26,12 +26,13 @@
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_profile"
-            android:title="Profile" />
+            android:title="Profile"
+            android:visible="false"/>
         <item
             android:id="@+id/nav_join_requests"
             android:icon="@drawable/ic_applicants"
             android:title="Join Requests"
-            android:visible="true"/>
+            android:visible="false"/>
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_manage"

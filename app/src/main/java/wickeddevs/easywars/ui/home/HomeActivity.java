@@ -11,17 +11,35 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import wickeddevs.easywars.R;
+import wickeddevs.easywars.base.BasePresenterActivity;
+import wickeddevs.easywars.dagger.Injector;
+import wickeddevs.easywars.data.model.Member;
+import wickeddevs.easywars.data.model.api.ApiClan;
 import wickeddevs.easywars.ui.TestingActivity;
 import wickeddevs.easywars.ui.home.chat.ChatFragment;
+import wickeddevs.easywars.ui.home.war.WarPlannerFragment;
 import wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
+import wickeddevs.easywars.ui.noclan.NoClanActivity;
 
-public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListener> implements
+        HomeContract.View, NavigationView.OnNavigationItemSelectedListener {
 
     final static String TAG = "HomeActivity";
     static final String EXTRA_IS_ADMIN  = "extraIsAdmin";
+    private ArrayList<MenuItem> adminItems = new ArrayList<>();
+
+    @Inject
+    public HomeContract.ViewListener presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +56,8 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        adminItems.add(navigationView.getMenu().findItem(R.id.nav_join_requests));
+        adminItems.add(navigationView.getMenu().findItem(R.id.nav_admin_chat));
         setTitle("Chat");
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new ChatFragment()).commit();
     }
@@ -59,12 +79,14 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_chat) {
-
+            setTitle("Chat");
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new ChatFragment()).commit();
+        } else if (id == R.id.nav_war_planner) {
+            setTitle("War Planner");
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new WarPlannerFragment()).commit();
         } else if (id == R.id.nav_join_requests) {
             Intent i = new Intent(this, JoinRequestsActivity.class);
             startActivity(i);
-        } else if (id == R.id.nav_war_planner) {
-
         } else if (id == R.id.nav_test) {
             Intent i = new Intent(this, TestingActivity.class);
             startActivity(i);
@@ -76,5 +98,47 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected HomeContract.ViewListener getPresenter() {
+        if(presenter == null){
+            Injector.INSTANCE.inject(this);
+        }
+        return presenter;
+    }
+
+    @Override
+    public void displayUi(Member member, ApiClan apiClan) {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        TextView headerName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvHeaderName);
+        TextView headerClan = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvHeaderClan);
+        ImageView headerImage = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.ivHeaderImage);
+        headerName.setText(member.name);
+        headerClan.setText(apiClan.name);
+        Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().into(headerImage);
+
+        if (member.admin) {
+            for (MenuItem menuItem : adminItems) {
+                menuItem.setVisible(true);
+            }
+        }
+    }
+
+    @Override
+    public void navigateToNoClanUi() {
+        Intent i = new Intent(this, NoClanActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
+    public void toggleProgressBar(boolean loading) {
+
+    }
+
+    @Override
+    public void displayMessage(String message) {
+
     }
 }

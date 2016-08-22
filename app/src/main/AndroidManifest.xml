@@ -44,7 +44,7 @@
             android:label="Awaiting Approval"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.noclan.search.SearchClansActivity"
+            android:name=".ui.shared.search.SearchClansActivity"
             android:label=""
             android:screenOrientation="portrait"/>
         <activity
@@ -55,5 +55,8 @@
             android:name=".ui.joinrequests.JoinRequestsActivity"
             android:label="Join Requests">
         </activity>
+        <activity android:name=".ui.startwar.StartWarActivity">
+        </activity>
     </application>
+
 </manifest>

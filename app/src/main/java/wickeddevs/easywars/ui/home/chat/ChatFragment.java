@@ -3,7 +3,6 @@ package wickeddevs.easywars.ui.home.chat;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,14 +28,10 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
 
     @Inject
     public ChatContract.ViewListener presenter;
-    private FragmentChatBinding mBinding;
-    private ChatAdapter mChatAdapter;
-    private LinearLayoutManager mLinearLayoutManager;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    private FragmentChatBinding binding;
+    private ChatAdapter chatAdapter;
+    private LinearLayoutManager linearLayoutManager;
 
     protected ChatContract.ViewListener getPresenter() {
         if(presenter == null){
@@ -49,17 +44,17 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
-        mLinearLayoutManager = new LinearLayoutManager(getContext());
-        mLinearLayoutManager.setStackFromEnd(true);
-        mBinding.rvMessages.setLayoutManager(mLinearLayoutManager);
-        mBinding.btnSend.setOnClickListener(new View.OnClickListener() {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setStackFromEnd(true);
+        binding.rvMessages.setLayoutManager(linearLayoutManager);
+        binding.btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.sendMessage(mBinding.etChatInput.getText().toString());
+                presenter.sendMessage(binding.etChatInput.getText().toString());
             }
         });
-        return mBinding.getRoot();
+        return binding.getRoot();
     }
 
     @Override
@@ -74,29 +69,29 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
 
     @Override
     public void setMessages(ArrayList<Message> messages) {
-        mChatAdapter = new ChatAdapter(messages);
-        mChatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        chatAdapter = new ChatAdapter(messages);
+        chatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = mChatAdapter.getItemCount();
-                int lastVisiblePosition = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
+                int friendlyMessageCount = chatAdapter.getItemCount();
+                int lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
                 if (lastVisiblePosition == -1 || lastVisiblePosition == friendlyMessageCount -2) {
-                    mBinding.rvMessages.scrollToPosition(positionStart);
+                    binding.rvMessages.scrollToPosition(positionStart);
                 }
             }
         });
-        mBinding.rvMessages.setAdapter(mChatAdapter);
+        binding.rvMessages.setAdapter(chatAdapter);
     }
 
     @Override
     public void addMessage(Message message) {
 
-        mChatAdapter.addMessage(message);
+        chatAdapter.addMessage(message);
     }
 
     @Override
     public void clearSendText() {
-        mBinding.etChatInput.setText("");
+        binding.etChatInput.setText("");
     }
 }

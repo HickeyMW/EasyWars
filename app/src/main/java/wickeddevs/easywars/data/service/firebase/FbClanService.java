@@ -51,6 +51,11 @@ public class FbClanService implements ClanService {
     }
 
     @Override
+    public void getSelf(LoadMemberCallback callback) {
+        getMember(FbInfo.getUid(), callback);
+    }
+
+    @Override
     public void getClan(final LoadClanCallback callback) {
 
         FbInfo.getClanRef(new FbInfo.DbRefCallback() {
@@ -72,17 +77,6 @@ public class FbClanService implements ClanService {
 
                     }
                 });
-            }
-        });
-    }
-
-    @Override
-    public void checkIfAdmin(final AdminCheckCallback callback) {
-        getClan(new LoadClanCallback() {
-            @Override
-            public void onClanLoaded(Clan clan) {
-                Member member = clan.members.get(FbInfo.getUid());
-                callback.onLoaded(member.admin);
             }
         });
     }

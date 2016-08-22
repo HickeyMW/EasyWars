@@ -1,9 +1,7 @@
-package wickeddevs.easywars.ui.noclan.search;
+package wickeddevs.easywars.ui.shared.search;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert.*;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;

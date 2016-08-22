@@ -1,4 +1,4 @@
-package wickeddevs.easywars.ui.noclan.search;
+package wickeddevs.easywars.ui.shared.search;
 
 import android.util.Log;
 
@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import wickeddevs.easywars.data.model.api.ApiClan;
 import wickeddevs.easywars.data.service.contract.ApiService;
-import wickeddevs.easywars.data.service.firebase.FbInfo;
 
 /**
  * Created by hicke_000 on 8/6/2016.
@@ -71,6 +70,9 @@ public class SearchClansPresenter implements SearchClansContract.ViewListener {
                 break;
             case SearchClansActivity.STARTED_FOR_JOIN:
                 view.navigateToJoinClanUi(apiClan.tag);
+                break;
+            case SearchClansActivity.STARTED_FOR_WAR:
+                view.navigateToWarUi(apiClan);
                 break;
             default:
                 Log.e(TAG, "selectedClan: Started by value is invalid");

@@ -31,7 +31,6 @@ public class FbUserService implements UserService {
                 User user = dataSnapshot.getValue(User.class);
                 if (user == null) {
                     user = new User();
-                    callback.onUserLoaded(user);
                 }
                 callback.onUserLoaded(user);
             }

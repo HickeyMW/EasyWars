@@ -1,14 +1,12 @@
-package wickeddevs.easywars.ui.noclan.search;
+package wickeddevs.easywars.ui.shared.search;
 
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,7 +57,6 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
         if (getIntent().getIntExtra(EXTRA_STARTED_BY, -1) != STARTED_FOR_JOIN) {
             getMenuInflater().inflate(R.menu.search, menu);
             searchItem = menu.findItem(R.id.action_search);
-            searchItem.expandActionView();
             final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
             searchView.setQueryHint("Search for a clan");
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -79,11 +76,11 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
                 public boolean onClose() {
                     finish();
                     return true;
-                };
+                }
             });
             return true;
         }
-       return true;
+        return true;
     }
 
     @Override
@@ -130,6 +127,16 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
     @Override
     public void navigateToJoinClanUi(String clanTag) {
         startActivityForResult(JoinClanActivity.createIntent(this, clanTag), STARTED_FOR_JOIN);
+    }
+
+    @Override
+    public void navigateToWarUi(ApiClan apiClan) {
+        Intent i = new Intent();
+        i.putExtra("clanName", apiClan.name);
+        i.putExtra("clanTag", apiClan.tag);
+        i.putExtra("imageUrl", apiClan.badgeUrls.medium);
+        setResult(RESULT_OK, i);
+        finish();
     }
 
     @Override

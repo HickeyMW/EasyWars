@@ -1,4 +1,4 @@
-package wickeddevs.easywars.ui.noclan.search;
+package wickeddevs.easywars.ui.shared.search;
 
 import java.util.ArrayList;
 
@@ -18,6 +18,8 @@ public interface SearchClansContract {
         void navigateToCreateClanUi(String clanTag);
 
         void navigateToJoinClanUi(String clanTag);
+
+        void navigateToWarUi(ApiClan apiClan);
 
         void clearDisplayedClans();
 

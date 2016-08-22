@@ -8,11 +8,12 @@ import wickeddevs.easywars.data.service.contract.ClanService;
 import wickeddevs.easywars.data.service.contract.CreateClanService;
 import wickeddevs.easywars.data.service.contract.JoinClanService;
 import wickeddevs.easywars.data.service.contract.UserService;
+import wickeddevs.easywars.data.service.contract.WarService;
 
 /**
  * Created by hicke_000 on 8/2/2016.
  */
-@Component(dependencies = {StateServiceComponent.class}, modules = ServiceModule.class)
+@Component(modules = ServiceModule.class)
 public interface ServiceComponent {
 
     ApiService providesApiService();
@@ -26,4 +27,6 @@ public interface ServiceComponent {
     CreateClanService providesCreateClanService();
 
     JoinClanService providesJoinClanService();
+
+    WarService providesWarService();
 }

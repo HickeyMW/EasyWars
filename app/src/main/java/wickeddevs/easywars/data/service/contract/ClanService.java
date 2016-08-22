@@ -18,14 +18,9 @@ public interface ClanService {
         void onClanLoaded(Clan clan);
     }
 
-    interface AdminCheckCallback {
-
-        void onLoaded(boolean isAdmin);
-    }
+    void getSelf(LoadMemberCallback callback);
 
     void getMember(String uid, LoadMemberCallback callback);
 
     void getClan(LoadClanCallback callback);
-
-    void checkIfAdmin(AdminCheckCallback callback);
 }

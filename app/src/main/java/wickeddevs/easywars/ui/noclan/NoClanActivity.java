@@ -5,13 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import javax.inject.Inject;
-
 import wickeddevs.easywars.R;
-import wickeddevs.easywars.base.BasePresenterActivity;
-import wickeddevs.easywars.dagger.Injector;
 import wickeddevs.easywars.databinding.ActivityNoClanBinding;
-import wickeddevs.easywars.ui.noclan.search.SearchClansActivity;
+import wickeddevs.easywars.ui.shared.search.SearchClansActivity;
 
 public class NoClanActivity extends AppCompatActivity {
 

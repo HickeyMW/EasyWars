@@ -9,9 +9,13 @@ import wickeddevs.easywars.data.service.contract.ClanService;
 import wickeddevs.easywars.data.service.contract.CreateClanService;
 import wickeddevs.easywars.data.service.contract.JoinClanService;
 import wickeddevs.easywars.data.service.contract.UserService;
+import wickeddevs.easywars.data.service.contract.WarService;
+import wickeddevs.easywars.ui.home.HomeContract;
+import wickeddevs.easywars.ui.home.HomePresenter;
 import wickeddevs.easywars.ui.home.chat.ChatContract;
 import wickeddevs.easywars.ui.home.chat.ChatPresenter;
-import wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
+import wickeddevs.easywars.ui.home.war.WarPlannerContract;
+import wickeddevs.easywars.ui.home.war.WarPlannerPresenter;
 import wickeddevs.easywars.ui.joinrequests.JoinRequestsContract;
 import wickeddevs.easywars.ui.joinrequests.JoinRequestsPresenter;
 import wickeddevs.easywars.ui.loadingsplash.LoadingSplashContract;
@@ -24,8 +28,10 @@ import wickeddevs.easywars.ui.noclan.join.JoinClanContract;
 import wickeddevs.easywars.ui.noclan.join.JoinClanPresenter;
 import wickeddevs.easywars.ui.noclan.verifyjoin.VerifyJoinClanContract;
 import wickeddevs.easywars.ui.noclan.verifyjoin.VerifyJoinClanPresenter;
-import wickeddevs.easywars.ui.noclan.search.SearchClansContract;
-import wickeddevs.easywars.ui.noclan.search.SearchClansPresenter;
+import wickeddevs.easywars.ui.shared.search.SearchClansContract;
+import wickeddevs.easywars.ui.shared.search.SearchClansPresenter;
+import wickeddevs.easywars.ui.startwar.basicinfo.BasicWarInfoContract;
+import wickeddevs.easywars.ui.startwar.basicinfo.BasicWarInfoPresenter;
 
 /**
  * Created by hicke_000 on 8/2/2016.
@@ -80,5 +86,23 @@ public class PresenterModule {
     @ActivityScope
     JoinRequestsContract.ViewListener providesJoinRequestsPresenter(JoinClanService joinClanService) {
         return new JoinRequestsPresenter(joinClanService);
+    }
+
+    @Provides
+    @ActivityScope
+    HomeContract.ViewListener providesHomePresenter(ClanService clanService, UserService userService, ApiService apiService) {
+        return new HomePresenter(clanService, userService, apiService);
+    }
+
+    @Provides
+    @ActivityScope
+    WarPlannerContract.ViewListener providesWarPresenter(WarService warService, ClanService clanService) {
+        return new WarPlannerPresenter(warService, clanService);
+    }
+
+    @Provides
+    @ActivityScope
+    BasicWarInfoContract.ViewListener providesBasicWarInfoPresenter() {
+        return new BasicWarInfoPresenter();
     }
 }

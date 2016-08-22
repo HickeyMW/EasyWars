@@ -15,13 +15,17 @@ public abstract class BasePresenterActivity<T extends Presenter> extends AppComp
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getPresenter().registerView(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         getPresenter().onAttach();
     }
 
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         getPresenter().onDetach();
     }
 

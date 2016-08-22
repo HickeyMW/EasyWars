@@ -13,12 +13,17 @@ public abstract class BasePresenterFragment<T extends  Presenter> extends Fragme
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getPresenter().registerView(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         getPresenter().onAttach();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         getPresenter().onDetach();
     }
 

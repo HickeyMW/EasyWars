@@ -17,7 +17,7 @@ public class ChatPresenter implements ChatContract.ViewListener, ChatService.Mes
 
     final static String TAG = "ChatPresenter";
 
-    private ChatContract.View chatView;
+    private ChatContract.View view;
     private ChatService chatService;
     private ClanService clanService;
 
@@ -28,7 +28,7 @@ public class ChatPresenter implements ChatContract.ViewListener, ChatService.Mes
 
     @Override
     public void registerView(ChatContract.View activity) {
-        chatView = activity;
+        view = activity;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ChatPresenter implements ChatContract.ViewListener, ChatService.Mes
     @Override
     public void sendMessage(String message) {
         chatService.sendMessage(message);
-        chatView.clearSendText();
+        view.clearSendText();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ChatPresenter implements ChatContract.ViewListener, ChatService.Mes
                     message.name = clan.members.get(message.uid).name;
                     message.dateTime = General.formatDateTime(message.timestamp);
                 }
-                chatView.setMessages(messages);
+                view.setMessages(messages);
             }
         });
     }
@@ -70,7 +70,7 @@ public class ChatPresenter implements ChatContract.ViewListener, ChatService.Mes
             public void onMemberLoaded(Member member) {
                 message.name = member.name;
                 message.dateTime = General.formatDateTime(message.timestamp);
-                chatView.addMessage(message);
+                view.addMessage(message);
             }
         });
     }

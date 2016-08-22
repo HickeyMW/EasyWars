@@ -17,6 +17,8 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
     private JoinClanService joinClanService;
     private UserService userService;
 
+    private boolean loadedClanInfo = false;
+
     public VerifyJoinClanPresenter(ApiService apiService, JoinClanService joinClanService, UserService userService) {
         this.apiService = apiService;
         this.joinClanService = joinClanService;
@@ -36,7 +38,13 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
             if (joinDecision.approved == JoinDecision.APPROVED) {
                 view.navigateToHomeUi();
             } else {
-                loadDisplayClanInfo(joinDecision.approved);
+                if (!loadedClanInfo) {
+                    loadDisplayClanInfo();
+                    loadedClanInfo = true;
+                }
+                if (joinDecision.approved == JoinDecision.DENIED) {
+                    view.displayJoinDenied();
+                }
             }
             }
         });
@@ -53,7 +61,7 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
         view.navigateToNoClanUi();
     }
 
-    private void loadDisplayClanInfo(final int joinDecision) {
+    private void loadDisplayClanInfo() {
         view.toggleProgressBar(true);
         userService.getUser(new UserService.LoadUserCallback() {
             @Override
@@ -63,12 +71,28 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
                     public void onApiClanLoaded(ApiClan apiClan) {
                         view.toggleProgressBar(false);
                         view.displayJoinInfo(apiClan);
-                        if (joinDecision == JoinDecision.DENIED) {
-                            view.displayJoinDenied();
-                        }
                     }
                 });
             }
         });
     }
+
+//    private void loadDisplayClanInfo(final int joinDecision) {
+//        view.toggleProgressBar(true);
+//        userService.getUser(new UserService.LoadUserCallback() {
+//            @Override
+//            public void onUserLoaded(User user) {
+//                apiService.getApiClan(user.clanTag, new ApiService.LoadApiClanCallback() {
+//                    @Override
+//                    public void onApiClanLoaded(ApiClan apiClan) {
+//                        view.toggleProgressBar(false);
+//                        view.displayJoinInfo(apiClan);
+//                        if (joinDecision == JoinDecision.DENIED) {
+//                            view.displayJoinDenied();
+//                        }
+//                    }
+//                });
+//            }
+//        });
+//    }
 }
