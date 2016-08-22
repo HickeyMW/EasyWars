@@ -41,6 +41,8 @@ public class WarPlannerPresenter implements WarPlannerContract.ViewListener {
                             view.displayNoCurrentWar(member.admin);
                         }
                     });
+                } else {
+                    view.displayWar(war);
                 }
             }
         });

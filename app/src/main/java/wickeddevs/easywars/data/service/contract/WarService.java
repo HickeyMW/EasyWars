@@ -14,5 +14,19 @@ public interface WarService {
         void onLoaded(War war);
     }
 
+    interface LoadBaseCallback {
+        void onLoaded(Base base);
+    }
+
     void getLatestWar(LoadWarCallback callback);
+
+    void startWar(War war);
+    
+    void loadBase(String warId, String baseId, LoadBaseCallback callback);
+
+    void claimBase(String warId, String baseId);
+
+    void removeClaim(String warId, String baseId);
+
+    void addComment(String body, String warId, String baseId);
 }

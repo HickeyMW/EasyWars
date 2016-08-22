@@ -38,7 +38,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="50"
+                android:text="10"
                 android:id="@+id/tvWarSize"
                 android:layout_alignParentTop="false"
                 android:layout_toLeftOf="@+id/btnIncrease"
@@ -171,6 +171,17 @@
                 android:textSize="20sp"
                 android:layout_marginRight="8dp"/>
         </RelativeLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:id="@+id/btnNext"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            style="?attr/borderlessButtonStyle"
+            android:visibility="invisible"/>
 
     </RelativeLayout>
 </layout>

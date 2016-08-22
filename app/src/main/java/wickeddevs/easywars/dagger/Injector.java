@@ -15,6 +15,8 @@ import wickeddevs.easywars.ui.noclan.join.JoinClanActivity;
 import wickeddevs.easywars.ui.noclan.verifyjoin.VerifyJoinClanActivity;
 import wickeddevs.easywars.ui.shared.search.SearchClansActivity;
 import wickeddevs.easywars.ui.startwar.basicinfo.BasicWarInfoFragment;
+import wickeddevs.easywars.ui.startwar.warorder.WarOrderFragment;
+import wickeddevs.easywars.ui.warbase.WarBaseActivity;
 
 /**
  * Created by hicke_000 on 8/2/2016.
@@ -67,6 +69,14 @@ public enum Injector {
 
     public void inject(BasicWarInfoFragment basicWarInfoFragment) {
         getViewInjectorComponent().inject(basicWarInfoFragment);
+    }
+
+    public void inject(WarOrderFragment warOrderFragment) {
+        getViewInjectorComponent().inject(warOrderFragment);
+    }
+
+    public void inject(WarBaseActivity warBaseActivity) {
+        getViewInjectorComponent().inject(warBaseActivity);
     }
 
 

@@ -15,6 +15,8 @@ import wickeddevs.easywars.ui.noclan.join.JoinClanActivity;
 import wickeddevs.easywars.ui.noclan.verifyjoin.VerifyJoinClanActivity;
 import wickeddevs.easywars.ui.shared.search.SearchClansActivity;
 import wickeddevs.easywars.ui.startwar.basicinfo.BasicWarInfoFragment;
+import wickeddevs.easywars.ui.startwar.warorder.WarOrderFragment;
+import wickeddevs.easywars.ui.warbase.WarBaseActivity;
 
 /**
  * Created by hicke_000 on 8/2/2016.
@@ -44,4 +46,8 @@ public interface ViewInjectorComponent {
     void inject(WarPlannerFragment warPlannerFragment);
 
     void inject(BasicWarInfoFragment basicWarInfoFragment);
+
+    void inject(WarOrderFragment warOrderFragment);
+
+    void inject(WarBaseActivity warBaseActivity);
 }

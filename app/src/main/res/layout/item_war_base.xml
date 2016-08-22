@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/ivItemWar"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_marginRight="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1: Base Name"
+        android:id="@+id/tvItemWarName"
+        android:layout_alignTop="@+id/ivItemWar"
+        android:layout_toRightOf="@+id/ivItemWar"
+        android:layout_toEndOf="@+id/ivItemWar"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemWarClaimed"
+        android:layout_alignBottom="@+id/ivItemWar"
+        android:layout_toRightOf="@+id/ivItemWar"
+        android:layout_toEndOf="@+id/ivItemWar"
+        android:textSize="18sp" />
+
+</RelativeLayout>

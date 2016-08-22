@@ -32,6 +32,10 @@ import wickeddevs.easywars.ui.shared.search.SearchClansContract;
 import wickeddevs.easywars.ui.shared.search.SearchClansPresenter;
 import wickeddevs.easywars.ui.startwar.basicinfo.BasicWarInfoContract;
 import wickeddevs.easywars.ui.startwar.basicinfo.BasicWarInfoPresenter;
+import wickeddevs.easywars.ui.startwar.warorder.WarOrderContract;
+import wickeddevs.easywars.ui.startwar.warorder.WarOrderPresenter;
+import wickeddevs.easywars.ui.warbase.WarBaseContract;
+import wickeddevs.easywars.ui.warbase.WarBasePresenter;
 
 /**
  * Created by hicke_000 on 8/2/2016.
@@ -104,5 +108,17 @@ public class PresenterModule {
     @ActivityScope
     BasicWarInfoContract.ViewListener providesBasicWarInfoPresenter() {
         return new BasicWarInfoPresenter();
+    }
+
+    @Provides
+    @ActivityScope
+    WarOrderContract.ViewListener providesWarOrderPresenter(ApiService apiService) {
+        return new WarOrderPresenter(apiService);
+    }
+
+    @Provides
+    @ActivityScope
+    WarBaseContract.ViewListener providesWarBasePresenter(WarService warService) {
+        return new WarBasePresenter(warService);
     }
 }

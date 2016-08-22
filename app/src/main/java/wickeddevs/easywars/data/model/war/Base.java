@@ -1,5 +1,6 @@
 package wickeddevs.easywars.data.model.war;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -7,9 +8,18 @@ import java.util.HashMap;
  */
 public class Base {
 
-    public int position;
+    public String key;
     public int townHallLevel;
     public String name;
-    public HashMap<String, Comment> comments;
-    public HashMap<String, Call> calls;
+    public boolean didClaim = false;
+    public ArrayList<Comment> comments;
+    public ArrayList<String> claims;
+
+    public Base(int townHallLevel, String name) {
+        this.townHallLevel = townHallLevel;
+        this.name = name;
+    }
+
+    public Base() {
+    }
 }

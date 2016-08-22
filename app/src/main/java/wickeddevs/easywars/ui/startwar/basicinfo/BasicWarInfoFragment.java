@@ -29,13 +29,14 @@ import wickeddevs.easywars.ui.startwar.StartWarActivity;
  * A simple {@link Fragment} subclass.
  */
 public class BasicWarInfoFragment extends BasePresenterFragment<BasicWarInfoContract.ViewListener>
-        implements CompoundButton.OnCheckedChangeListener, StartWarActivity.WarSetupFragment {
+        implements BasicWarInfoContract.View, CompoundButton.OnCheckedChangeListener {
 
     @Inject
     public BasicWarInfoContract.ViewListener presenter;
 
     private FragmentBasicWarInfoBinding binding;
     private boolean perfomingToggle = false;
+    private String clanName;
     private String clanTag;
     private BasicWarInfoFragmentListener listener;
 
@@ -51,13 +52,13 @@ public class BasicWarInfoFragment extends BasePresenterFragment<BasicWarInfoCont
         binding.btnDecrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                presenter.decreaseWarSize();
             }
         });
         binding.btnIncrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                presenter.increaseWarSize();
             }
         });
         binding.tvHours.addTextChangedListener(new TextWatcher() {
@@ -124,7 +125,15 @@ public class BasicWarInfoFragment extends BasePresenterFragment<BasicWarInfoCont
             @Override
             public void onClick(View view) {
                 Intent i = SearchClansActivity.createIntent(getContext(), SearchClansActivity.STARTED_FOR_WAR);
-                startActivity(i);
+                startActivityForResult(i, 0);
+            }
+        });
+        binding.btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int warsize = Integer.valueOf(binding.tvWarSize.getText().toString());
+                long startTime = presenter.getStartTimeMilis(System.currentTimeMillis(), binding.rbWarEnd.isChecked());
+                listener.startWarInfo(warsize, startTime, clanName, clanTag);
             }
         });
         return binding.getRoot();
@@ -135,9 +144,10 @@ public class BasicWarInfoFragment extends BasePresenterFragment<BasicWarInfoCont
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             clanTag = data.getStringExtra("clanTag");
-            binding.tvOpponentName.setText(data.getStringExtra("clanName"));
+            clanName = data.getStringExtra("clanName");
+            binding.tvOpponentName.setText(clanName);
             Glide.with(getContext()).load(data.getStringExtra("imageUrl")).centerCrop().into(binding.ivBadge);
-            listener.readyForNext();
+            binding.btnNext.setVisibility(View.VISIBLE);
         }
     }
 
@@ -169,13 +179,6 @@ public class BasicWarInfoFragment extends BasePresenterFragment<BasicWarInfoCont
     }
 
     @Override
-    public void getData() {
-        int warsize = Integer.valueOf(binding.tvWarSize.getText().toString());
-        long startTime = presenter.getStartTimeMilis(System.currentTimeMillis(), binding.rbWarEnd.isChecked());
-        listener.startWarInfo(warsize, startTime, clanTag);
-    }
-
-    @Override
     protected BasicWarInfoContract.ViewListener getPresenter() {
         if(presenter == null){
             Injector.INSTANCE.inject(this);
@@ -193,8 +196,12 @@ public class BasicWarInfoFragment extends BasePresenterFragment<BasicWarInfoCont
 
     }
 
+    @Override
+    public void setWarSizeText(String warSize) {
+        binding.tvWarSize.setText(warSize);
+    }
+
     public interface BasicWarInfoFragmentListener {
-        void startWarInfo(int warSize, long startTime, String clanTag);
-        void readyForNext();
+        void startWarInfo(int warSize, long startTime, String name, String clanTag);
     }
 }
