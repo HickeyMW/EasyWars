@@ -1,58 +1,27 @@
 {
   "project_info": {
-    "project_number": "452045774564",
-    "firebase_url": "https://ez-clash.firebaseio.com",
-    "project_id": "ez-clash",
-    "storage_bucket": "ez-clash.appspot.com"
+    "project_number": "385392785270",
+    "firebase_url": "https://easy-wars-141214.firebaseio.com",
+    "project_id": "easy-wars-141214",
+    "storage_bucket": "easy-wars-141214.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:452045774564:android:1089d5fb8f2ece57",
+        "mobilesdk_app_id": "1:385392785270:android:d5af9a2b8b57aaeb",
         "android_client_info": {
-          "package_name": "wickeddevs.ezclash"
+          "package_name": "com.wickeddevs.easywars"
         }
       },
       "oauth_client": [
         {
-          "client_id": "452045774564-9os2kj24jm0vippi29aim9brpijolvid.apps.googleusercontent.com",
+          "client_id": "385392785270-rjh1a9ma96qo20ana9fagrb7e23r167q.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAe7c1jyT0sVehZPaE64GVVu9o9S9iEwS0"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:452045774564:android:aa0177f682e28324",
-        "android_client_info": {
-          "package_name": "wickeddevs.easywars"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "452045774564-9os2kj24jm0vippi29aim9brpijolvid.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAe7c1jyT0sVehZPaE64GVVu9o9S9iEwS0"
+          "current_key": "AIzaSyBh2z7A0130bAgGgHIuA0J62fqpec5qVOE"
         }
       ],
       "services": {
