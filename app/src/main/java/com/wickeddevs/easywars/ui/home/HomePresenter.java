@@ -54,4 +54,10 @@ public class HomePresenter implements HomeContract.ViewListener {
     public void onDetach() {
 
     }
+
+    @Override
+    public void pressedLogout() {
+        userService.logout();
+        view.navigateToLoadingSplash();
+    }
 }

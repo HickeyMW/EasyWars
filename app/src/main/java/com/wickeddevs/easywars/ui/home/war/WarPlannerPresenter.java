@@ -30,17 +30,18 @@ public class WarPlannerPresenter implements WarPlannerContract.ViewListener {
     public void onAttach() {
         warService.getLatestWar(new WarService.LoadWarCallback() {
             @Override
-            public void onLoaded(War war) {
-                if (war == null) {
-                    clanService.getSelf(new ClanService.LoadMemberCallback() {
-                        @Override
-                        public void onMemberLoaded(Member member) {
+            public void onLoaded(final War war) {
+                clanService.getSelf(new ClanService.LoadMemberCallback() {
+                    @Override
+                    public void onMemberLoaded(Member member) {
+                        if (war == null) {
                             view.displayNoCurrentWar(member.admin);
+                        } else {
+                            view.displayWar(war, member.admin);
                         }
-                    });
-                } else {
-                    view.displayWar(war);
-                }
+                    }
+                });
+
             }
         });
     }
@@ -48,5 +49,16 @@ public class WarPlannerPresenter implements WarPlannerContract.ViewListener {
     @Override
     public void onDetach() {
 
+    }
+
+    @Override
+    public void pressedDeleteWar() {
+        warService.deleteWar();
+        clanService.getSelf(new ClanService.LoadMemberCallback() {
+            @Override
+            public void onMemberLoaded(Member member) {
+                view.displayNoCurrentWar(member.admin);
+            }
+        });
     }
 }

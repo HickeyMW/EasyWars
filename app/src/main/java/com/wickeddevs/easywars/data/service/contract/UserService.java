@@ -9,6 +9,8 @@ public interface UserService {
 
     boolean isLoggedIn();
 
+    void logout();
+
     void getUser(LoadUserCallback callback);
 
     void listenOnUser(LoadUserCallback callback);

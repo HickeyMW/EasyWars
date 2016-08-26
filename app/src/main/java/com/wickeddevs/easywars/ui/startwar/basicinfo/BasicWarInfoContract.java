@@ -19,6 +19,6 @@ public interface BasicWarInfoContract {
 
         void decreaseWarSize();
 
-        long getStartTimeMilis(long currentTimeMilis, boolean tilWarEnd);
+        long getStartTimeMilis(int hours, int minutes, long currentTimeMilis, boolean tilWarEnd);
     }
 }

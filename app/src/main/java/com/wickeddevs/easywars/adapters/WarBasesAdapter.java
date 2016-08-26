@@ -40,9 +40,10 @@ public class WarBasesAdapter extends RecyclerView.Adapter<WarBasesAdapter.WarBas
         if (base.claims != null) {
             claims = base.claims.size();
         }
-        holder.tvName.setText(String.valueOf(position + 1) + ". " + base.name);
+        holder.tvNumber.setText(String.valueOf(position + 1) + ". ");
+        holder.tvName.setText(base.name);
         holder.imageView.setImageResource(Shared.getThResource(base.townHallLevel));
-        holder.tvClaimed.setText(claims + " claims");
+        //holder.tvClaimed.setText(claims + " claims");
     }
 
     @Override
@@ -52,13 +53,15 @@ public class WarBasesAdapter extends RecyclerView.Adapter<WarBasesAdapter.WarBas
 
     public static class WarBasesHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+        TextView tvNumber;
         TextView tvName;
         TextView tvClaimed;
 
         public WarBasesHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.ivItemWar);
-            tvName = (TextView) itemView.findViewById(R.id.tvItemWarName);
+            tvNumber = (TextView) itemView.findViewById(R.id.tvItemWarBaseNumber);
+            tvName = (TextView) itemView.findViewById(R.id.tvItemWarBaseName);
             tvClaimed = (TextView) itemView.findViewById(R.id.tvItemWarClaimed);
         }
     }

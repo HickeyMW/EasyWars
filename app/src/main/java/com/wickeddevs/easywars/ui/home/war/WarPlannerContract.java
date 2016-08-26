@@ -11,7 +11,7 @@ public interface WarPlannerContract {
 
     interface View extends PView {
 
-        void displayWar(War war);
+        void displayWar(War war, boolean isAdmin);
 
         void displayNoCurrentWar(boolean isAdmin);
 
@@ -19,5 +19,6 @@ public interface WarPlannerContract {
 
     interface ViewListener extends Presenter<WarPlannerContract.View> {
 
+        void pressedDeleteWar();
     }
 }

@@ -36,15 +36,15 @@ public class BasicWarInfoPresenter implements BasicWarInfoContract.ViewListener 
 
 
     @Override
-    public long getStartTimeMilis(long currentTimeMilis, boolean tilWarEnd) {
-        long nowTime = System.currentTimeMillis();
+    public long getStartTimeMilis(int hours, int minutes, long currentTimeMilis, boolean tilWarEnd) {
         long miliSecondsElapsed = (((23 - hours) * 60) + (60 - minutes)) * 60000;
-        long warStart = nowTime - miliSecondsElapsed;
+        long warStart = currentTimeMilis - miliSecondsElapsed;
         if (tilWarEnd) {
             warStart -= 86400000; // Miliseconds in a day
         }
         return warStart;
     }
+
 
     @Override
     public void registerView(BasicWarInfoContract.View activity) {

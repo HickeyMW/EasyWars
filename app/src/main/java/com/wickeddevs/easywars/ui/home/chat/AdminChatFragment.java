@@ -10,10 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-
-import javax.inject.Inject;
-
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.adapters.ChatAdapter;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
@@ -21,10 +17,15 @@ import com.wickeddevs.easywars.dagger.Injector;
 import com.wickeddevs.easywars.data.model.Message;
 import com.wickeddevs.easywars.databinding.FragmentChatBinding;
 
+import java.util.ArrayList;
+
+import javax.inject.Inject;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListener> implements ChatContract.View {
+public class AdminChatFragment extends BasePresenterFragment<ChatContract.ViewListener> implements ChatContract.View {
+
 
     @Inject
     public ChatContract.ViewListener presenter;
@@ -32,6 +33,11 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
     private FragmentChatBinding binding;
     private ChatAdapter chatAdapter;
     private LinearLayoutManager linearLayoutManager;
+
+    public AdminChatFragment() {
+        // Required empty public constructor
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,7 +58,7 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
 
     @Override
     public boolean isAdminChat() {
-        return true;
+        return false;
     }
 
     @Override

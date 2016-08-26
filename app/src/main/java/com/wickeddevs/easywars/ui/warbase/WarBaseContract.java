@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.wickeddevs.easywars.base.PView;
 import com.wickeddevs.easywars.base.Presenter;
 import com.wickeddevs.easywars.data.model.war.Base;
+import com.wickeddevs.easywars.data.model.war.Claim;
 import com.wickeddevs.easywars.data.model.war.Comment;
 
 /**
@@ -27,6 +28,8 @@ public interface WarBaseContract {
         void addClaim(String claim);
 
         void addComment(Comment comment);
+
+        void removeClaim(String claim);
     }
 
     interface ViewListener extends Presenter<WarBaseContract.View> {

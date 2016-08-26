@@ -5,19 +5,22 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="wickeddevs.easywars.ui.home.war.WarPlannerFragment">
+        tools:context="wickeddevs.easywars.ui.home.war.WarPlannerFragment"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:id="@+id/layoutHeader"
-            android:visibility="invisible">
+            android:visibility="visible"
+            android:background="@color/material_grey_300"
+            android:translationZ="4dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="War vs SomeClan"
+                tools:text="War vs Enemy Clan"
                 android:id="@+id/tvTitle"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
@@ -26,18 +29,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time remaining: 24:00"
+                tools:text="Time remaining: 24:00"
                 android:id="@+id/tvTimeRemaining"
                 android:layout_below="@+id/tvTitle"
                 android:layout_centerHorizontal="true"
                 android:textSize="18sp" />
+
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_below="@+id/layoutHeader"
-            android:id="@+id/rvWarBases" />
+            android:id="@+id/rvWarBases"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,5 +62,15 @@
             android:layout_centerHorizontal="true"
             style="?attr/borderlessButtonStyle"
             android:visibility="invisible"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete War"
+            android:id="@+id/btnDeleteWar"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:visibility="invisible"/>
+
     </RelativeLayout>
 </layout>

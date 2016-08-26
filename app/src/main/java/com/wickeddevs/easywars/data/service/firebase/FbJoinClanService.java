@@ -98,7 +98,7 @@ public class FbJoinClanService implements JoinClanService {
                         while (snapshots.hasNext()) {
                             DataSnapshot ds = snapshots.next();
                             JoinRequest joinRequest = ds.getValue(JoinRequest.class);
-                            joinRequest.id = ds.getKey();
+                            joinRequest.uid = ds.getKey();
                             joinRequests.add(joinRequest);
                         }
                         callback.onLoaded(joinRequests);
@@ -118,16 +118,16 @@ public class FbJoinClanService implements JoinClanService {
         FbInfo.getJoinRequestsRef(new FbInfo.DbRefCallback() {
             @Override
             public void onLoaded(DatabaseReference dbRef) {
-                dbRef.child(joinRequest.id).removeValue();
+                dbRef.child(joinRequest.uid).removeValue();
                 FbInfo.getJoinDecisionsRef(new FbInfo.DbRefCallback() {
                     @Override
                     public void onLoaded(DatabaseReference dbRef) {
-                        dbRef.child(joinRequest.id).setValue(new JoinDecision(approved));
+                        dbRef.child(joinRequest.uid).setValue(new JoinDecision(approved));
                         if (approved) {
                             FbInfo.getClanMembersRef(new FbInfo.DbRefCallback() {
                                 @Override
                                 public void onLoaded(DatabaseReference dbRef) {
-                                    dbRef.child(joinRequest.id).setValue(new Member(joinRequest.name, false));
+                                    dbRef.child(joinRequest.uid).setValue(new Member(joinRequest.name, false));
                                 }
                             });
                         }

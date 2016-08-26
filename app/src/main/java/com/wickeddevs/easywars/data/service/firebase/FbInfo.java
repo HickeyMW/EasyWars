@@ -96,11 +96,24 @@ public enum FbInfo {
         return getDb().getReference("createRequests/" + getUid());
     }
 
-    public static void getChatRef(final DbRefCallback callback) {
+    public static DatabaseReference getVersionRef() {
+        return getDb().getReference("version/");
+    }
+
+    public static void getMemberChatRef(final DbRefCallback callback) {
         getClanTagNoHash(new ClanTagCallBack() {
             @Override
             public void onLoaded(String clanTag) {
-                callback.onLoaded(getDb().getReference("messages/" + clanTag));
+                callback.onLoaded(getDb().getReference("messages/" + clanTag + "/member"));
+            }
+        });
+    }
+
+    public static void getAdminChatRef(final DbRefCallback callback) {
+        getClanTagNoHash(new ClanTagCallBack() {
+            @Override
+            public void onLoaded(String clanTag) {
+                callback.onLoaded(getDb().getReference("messages/" + clanTag + "/admin"));
             }
         });
     }

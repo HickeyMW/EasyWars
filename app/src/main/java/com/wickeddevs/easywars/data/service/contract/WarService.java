@@ -1,6 +1,7 @@
 package com.wickeddevs.easywars.data.service.contract;
 
 import com.wickeddevs.easywars.data.model.war.Base;
+import com.wickeddevs.easywars.data.model.war.Comment;
 import com.wickeddevs.easywars.data.model.war.War;
 
 /**
@@ -12,15 +13,22 @@ public interface WarService {
         void onLoaded(War war);
     }
 
-    interface LoadBaseCallback {
+    interface LoadBaseListener {
         void onLoaded(Base base);
+        void newComment(Comment comment);
+        void newClaim(String claim);
+        void removeClaim(String claim);
     }
+
+    void setBaseListener(String warId, String baseId, LoadBaseListener listener);
+
+    void removeBaseListener();
 
     void getLatestWar(LoadWarCallback callback);
 
     void startWar(War war);
-    
-    void loadBase(String warId, String baseId, LoadBaseCallback callback);
+
+    void deleteWar();
 
     void claimBase(String warId, String baseId);
 

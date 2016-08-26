@@ -1,6 +1,8 @@
 package com.wickeddevs.easywars.adapters;
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,8 +50,9 @@ public class ClaimCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (position < claims.size()) {
             String claim = claims.get(position);
             ClaimViewHolder vHolder = (ClaimViewHolder) holder;
-            vHolder.name.setText(claim);
+            vHolder.name.setText("Claim " + String.valueOf(position + 1) + ": " + claim);
         } else {
+
             Comment comment = comments.get(position-claims.size());
             CommentViewHolder vHolder = (CommentViewHolder) holder;
             vHolder.name.setText(comment.name);
@@ -64,11 +67,25 @@ public class ClaimCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public void addClaim(String name) {
-
+        claims.add(name);
+        notifyItemInserted(claims.size() - 1);
     }
 
-    public void addComment(String name) {
+    public void removeClaim(String name) {
+        for (int i = 0; i < claims.size(); i++) {
+            if (claims.get(i).equals(name)) {
+                claims.remove(i);
+                notifyItemRemoved(i);
+                if (claims.size() > 0) {
+                    notifyItemRangeChanged(0, claims.size());
+                }
+            }
+        }
+    }
 
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        notifyItemInserted(claims.size() + comments.size() - 1);
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {

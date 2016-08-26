@@ -16,9 +16,15 @@ public interface ChatService {
         void newMessage(Message message);
     }
 
-    void setMessageListener(MessageListener listener);
+    void setMemberMessageListener(MessageListener listener);
 
-    void removeMessageListener();
+    void removeMemberMessageListener();
 
-    void sendMessage(String body);
+    void sendMemberMessage(String body);
+
+    void setAdminMessageListener(MessageListener listener);
+
+    void removeAdminMessageListener();
+
+    void sendAdminMessage(String body);
 }

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:translationZ="6dp"
-            android:background="@color/colorPopup">
+            android:background="@color/popup">
 
             <TextView
                 android:layout_width="wrap_content"

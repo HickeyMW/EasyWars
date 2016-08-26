@@ -20,6 +20,7 @@ public class ChatPresenter implements ChatContract.ViewListener, ChatService.Mes
     private ChatContract.View view;
     private ChatService chatService;
     private ClanService clanService;
+    private boolean isAdminChat;
 
     public ChatPresenter(ChatService chatService, ClanService clanService) {
         this.chatService = chatService;
@@ -33,18 +34,31 @@ public class ChatPresenter implements ChatContract.ViewListener, ChatService.Mes
 
     @Override
     public void onAttach() {
-        chatService.setMessageListener(this);
+        isAdminChat = view.isAdminChat();
+        if (isAdminChat) {
+            chatService.setMemberMessageListener(this);
+        } else {
+            chatService.setAdminMessageListener(this);
+        }
     }
 
     @Override
     public void onDetach() {
-        chatService.removeMessageListener();
+        if (isAdminChat) {
+            chatService.removeMemberMessageListener();
+        } else {
+            chatService.removeAdminMessageListener();
+        }
     }
 
 
     @Override
     public void sendMessage(String message) {
-        chatService.sendMessage(message);
+        if (isAdminChat) {
+            chatService.sendMemberMessage(message);
+        } else {
+            chatService.sendAdminMessage(message);
+        }
         view.clearSendText();
     }
 

@@ -24,9 +24,11 @@ import com.wickeddevs.easywars.dagger.Injector;
 import com.wickeddevs.easywars.data.model.Member;
 import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.ui.TestingActivity;
+import com.wickeddevs.easywars.ui.home.chat.AdminChatFragment;
 import com.wickeddevs.easywars.ui.home.chat.ChatFragment;
 import com.wickeddevs.easywars.ui.home.war.WarPlannerFragment;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
+import com.wickeddevs.easywars.ui.loadingsplash.LoadingSplashActivity;
 import com.wickeddevs.easywars.ui.noclan.NoClanActivity;
 
 public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListener> implements
@@ -35,6 +37,7 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
     final static String TAG = "HomeActivity";
     static final String EXTRA_IS_ADMIN  = "extraIsAdmin";
     private ArrayList<MenuItem> adminItems = new ArrayList<>();
+    private DrawerLayout drawer;
 
     @Inject
     public HomeContract.ViewListener presenter;
@@ -46,17 +49,19 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         adminItems.add(navigationView.getMenu().findItem(R.id.nav_join_requests));
         adminItems.add(navigationView.getMenu().findItem(R.id.nav_admin_chat));
         setTitle("Chat");
+        navigationView.getMenu().findItem(R.id.nav_chat).setChecked(true);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new ChatFragment()).commit();
     }
 
@@ -79,6 +84,9 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
         if (id == R.id.nav_chat) {
             setTitle("Chat");
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new ChatFragment()).commit();
+        } if (id == R.id.nav_admin_chat) {
+            setTitle("Admin Chat");
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new AdminChatFragment()).commit();
         } else if (id == R.id.nav_war_planner) {
             setTitle("War Planner");
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new WarPlannerFragment()).commit();
@@ -89,6 +97,8 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
             Intent i = new Intent(this, TestingActivity.class);
             startActivity(i);
             finish();
+        } else if (id == R.id.nav_logout) {
+            presenter.pressedLogout();
         } else {
             Log.i(TAG, "We don't navigate anywhere else");
         }
@@ -108,6 +118,7 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
 
     @Override
     public void displayUi(Member member, ApiClan apiClan) {
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         TextView headerName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvHeaderName);
         TextView headerClan = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvHeaderClan);
@@ -126,6 +137,13 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
     @Override
     public void navigateToNoClanUi() {
         Intent i = new Intent(this, NoClanActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
+    public void navigateToLoadingSplash() {
+        Intent i = new Intent(this, LoadingSplashActivity.class);
         startActivity(i);
         finish();
     }

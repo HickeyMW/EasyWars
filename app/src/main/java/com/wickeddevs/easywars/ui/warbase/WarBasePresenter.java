@@ -54,7 +54,7 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
     public void onAttach() {
         warId = view.getWarId();
         baseId = view.getBaseId();
-        warService.loadBase(warId, baseId, new WarService.LoadBaseCallback() {
+        warService.setBaseListener(warId, baseId, new WarService.LoadBaseListener() {
             @Override
             public void onLoaded(final Base base) {
                 didClaim = base.didClaim;
@@ -76,13 +76,44 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
                         view.displayBase(base);
                     }
                 });
+            }
 
+            @Override
+            public void newComment(final Comment comment) {
+                clanService.getClan(new ClanService.LoadClanCallback() {
+                    @Override
+                    public void onClanLoaded(Clan clan) {
+                        comment.dateTime = General.formatDateTime(comment.timestamp);
+                        comment.name = clan.members.get(comment.uid).name;
+                        view.addComment(comment);
+                    }
+                });
+            }
+
+            @Override
+            public void newClaim(final String claim) {
+                clanService.getClan(new ClanService.LoadClanCallback() {
+                    @Override
+                    public void onClanLoaded(Clan clan) {
+                        view.addClaim(clan.members.get(claim).name);
+                    }
+                });
+            }
+
+            @Override
+            public void removeClaim(final String claim) {
+                clanService.getClan(new ClanService.LoadClanCallback() {
+                    @Override
+                    public void onClanLoaded(Clan clan) {
+                        view.removeClaim(clan.members.get(claim).name);
+                    }
+                });
             }
         });
     }
 
     @Override
     public void onDetach() {
-
+        warService.removeBaseListener();
     }
 }

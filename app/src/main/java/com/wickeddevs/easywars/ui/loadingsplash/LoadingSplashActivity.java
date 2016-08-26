@@ -1,8 +1,10 @@
 package com.wickeddevs.easywars.ui.loadingsplash;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -45,6 +47,39 @@ public class LoadingSplashActivity extends BasePresenterActivity<LoadingSplashCo
                 presenter.returnedFromLogin(false);
             }
         }
+    }
+
+    @Override
+    public void displayBehindMajorVersion() {
+        new AlertDialog.Builder(this)
+                .setTitle("Old Version")
+                .setMessage("This version is incompatible with the changes in the new version. Please download the new version to continues using this app")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        presenter.pressedOkMajor();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    @Override
+    public void displayBehindMinorVersion() {
+        new AlertDialog.Builder(this)
+                .setTitle("Old Version")
+                .setMessage("This version is compatible with the new changes but to get the latest features and fixes download the new version")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        presenter.pressedOkMinor();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    @Override
+    public void closeApp() {
+        finish();
     }
 
     @Override

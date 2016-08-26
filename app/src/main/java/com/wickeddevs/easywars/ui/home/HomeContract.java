@@ -14,10 +14,13 @@ public interface HomeContract {
 
         void navigateToNoClanUi();
 
+        void navigateToLoadingSplash();
+
         void displayUi(Member member, ApiClan apiClan);
     }
 
     interface ViewListener extends Presenter<HomeContract.View> {
 
+        void pressedLogout();
     }
 }

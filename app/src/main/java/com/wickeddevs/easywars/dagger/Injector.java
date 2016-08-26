@@ -5,6 +5,7 @@ import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.dagger.component.ServiceComponent;
 import com.wickeddevs.easywars.dagger.component.ViewInjectorComponent;
 import com.wickeddevs.easywars.ui.home.HomeActivity;
+import com.wickeddevs.easywars.ui.home.chat.AdminChatFragment;
 import com.wickeddevs.easywars.ui.home.chat.ChatFragment;
 import com.wickeddevs.easywars.ui.home.war.WarPlannerFragment;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
@@ -33,6 +34,10 @@ public enum Injector {
 
     public void inject(ChatFragment chatFragment) {
         getViewInjectorComponent().inject(chatFragment);
+    }
+
+    public void inject(AdminChatFragment adminChatFragment) {
+        getViewInjectorComponent().inject(adminChatFragment);
     }
 
     public void inject(SearchClansActivity searchClansActivity) {

@@ -130,9 +130,11 @@ public class WarOrderFragment extends BasePresenterFragment<WarOrderContract.Vie
         clanMembersAdapter = new ClanMembersAdapter(apiClan.getMemberNames(), new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                position = binding.rvEnemyNames.getChildLayoutPosition(view);
-                binding.rvThLevels.setVisibility(View.VISIBLE);
-                binding.rvEnemyNames.setVisibility(View.INVISIBLE);
+                if (remaining > 0) {
+                    position = binding.rvEnemyNames.getChildLayoutPosition(view);
+                    binding.rvThLevels.setVisibility(View.VISIBLE);
+                    binding.rvEnemyNames.setVisibility(View.INVISIBLE);
+                }
             }
         });
         binding.rvEnemyNames.setAdapter(clanMembersAdapter);

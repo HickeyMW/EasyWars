@@ -8,6 +8,7 @@ import com.wickeddevs.easywars.data.service.contract.ClanService;
 import com.wickeddevs.easywars.data.service.contract.CreateClanService;
 import com.wickeddevs.easywars.data.service.contract.JoinClanService;
 import com.wickeddevs.easywars.data.service.contract.UserService;
+import com.wickeddevs.easywars.data.service.contract.VersionService;
 import com.wickeddevs.easywars.data.service.contract.WarService;
 
 /**
@@ -29,4 +30,6 @@ public interface ServiceComponent {
     JoinClanService providesJoinClanService();
 
     WarService providesWarService();
+
+    VersionService providesVersionService();
 }

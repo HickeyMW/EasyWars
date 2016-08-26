@@ -1,0 +1,45 @@
+TODO
+0: 
+
+loading circle for pictures
+make recycler view items stand out not different color background (members fo sho) - join requests, name selection
+Loading and title on each screen
+Loading per mvp contract basis
+progressbar on need to have basis/ out of MVP interface
+take out display message
+standardize click animation on recycler views
+
+Issues screen: Upvotes, comments - tab view: suggestions, bugs, general chat
+
+1:
+get stuck if removed from clan (can’t happen yet) and user’s state doesn’t update, check for read denied
+Switch claims to objects
+War vs Enemy Clan on top of recycler view
+? creating account -> doesn’t navigate to right page ?
+Make fbservices parse datasnapshots in seperate methods
+Make FbServices use “this” as valueeventlistener so we can cancel loads
+icon on navdrawer gets out of frame/big
+
+2:
+using current time in miles in comments for war bases instead of server value
+don’t allow to pick usernames not taken in clan
+don’t allow to create same clan/join clan when access to description
+When going to intent activity if value isn’t there throw
+put variable for all fields in api clan
+make wrapper for value event listener that times out, null check, cast?
+? make changing ids to names available to all FbServices (inside of FbInfo) ?
+make a class that loads initial and ignores the reloads
+combine shared methods class’s
+customized login
+interfaces to button in Service Contracts
+sideways orientation
+
+Project wide:
+Add Tag
+remove m’s from variables
+Put placeholder text in layouts
+views are referenced as view in the presenters
+make sure code lines don’t go past line (too long)
+remove extra imports
+make a utility thing that generates random objects for test?
+redo the way dagger is injecting

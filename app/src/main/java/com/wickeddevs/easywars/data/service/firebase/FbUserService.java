@@ -19,6 +19,11 @@ public class FbUserService implements UserService {
     }
 
     @Override
+    public void logout() {
+        FirebaseAuth.getInstance().signOut();
+    }
+
+    @Override
     public void getUser(final LoadUserCallback callback) {
         FbInfo.getUserRef().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

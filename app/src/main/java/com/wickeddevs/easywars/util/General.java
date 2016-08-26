@@ -10,7 +10,7 @@ import java.util.Locale;
 public class General {
 
     public static void formatWarTime(long startTime, FormatWarTimeCallback callback) {
-        long elapsedTime = Calendar.getInstance().getTimeInMillis() - startTime;
+        long elapsedTime = System.currentTimeMillis() - startTime;
 
         long hours = elapsedTime / 3600000;
         if (hours <= 47) {

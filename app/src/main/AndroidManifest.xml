@@ -39,7 +39,8 @@
         <activity
             android:name="com.wickeddevs.easywars.ui.noclan.join.JoinClanActivity"
             android:label="Join Clan"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name="com.wickeddevs.easywars.ui.noclan.verifyjoin.VerifyJoinClanActivity"
             android:label="Awaiting Approval"
@@ -50,16 +51,19 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name="com.wickeddevs.easywars.ui.TestingActivity"
-            android:label="Testing">
-        </activity>
+            android:label="Testing"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity"
-            android:label="Join Requests">
-        </activity>
-        <activity android:name="com.wickeddevs.easywars.ui.startwar.StartWarActivity">
-        </activity>
-        <activity android:name="com.wickeddevs.easywars.ui.warbase.WarBaseActivity">
-        </activity>
+            android:label="Join Requests"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.wickeddevs.easywars.ui.startwar.StartWarActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.wickeddevs.easywars.ui.warbase.WarBaseActivity"
+            android:label="Enemy Base"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

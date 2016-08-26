@@ -18,6 +18,8 @@ public interface ChatContract {
         void addMessage(Message message);
 
         void clearSendText();
+
+        boolean isAdminChat();
     }
 
     interface ViewListener extends Presenter<ChatContract.View> {

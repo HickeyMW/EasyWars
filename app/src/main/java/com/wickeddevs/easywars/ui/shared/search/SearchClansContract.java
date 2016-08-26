@@ -13,7 +13,11 @@ public interface SearchClansContract {
 
     interface View extends PView {
 
+        void setScreenTitle(String title);
+
         void displaySearchResult(ArrayList<ApiClan> apiClans);
+
+        void displayQueryTooShort();
 
         void navigateToCreateClanUi(String clanTag);
 

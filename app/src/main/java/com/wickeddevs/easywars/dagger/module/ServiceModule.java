@@ -8,6 +8,7 @@ import com.wickeddevs.easywars.data.service.contract.ClanService;
 import com.wickeddevs.easywars.data.service.contract.CreateClanService;
 import com.wickeddevs.easywars.data.service.contract.JoinClanService;
 import com.wickeddevs.easywars.data.service.contract.UserService;
+import com.wickeddevs.easywars.data.service.contract.VersionService;
 import com.wickeddevs.easywars.data.service.contract.WarService;
 import com.wickeddevs.easywars.data.service.firebase.FbApiService;
 import com.wickeddevs.easywars.data.service.firebase.FbChatService;
@@ -15,6 +16,7 @@ import com.wickeddevs.easywars.data.service.firebase.FbClanService;
 import com.wickeddevs.easywars.data.service.firebase.FbCreateClanService;
 import com.wickeddevs.easywars.data.service.firebase.FbJoinClanService;
 import com.wickeddevs.easywars.data.service.firebase.FbUserService;
+import com.wickeddevs.easywars.data.service.firebase.FbVersionService;
 import com.wickeddevs.easywars.data.service.firebase.FbWarService;
 
 /**
@@ -56,6 +58,11 @@ public class ServiceModule {
     @Provides
     WarService providesWarService() {
         return new FbWarService();
+    }
+
+    @Provides
+    VersionService providesVersionService() {
+        return new FbVersionService();
     }
 
 

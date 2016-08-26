@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
+import com.wickeddevs.easywars.adapters.SpaceItemDecoration;
 import com.wickeddevs.easywars.adapters.WarBasesAdapter;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
 import com.wickeddevs.easywars.dagger.Injector;
@@ -49,6 +50,14 @@ public class WarPlannerFragment extends BasePresenterFragment<WarPlannerContract
                 startActivity(i);
             }
         });
+        binding.btnDeleteWar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.pressedDeleteWar();
+            }
+        });
+        binding.rvWarBases.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvWarBases.addItemDecoration(new SpaceItemDecoration());
         return binding.getRoot();
     }
 
@@ -61,11 +70,17 @@ public class WarPlannerFragment extends BasePresenterFragment<WarPlannerContract
     }
 
     @Override
-    public void displayWar(final War war) {
+    public void displayWar(final War war, boolean isAdmin) {
+        binding.btnNewWar.setVisibility(View.INVISIBLE);
+        binding.tvNoWar.setText("");
+
+        if (isAdmin) {
+            binding.btnDeleteWar.setVisibility(View.VISIBLE);
+        }
         binding.layoutHeader.setVisibility(View.VISIBLE);
         binding.tvTitle.setText("War against " + war.enemyName);
         binding.tvTimeRemaining.setText(String.valueOf(formattedTimeRemainging(war.startTime)));
-        binding.rvWarBases.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvWarBases.setVisibility(View.VISIBLE);
         binding.rvWarBases.setAdapter(new WarBasesAdapter(war.bases, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,6 +92,9 @@ public class WarPlannerFragment extends BasePresenterFragment<WarPlannerContract
 
     @Override
     public void displayNoCurrentWar(boolean isAdmin) {
+        binding.layoutHeader.setVisibility(View.INVISIBLE);
+        binding.rvWarBases.setVisibility(View.INVISIBLE);
+        binding.btnDeleteWar.setVisibility(View.INVISIBLE);
         if (isAdmin) {
             binding.tvNoWar.setText("There is no war going on right now. Press the button below to start one");
             binding.btnNewWar.setVisibility(View.VISIBLE);
@@ -98,7 +116,16 @@ public class WarPlannerFragment extends BasePresenterFragment<WarPlannerContract
         long hours = elapsedTime / 3600000;
         long remainingHours = 23 - hours;
         long remainingMinutes = 60 - ((elapsedTime - (hours * 3600000)) / 60000);
-        timeUntil += remainingHours + ":" + remainingMinutes;
+        if (remainingHours < 0) {
+            timeUntil +=  "0:00";
+        } else if (remainingMinutes == 60) {
+            timeUntil += (remainingHours + 1) + ":00";
+        } else if (remainingMinutes < 10) {
+            timeUntil += remainingHours + ":0" + remainingMinutes;
+        } else {
+            timeUntil += remainingHours+ ":" + remainingMinutes;
+        }
+
         return timeUntil;
     }
 

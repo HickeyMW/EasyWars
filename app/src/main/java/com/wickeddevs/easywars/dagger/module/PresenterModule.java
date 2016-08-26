@@ -9,6 +9,7 @@ import com.wickeddevs.easywars.data.service.contract.ClanService;
 import com.wickeddevs.easywars.data.service.contract.CreateClanService;
 import com.wickeddevs.easywars.data.service.contract.JoinClanService;
 import com.wickeddevs.easywars.data.service.contract.UserService;
+import com.wickeddevs.easywars.data.service.contract.VersionService;
 import com.wickeddevs.easywars.data.service.contract.WarService;
 import com.wickeddevs.easywars.ui.home.HomeContract;
 import com.wickeddevs.easywars.ui.home.HomePresenter;
@@ -45,8 +46,8 @@ public class PresenterModule {
 
     @Provides
     @ActivityScope
-    LoadingSplashContract.ViewListener providesLoadingSplashPresenter(UserService userService) {
-        return new LoadingSplashPresenter(userService);
+    LoadingSplashContract.ViewListener providesLoadingSplashPresenter(UserService userService, VersionService versionService) {
+        return new LoadingSplashPresenter(userService, versionService);
     }
 
     @Provides

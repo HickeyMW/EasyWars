@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Binder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -48,6 +49,8 @@ public class BasicWarInfoFragment extends BasePresenterFragment<BasicWarInfoCont
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_basic_war_info, container, false);
+        binding.rbWarStart.setOnCheckedChangeListener(this);
+        binding.rbWarEnd.setOnCheckedChangeListener(this);
         binding.btnDecrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,7 +134,9 @@ public class BasicWarInfoFragment extends BasePresenterFragment<BasicWarInfoCont
             @Override
             public void onClick(View view) {
                 int warsize = Integer.valueOf(binding.tvWarSize.getText().toString());
-                long startTime = presenter.getStartTimeMilis(System.currentTimeMillis(), binding.rbWarEnd.isChecked());
+                int hours = binding.tvHours.getText().toString().isEmpty() ? 0 :Integer.valueOf(binding.tvHours.getText().toString());
+                int minutes = binding.tvHours.getText().toString().isEmpty() ? 0 :Integer.valueOf(binding.tvMinutes.getText().toString());
+                long startTime = presenter.getStartTimeMilis(hours, minutes, System.currentTimeMillis(), binding.rbWarEnd.isChecked());
                 listener.startWarInfo(warsize, startTime, clanName, clanTag);
             }
         });

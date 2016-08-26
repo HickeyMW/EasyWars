@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.view.MenuItemCompat;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -35,6 +38,7 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
     public SearchClansContract.ViewListener presenter;
     private ActivitySearchClansBinding binding;
     private MenuItem searchItem;
+
     private View.OnClickListener onClickListener;
 
     @Override
@@ -58,6 +62,8 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
             getMenuInflater().inflate(R.menu.search, menu);
             searchItem = menu.findItem(R.id.action_search);
             final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            searchView.setIconified(false);
+            searchView.setMaxWidth(Integer.MAX_VALUE);
             searchView.setQueryHint("Search for a clan");
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
@@ -95,6 +101,16 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
                 finish();
             }
         }
+    }
+
+    @Override
+    public void displayQueryTooShort() {
+        Toast.makeText(this, "Searches must be at least three characters long", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setScreenTitle(String title) {
+        setTitle(title);
     }
 
     @Override

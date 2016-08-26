@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.adapters.ClaimCommentAdapter;
+import com.wickeddevs.easywars.adapters.SpaceItemDecoration;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.Injector;
 import com.wickeddevs.easywars.data.model.war.Base;
@@ -25,6 +26,8 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
 
     public final static String EXTRA_WAR_ID = "EXTRA_WAR_ID";
     public final static String EXTRA_BASE_ID = "EXTRA_BASE_ID";
+
+    private ClaimCommentAdapter claimCommentAdapter;
 
     @Inject
     public WarBaseContract.ViewListener presenter;
@@ -49,6 +52,7 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
                 binding.etComment.setText("");
             }
         });
+        binding.rvClaimsComments.addItemDecoration(new SpaceItemDecoration());
     }
 
     @Override
@@ -79,7 +83,8 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
         binding.tvName.setText(base.name);
         binding.ivTownHall.setImageResource(Shared.getThResource(base.townHallLevel));
         binding.rvClaimsComments.setLayoutManager(new LinearLayoutManager(this));
-        binding.rvClaimsComments.setAdapter(new ClaimCommentAdapter(base.claims, base.comments));
+        claimCommentAdapter = new ClaimCommentAdapter(base.claims, base.comments);
+        binding.rvClaimsComments.setAdapter(claimCommentAdapter);
     }
 
     @Override
@@ -89,12 +94,17 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
 
     @Override
     public void addClaim(String claim) {
-
+        claimCommentAdapter.addClaim(claim);
     }
 
     @Override
     public void addComment(Comment comment) {
+        claimCommentAdapter.addComment(comment);
+    }
 
+    @Override
+    public void removeClaim(String claim) {
+        claimCommentAdapter.removeClaim(claim);
     }
 
     @Override

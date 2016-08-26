@@ -10,6 +10,12 @@ public interface LoadingSplashContract {
 
     interface View extends PView {
 
+        void displayBehindMajorVersion();
+
+        void displayBehindMinorVersion();
+
+        void closeApp();
+
         void navigateToLoginUi();
 
         void navigateToHomeUi();
@@ -24,5 +30,9 @@ public interface LoadingSplashContract {
     interface ViewListener extends Presenter<LoadingSplashContract.View> {
 
         void returnedFromLogin(boolean successful);
+
+        void pressedOkMajor();
+
+        void pressedOkMinor();
     }
 }

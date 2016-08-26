@@ -82,7 +82,7 @@ public class ChatPresenterTest {
     @Test
     public void startListeningForMessages_loadsInitialMessages() {
         presenter.onAttach();
-        verify(chatService).setMessageListener(mMessageListenerArgumentCaptor.capture());
+        verify(chatService).setMemberMessageListener(mMessageListenerArgumentCaptor.capture());
         mMessageListenerArgumentCaptor.getValue().initialMessages(messages);
         verify(clanService).getClan(mLoadClanCallbackArgumentCaptor.capture());
         mLoadClanCallbackArgumentCaptor.getValue().onClanLoaded(clan);
@@ -92,7 +92,7 @@ public class ChatPresenterTest {
     @Test
     public void newMessageFromService_messageSentToView() {
         presenter.onAttach();
-        verify(chatService).setMessageListener(mMessageListenerArgumentCaptor.capture());
+        verify(chatService).setMemberMessageListener(mMessageListenerArgumentCaptor.capture());
         Message message = messages.get(1);
         mMessageListenerArgumentCaptor.getValue().newMessage(message);
         verify(clanService).getMember(eq(message.uid), mLoadMemberCallbackArgumentCaptor.capture());
@@ -104,7 +104,7 @@ public class ChatPresenterTest {
     public void sendMessage_isSent() {
         String body = "This is the text of a test message";
         presenter.sendMessage(body);
-        verify(chatService).sendMessage(mMessageBodyArgumentCaptor.capture());
+        verify(chatService).sendMemberMessage(mMessageBodyArgumentCaptor.capture());
         verify(view).clearSendText();
         assertEquals(mMessageBodyArgumentCaptor.getValue(), body);
     }
@@ -112,7 +112,7 @@ public class ChatPresenterTest {
     @Test
     public void stopListeningForMessages() {
         presenter.onDetach();
-        verify(chatService).removeMessageListener();
+        verify(chatService).removeMemberMessageListener();
     }
 
 }
