@@ -107,16 +107,6 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
         claimCommentAdapter.removeClaim(claim);
     }
 
-    @Override
-    public void toggleProgressBar(boolean loading) {
-
-    }
-
-    @Override
-    public void displayMessage(String message) {
-
-    }
-
     public static Intent createIntent(Context context, String warId, String baseId) {
         Intent i = new Intent(context, WarBaseActivity.class);
         i.putExtra(EXTRA_WAR_ID, warId);

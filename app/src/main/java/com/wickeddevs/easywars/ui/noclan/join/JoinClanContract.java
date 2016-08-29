@@ -18,6 +18,8 @@ public interface JoinClanContract {
         void displayClanInfo(ApiClan apiClan);
 
         void navigateToVerifyJoinClanUi();
+
+        void toggleLoading(boolean loading);
     }
 
     interface ViewListener extends Presenter<JoinClanContract.View> {

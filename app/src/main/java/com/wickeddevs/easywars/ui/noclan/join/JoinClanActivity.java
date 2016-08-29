@@ -85,17 +85,12 @@ public class JoinClanActivity extends BasePresenterActivity<JoinClanContract.Vie
     }
 
     @Override
-    public void toggleProgressBar(boolean loading) {
+    public void toggleLoading(boolean loading) {
         if (loading) {
             binding.progressBar.setVisibility(View.VISIBLE);
         } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
-    }
-
-    @Override
-    public void displayMessage(String message) {
-
     }
 
     public static Intent createIntent(Context context, String clanTag) {

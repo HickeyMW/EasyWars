@@ -32,12 +32,12 @@ public class SearchClansPresenter implements SearchClansContract.ViewListener {
     public void onAttach() {
         if (view.getStartedBy() == SearchClansActivity.STARTED_FOR_JOIN) {
             view.setScreenTitle("Joinable Clans");
-            view.toggleProgressBar(true);
+            view.toggleLoading(true);
             view.clearDisplayedClans();
             apiService.getJoinableClans(new ApiService.LoadApiClanCallback() {
                 @Override
                 public void onApiClanLoaded(ApiClan apiClan) {
-                    view.toggleProgressBar(false);
+                    view.toggleLoading(false);
                     view.addClan(apiClan);
                 }
             });
@@ -54,11 +54,11 @@ public class SearchClansPresenter implements SearchClansContract.ViewListener {
         if (query.length() < 3) {
             view.displayQueryTooShort();
         } else {
-            view.toggleProgressBar(true);
+            view.toggleLoading(true);
             apiService.searchClans(query, new ApiService.SearchApiClansCallback() {
                 @Override
                 public void onApiClansLoaded(ArrayList<ApiClan> apiClans) {
-                    view.toggleProgressBar(false);
+                    view.toggleLoading(false);
                     view.displaySearchResult(apiClans);
                 }
             });

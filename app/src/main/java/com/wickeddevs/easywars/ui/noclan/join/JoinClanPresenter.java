@@ -35,11 +35,11 @@ public class JoinClanPresenter implements JoinClanContract.ViewListener {
     public void onAttach() {
         String clanTag = view.getClanTag();
         if (clanTag != null) {
-            view.toggleProgressBar(true);
+            view.toggleLoading(true);
             apiService.getApiClan(clanTag, new ApiService.LoadApiClanCallback() {
                 @Override
                 public void onApiClanLoaded(ApiClan apiClan) {
-                    view.toggleProgressBar(false);
+                    view.toggleLoading(false);
                     JoinClanPresenter.this.apiClan = apiClan;
                     view.displayClanInfo(apiClan);
                 }

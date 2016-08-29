@@ -9,7 +9,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +20,9 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.Injector;
@@ -123,9 +128,21 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
         TextView headerName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvHeaderName);
         TextView headerClan = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvHeaderClan);
         ImageView headerImage = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.ivHeaderImage);
+        final ProgressBar progressBar = (ProgressBar) navigationView.getHeaderView(0).findViewById(R.id.headerProgressBar);
         headerName.setText(member.name);
         headerClan.setText(apiClan.name);
-        Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().into(headerImage);
+        Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().listener(new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                progressBar.setVisibility(View.INVISIBLE);
+                return false;
+            }
+        }).into(headerImage);
 
         if (member.admin) {
             for (MenuItem menuItem : adminItems) {
@@ -146,15 +163,5 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
         Intent i = new Intent(this, LoadingSplashActivity.class);
         startActivity(i);
         finish();
-    }
-
-    @Override
-    public void toggleProgressBar(boolean loading) {
-
-    }
-
-    @Override
-    public void displayMessage(String message) {
-
     }
 }

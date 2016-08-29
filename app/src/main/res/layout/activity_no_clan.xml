@@ -48,6 +48,12 @@
                     android:text="Join Clan"
                     android:id="@+id/btnJoin"
                     style="?attr/borderlessButtonStyle"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="logout"
+                    android:id="@+id/btnLogout"/>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

@@ -30,6 +30,8 @@ public interface SearchClansContract {
         void addClan(ApiClan apiClan);
 
         int getStartedBy();
+
+        void toggleLoading(boolean loading);
     }
 
     interface ViewListener extends Presenter<SearchClansContract.View> {

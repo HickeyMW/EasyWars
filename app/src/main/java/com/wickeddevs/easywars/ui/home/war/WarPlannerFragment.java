@@ -128,14 +128,4 @@ public class WarPlannerFragment extends BasePresenterFragment<WarPlannerContract
 
         return timeUntil;
     }
-
-    @Override
-    public void toggleProgressBar(boolean loading) {
-
-    }
-
-    @Override
-    public void displayMessage(String message) {
-
-    }
 }

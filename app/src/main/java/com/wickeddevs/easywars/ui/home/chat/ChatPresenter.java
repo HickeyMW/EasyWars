@@ -36,18 +36,18 @@ public class ChatPresenter implements ChatContract.ViewListener, ChatService.Mes
     public void onAttach() {
         isAdminChat = view.isAdminChat();
         if (isAdminChat) {
-            chatService.setMemberMessageListener(this);
-        } else {
             chatService.setAdminMessageListener(this);
+        } else {
+            chatService.setMemberMessageListener(this);
         }
     }
 
     @Override
     public void onDetach() {
         if (isAdminChat) {
-            chatService.removeMemberMessageListener();
-        } else {
             chatService.removeAdminMessageListener();
+        } else {
+            chatService.removeMemberMessageListener();
         }
     }
 
@@ -55,9 +55,9 @@ public class ChatPresenter implements ChatContract.ViewListener, ChatService.Mes
     @Override
     public void sendMessage(String message) {
         if (isAdminChat) {
-            chatService.sendMemberMessage(message);
-        } else {
             chatService.sendAdminMessage(message);
+        } else {
+            chatService.sendMemberMessage(message);
         }
         view.clearSendText();
     }

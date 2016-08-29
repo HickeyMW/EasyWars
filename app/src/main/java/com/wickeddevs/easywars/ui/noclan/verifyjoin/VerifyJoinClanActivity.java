@@ -9,6 +9,9 @@ import com.bumptech.glide.Glide;
 
 import javax.inject.Inject;
 
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.Injector;
@@ -35,7 +38,18 @@ public class VerifyJoinClanActivity extends BasePresenterActivity<VerifyJoinClan
         binding.tvClanName.setText(apiClan.name);
         binding.tvTag.setText(apiClan.tag);
         binding.layoutMain.setVisibility(View.VISIBLE);
-        Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().into(binding.ivBadge);
+        Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().listener(new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                binding.progressBarBadge.setVisibility(View.INVISIBLE);
+                return false;
+            }
+        }).into(binding.ivBadge);
         binding.btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,16 +87,11 @@ public class VerifyJoinClanActivity extends BasePresenterActivity<VerifyJoinClan
     }
 
     @Override
-    public void toggleProgressBar(boolean loading) {
+    public void toggleLoading(boolean loading) {
         if (loading) {
             binding.progressBar.setVisibility(View.VISIBLE);
         } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
-    }
-
-    @Override
-    public void displayMessage(String message) {
-
     }
 }

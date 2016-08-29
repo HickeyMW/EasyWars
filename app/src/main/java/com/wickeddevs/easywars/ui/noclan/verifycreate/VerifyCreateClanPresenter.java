@@ -29,14 +29,14 @@ public class VerifyCreateClanPresenter implements VerifyCreateClanContract.ViewL
 
     @Override
     public void onAttach() {
-        view.toggleProgressBar(true);
+        view.toggleLoading(true);
         createClanService.getCreateRequest(new CreateClanService.CreateRequestCallback() {
             @Override
             public void onCreateRequestLoaded(final CreateRequest createRequest) {
                 apiService.getApiClan(createRequest.tag, new ApiService.LoadApiClanCallback() {
                     @Override
                     public void onApiClanLoaded(ApiClan apiClan) {
-                        view.toggleProgressBar(false);
+                        view.toggleLoading(false);
                         view.displayCreateRequestDetails(createRequest, apiClan);
                     }
                 });

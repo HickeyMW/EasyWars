@@ -36,7 +36,7 @@ public class ClanMembersAdapter extends RecyclerView.Adapter<ClanMembersAdapter.
     @Override
     public void onBindViewHolder(ClanMemberViewHolder holder, int position) {
 
-        holder.mName.setText(members.get(position));
+        holder.name.setText(members.get(position));
     }
 
     @Override
@@ -65,11 +65,11 @@ public class ClanMembersAdapter extends RecyclerView.Adapter<ClanMembersAdapter.
     }
 
     public static class ClanMemberViewHolder extends RecyclerView.ViewHolder {
-        TextView mName;
+        TextView name;
 
         ClanMemberViewHolder(View itemView) {
             super(itemView);
-            mName = (TextView) itemView.findViewById(R.id.tvItemMemberName);
+            name = (TextView) itemView.findViewById(R.id.tvItemMemberName);
         }
     }
 }

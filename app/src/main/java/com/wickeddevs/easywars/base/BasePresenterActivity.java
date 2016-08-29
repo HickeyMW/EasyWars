@@ -29,5 +29,14 @@ public abstract class BasePresenterActivity<T extends Presenter> extends AppComp
         getPresenter().onDetach();
     }
 
+    @Override
+    public void displayMessage(String message) {
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
     protected abstract T getPresenter();
 }

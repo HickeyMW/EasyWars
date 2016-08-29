@@ -31,7 +31,7 @@
             android:layout_toRightOf="@+id/ivEnemyBadge"
             android:layout_toEndOf="@+id/ivEnemyBadge"
             android:textSize="20sp"
-            android:text="Clan name"
+            tools:text="Clan name"
             android:layout_marginBottom="8dp" />
 
         <TextView
@@ -43,7 +43,7 @@
             android:layout_alignParentBottom="false"
             android:textSize="18sp"
             android:layout_below="@+id/tvEnemyName"
-            android:text="Clan Tag" />
+            tools:text="Clan Tag" />
     </RelativeLayout>
 
     <RelativeLayout

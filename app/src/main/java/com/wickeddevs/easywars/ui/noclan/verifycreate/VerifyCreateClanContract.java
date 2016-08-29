@@ -17,6 +17,8 @@ public interface VerifyCreateClanContract {
         void navigateToHomeUi();
 
         void navigateToNoClanUi();
+
+        void toggleLoading(boolean loading);
     }
 
     interface ViewListener extends Presenter<VerifyCreateClanContract.View> {

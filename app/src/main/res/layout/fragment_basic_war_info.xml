@@ -164,6 +164,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvOpponentName"
+                tools:text="Enemy Name"
                 android:layout_alignParentTop="false"
                 android:layout_toLeftOf="@+id/ivBadge"
                 android:layout_toStartOf="@+id/ivBadge"

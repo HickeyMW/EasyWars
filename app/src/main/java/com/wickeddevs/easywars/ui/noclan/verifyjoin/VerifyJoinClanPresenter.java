@@ -62,37 +62,18 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
     }
 
     private void loadDisplayClanInfo() {
-        view.toggleProgressBar(true);
+        view.toggleLoading(true);
         userService.getUser(new UserService.LoadUserCallback() {
             @Override
             public void onUserLoaded(User user) {
                 apiService.getApiClan(user.clanTag, new ApiService.LoadApiClanCallback() {
                     @Override
                     public void onApiClanLoaded(ApiClan apiClan) {
-                        view.toggleProgressBar(false);
+                        view.toggleLoading(false);
                         view.displayJoinInfo(apiClan);
                     }
                 });
             }
         });
     }
-
-//    private void loadDisplayClanInfo(final int joinDecision) {
-//        view.toggleProgressBar(true);
-//        userService.getUser(new UserService.LoadUserCallback() {
-//            @Override
-//            public void onUserLoaded(User user) {
-//                apiService.getApiClan(user.clanTag, new ApiService.LoadApiClanCallback() {
-//                    @Override
-//                    public void onApiClanLoaded(ApiClan apiClan) {
-//                        view.toggleProgressBar(false);
-//                        view.displayJoinInfo(apiClan);
-//                        if (joinDecision == JoinDecision.DENIED) {
-//                            view.displayJoinDenied();
-//                        }
-//                    }
-//                });
-//            }
-//        });
-//    }
 }

@@ -39,7 +39,7 @@ public class JoinRequestsAdapter extends RecyclerView.Adapter<JoinRequestsAdapte
         if (joinRequests.get(position).message.isEmpty()){
             holder.message.setVisibility(View.GONE);
         } else {
-            holder.message.setText(joinRequests.get(position).message);
+            holder.message.setText("Message: " + joinRequests.get(position).message);
         }
         holder.joinRequest = joinRequests.get(position);
     }
@@ -77,16 +77,16 @@ public class JoinRequestsAdapter extends RecyclerView.Adapter<JoinRequestsAdapte
         @Override
         public void onClick(View v) {
             String uid = joinRequest.uid;
-            btnAccept.setVisibility(View.INVISIBLE);
-            btnDeny.setVisibility(View.INVISIBLE);
+            btnAccept.setVisibility(View.GONE);
+            btnDeny.setVisibility(View.GONE);
             status.setVisibility(View.VISIBLE);
             if (v.getId() == btnAccept.getId()) {
                 JoinRequestsAdapter.this.approvalListener.onApproval(joinRequest, true);
-                view.setBackgroundColor(Resources.getSystem().getColor(android.R.color.holo_green_light));
+                status.setTextColor(Resources.getSystem().getColor(android.R.color.holo_green_light));
                 status.setText("Accepted");
             } else {
                 JoinRequestsAdapter.this.approvalListener.onApproval(joinRequest, false);
-                view.setBackgroundColor(Resources.getSystem().getColor(android.R.color.holo_red_light));
+                status.setTextColor(Resources.getSystem().getColor(android.R.color.holo_red_light));
                 status.setText("Denied");
             }
         }

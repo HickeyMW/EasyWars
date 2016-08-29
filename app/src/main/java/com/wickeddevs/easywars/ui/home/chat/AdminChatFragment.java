@@ -95,14 +95,4 @@ public class AdminChatFragment extends BasePresenterFragment<ChatContract.ViewLi
         }
         return presenter;
     }
-
-    @Override
-    public void toggleProgressBar(boolean loading) {
-
-    }
-
-    @Override
-    public void displayMessage(String message) {
-
-    }
 }

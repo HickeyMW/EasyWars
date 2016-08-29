@@ -16,15 +16,15 @@ import com.wickeddevs.easywars.data.model.Message;
  */
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<Message> mMessages;
+    private ArrayList<Message> messages;
 
     public ChatAdapter(ArrayList<Message> messages) {
-        mMessages = messages;
+        this.messages = messages;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mMessages.get(position).isSentMessage) {
+        if (messages.get(position).isSentMessage) {
             return 0;
         }
         return 1;
@@ -42,7 +42,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Message message = mMessages.get(position);
+        Message message = messages.get(position);
 
         if (holder instanceof ChatSendViewHolder) {
             ChatSendViewHolder vHolder = (ChatSendViewHolder) holder;
@@ -59,12 +59,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mMessages.size();
+        return messages.size();
     }
 
     public void addMessage(Message message) {
-        mMessages.add(message);
-        notifyItemInserted(mMessages.size() - 1);
+        messages.add(message);
+        notifyItemInserted(messages.size() - 1);
     }
 
     public class ChatSendViewHolder extends RecyclerView.ViewHolder {

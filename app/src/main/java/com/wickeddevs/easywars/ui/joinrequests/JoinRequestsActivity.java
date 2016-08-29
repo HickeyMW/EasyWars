@@ -52,16 +52,6 @@ public class JoinRequestsActivity extends BasePresenterActivity<JoinRequestsCont
     }
 
     @Override
-    public void toggleProgressBar(boolean loading) {
-
-    }
-
-    @Override
-    public void displayMessage(String message) {
-
-    }
-
-    @Override
     public void onApproval(JoinRequest joinRequest, boolean approved) {
         presenter.joinRequestDecision(joinRequest, approved);
     }

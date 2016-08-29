@@ -55,7 +55,7 @@ public class SearchClansPresenterTest {
         when(view.getStartedBy()).thenReturn(SearchClansActivity.STARTED_FOR_JOIN);
         presenter.onAttach();
         verify(view).getStartedBy();
-        verify(view).toggleProgressBar(true);
+        verify(view).toggleLoading(true);
         verify(apiService).getJoinableClans(loadApiClanCallbackArgumentCaptor.capture());
         loadApiClanCallbackArgumentCaptor.getValue().onApiClanLoaded(apiClan1);
         loadApiClanCallbackArgumentCaptor.getValue().onApiClanLoaded(apiClan2);
@@ -74,6 +74,12 @@ public class SearchClansPresenterTest {
     }
 
     @Test
+    public void search_queryLessThanThreeCharacters_displayWarning() {
+        presenter.search("jj");
+        verify(view).displayQueryTooShort();
+    }
+
+    @Test
     public void selectedClan_startedForCreate_Navigate() {
         when(view.getStartedBy()).thenReturn(SearchClansActivity.STARTED_FOR_CREATE);
         presenter.selectedClan(apiClan1);
@@ -85,6 +91,13 @@ public class SearchClansPresenterTest {
         when(view.getStartedBy()).thenReturn(SearchClansActivity.STARTED_FOR_JOIN);
         presenter.selectedClan(apiClan2);
         verify(view).navigateToJoinClanUi(apiClan2.tag);
+    }
+
+    @Test
+    public void selectedClan_startedForWar_Navigate() {
+        when(view.getStartedBy()).thenReturn(SearchClansActivity.STARTED_FOR_WAR);
+        presenter.selectedClan(apiClan2);
+        verify(view).navigateToWarUi(apiClan2);
     }
 
 

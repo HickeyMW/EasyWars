@@ -89,14 +89,4 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
         }
         return presenter;
     }
-
-    @Override
-    public void toggleProgressBar(boolean loading) {
-
-    }
-
-    @Override
-    public void displayMessage(String message) {
-
-    }
 }

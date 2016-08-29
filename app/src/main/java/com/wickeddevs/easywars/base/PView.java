@@ -5,7 +5,5 @@ package com.wickeddevs.easywars.base;
  */
 public interface PView {
 
-    public void toggleProgressBar(boolean loading);
-
     public void displayMessage(String message);
 }

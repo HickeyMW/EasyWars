@@ -190,15 +190,6 @@ public class BasicWarInfoFragment extends BasePresenterFragment<BasicWarInfoCont
         return presenter;
     }
 
-    @Override
-    public void toggleProgressBar(boolean loading) {
-
-    }
-
-    @Override
-    public void displayMessage(String message) {
-
-    }
 
     @Override
     public void setWarSizeText(String warSize) {

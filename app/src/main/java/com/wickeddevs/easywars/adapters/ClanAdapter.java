@@ -6,12 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.data.model.api.ApiClan;
 
@@ -45,13 +49,28 @@ public class ClanAdapter extends RecyclerView.Adapter<ClanAdapter.ClanViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ClanViewHolder holder, int position) {
+    public void onBindViewHolder(final ClanViewHolder holder, int position) {
         ApiClan apiClan = apiClans.get(position);
 
-        holder.mName.setText(apiClan.name);
-        holder.mMembers.setText("Members " + apiClan.members + "/50");
-        holder.mTag.setText(apiClan.tag);
-        Glide.with(context).load(apiClan.badgeUrls.medium).centerCrop().into(holder.mBadge);
+        holder.name.setText(apiClan.name);
+        holder.members.setText("Members " + apiClan.members + "/50");
+        holder.tag.setText(apiClan.tag);
+        holder.progressBar.setVisibility(View.VISIBLE);
+        Glide.with(context).load(apiClan.badgeUrls.medium)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        holder.progressBar.setVisibility(View.INVISIBLE);
+                        return false;
+                    }
+                })
+                .centerCrop()
+                .into(holder.badge);
     }
 
     @Override
@@ -70,17 +89,19 @@ public class ClanAdapter extends RecyclerView.Adapter<ClanAdapter.ClanViewHolder
     }
 
     public static class ClanViewHolder extends RecyclerView.ViewHolder {
-        TextView mName;
-        TextView mMembers;
-        TextView mTag;
-        ImageView mBadge;
+        TextView name;
+        TextView members;
+        TextView tag;
+        ProgressBar progressBar;
+        ImageView badge;
 
         ClanViewHolder(View itemView) {
             super(itemView);
-            mName = (TextView) itemView.findViewById(R.id.tvSearchName);
-            mMembers = (TextView) itemView.findViewById(R.id.tvSearchMembers);
-            mTag = (TextView) itemView.findViewById(R.id.tvSearchTag);
-            mBadge = (ImageView) itemView.findViewById(R.id.ivBadge);
+            name = (TextView) itemView.findViewById(R.id.tvSearchName);
+            members = (TextView) itemView.findViewById(R.id.tvSearchMembers);
+            tag = (TextView) itemView.findViewById(R.id.tvSearchTag);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.badgeProgressBar);
+            badge = (ImageView) itemView.findViewById(R.id.ivBadge);
         }
     }
 }

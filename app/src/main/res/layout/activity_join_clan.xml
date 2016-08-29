@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/layoutMain"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvSelectedName"
+                tools:text="Selected Name"
                 android:layout_alignTop="@+id/tvMembers"
                 android:layout_toRightOf="@+id/tvMembers"
                 android:layout_toEndOf="@+id/tvMembers"
@@ -71,7 +72,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Defualt Name"
+                    tools:text="Defualt Name"
                     android:id="@+id/tvClanName"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/ivBadge"
@@ -81,7 +82,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="#G98T39"
+                    tools:text="#G98T39"
                     android:id="@+id/tvClanTag"
                     android:layout_alignBottom="@+id/ivBadge"
                     android:layout_alignParentRight="true"

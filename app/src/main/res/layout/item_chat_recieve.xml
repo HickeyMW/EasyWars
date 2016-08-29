@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+             android:layout_height="wrap_content"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,21 +16,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
+            tools:text="Name"
             android:id="@+id/item_chat_recieve_name"
             android:paddingBottom="6dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This is wheree the message will go when there is one."
+            tools:text="This is wheree the message will go when there is one."
             android:id="@+id/item_chat_recieve_message"
             android:paddingBottom="6dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8:18 AM"
+            tools:text="8:18 AM"
             android:id="@+id/item_chat_recieve_timestamp" />
 
     </LinearLayout>

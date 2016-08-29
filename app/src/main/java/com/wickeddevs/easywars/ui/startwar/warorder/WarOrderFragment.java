@@ -146,16 +146,6 @@ public class WarOrderFragment extends BasePresenterFragment<WarOrderContract.Vie
         return listener.getEnemyTag();
     }
 
-    @Override
-    public void toggleProgressBar(boolean loading) {
-
-    }
-
-    @Override
-    public void displayMessage(String message) {
-
-    }
-
 
     public interface WarOrderFragmentListener {
         void baseInfo(ArrayList<Base> bases);

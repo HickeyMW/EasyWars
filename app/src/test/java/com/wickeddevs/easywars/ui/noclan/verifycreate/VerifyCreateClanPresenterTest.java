@@ -55,12 +55,12 @@ public class VerifyCreateClanPresenterTest {
         CreateRequest createRequest = new CreateRequest("name", "#3FO38F");
         ApiClan apiClan = new ApiClan();
         presenter.onAttach();
-        verify(view).toggleProgressBar(true);
+        verify(view).toggleLoading(true);
         verify(createClanService).getCreateRequest(createRequestCallbackArgumentCaptor.capture());
         createRequestCallbackArgumentCaptor.getValue().onCreateRequestLoaded(createRequest);
         verify(apiService).getApiClan(eq(createRequest.tag), loadApiClanCallbackArgumentCaptor.capture());
         loadApiClanCallbackArgumentCaptor.getValue().onApiClanLoaded(apiClan);
-        verify(view).toggleProgressBar(false);
+        verify(view).toggleLoading(false);
         verify(view).displayCreateRequestDetails(createRequest, apiClan);
     }
 

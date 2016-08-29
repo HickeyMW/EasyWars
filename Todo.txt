@@ -1,13 +1,8 @@
 TODO
 0: 
-
-loading circle for pictures
 make recycler view items stand out not different color background (members fo sho) - join requests, name selection
-Loading and title on each screen
-Loading per mvp contract basis
-progressbar on need to have basis/ out of MVP interface
-take out display message
 standardize click animation on recycler views
+UI
 
 Issues screen: Upvotes, comments - tab view: suggestions, bugs, general chat
 
@@ -15,13 +10,12 @@ Issues screen: Upvotes, comments - tab view: suggestions, bugs, general chat
 get stuck if removed from clan (can’t happen yet) and user’s state doesn’t update, check for read denied
 Switch claims to objects
 War vs Enemy Clan on top of recycler view
-? creating account -> doesn’t navigate to right page ?
 Make fbservices parse datasnapshots in seperate methods
 Make FbServices use “this” as valueeventlistener so we can cancel loads
 icon on navdrawer gets out of frame/big
 
 2:
-using current time in miles in comments for war bases instead of server value
+using current time in milies in comments for war bases instead of server value
 don’t allow to pick usernames not taken in clan
 don’t allow to create same clan/join clan when access to description
 When going to intent activity if value isn’t there throw
@@ -35,11 +29,19 @@ interfaces to button in Service Contracts
 sideways orientation
 
 Project wide:
-Add Tag
-remove m’s from variables
-Put placeholder text in layouts
 views are referenced as view in the presenters
 make sure code lines don’t go past line (too long)
 remove extra imports
 make a utility thing that generates random objects for test?
 redo the way dagger is injecting
+
+Features before next release:
+Push Notifications
+Uploading Base Images
+War History
+Tracking Stars in Wars - Keep track of player performance - stats in general
+View all members and see their stats, make notes about them
+
+Future Releases:
+Drawing on bases to plan attacks
+Everyone can add in their upgrade status for buildings

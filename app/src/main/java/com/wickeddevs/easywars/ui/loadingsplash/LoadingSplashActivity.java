@@ -122,14 +122,4 @@ public class LoadingSplashActivity extends BasePresenterActivity<LoadingSplashCo
         }
         return presenter;
     }
-
-    @Override
-    public void toggleProgressBar(boolean loading) {
-
-    }
-
-    @Override
-    public void displayMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
 }
