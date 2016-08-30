@@ -13,8 +13,6 @@ public interface SearchClansContract {
 
     interface View extends PView {
 
-        void setScreenTitle(String title);
-
         void displaySearchResult(ArrayList<ApiClan> apiClans);
 
         void displayQueryTooShort();
@@ -25,9 +23,9 @@ public interface SearchClansContract {
 
         void navigateToWarUi(ApiClan apiClan);
 
-        void clearDisplayedClans();
-
         void addClan(ApiClan apiClan);
+
+        void clearClans();
 
         int getStartedBy();
 

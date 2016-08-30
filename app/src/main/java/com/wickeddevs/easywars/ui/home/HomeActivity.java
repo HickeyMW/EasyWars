@@ -35,6 +35,7 @@ import com.wickeddevs.easywars.ui.home.war.WarPlannerFragment;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
 import com.wickeddevs.easywars.ui.loadingsplash.LoadingSplashActivity;
 import com.wickeddevs.easywars.ui.noclan.NoClanActivity;
+import com.wickeddevs.easywars.util.Shared;
 
 public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListener> implements
         HomeContract.View, NavigationView.OnNavigationItemSelectedListener {
@@ -58,6 +59,27 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                Shared.hideKeyboard(HomeActivity.this);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
         toggle.syncState();
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 

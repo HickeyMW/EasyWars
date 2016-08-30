@@ -46,14 +46,14 @@ public class FbCreateClanService implements CreateClanService {
 
     @Override
     public void setCreateRequest(String username, String clanTag) {
-        FbInfo.getRequestRef().child("createClan").setValue(new CreateRequest(username, clanTag));
+        FbInfo.getRequestRef().push().child("createClan").setValue(new CreateRequest(username, clanTag));
         FbInfo.setState(User.STATE_CREATING);
         FbInfo.setClanTag(clanTag);
     }
 
     @Override
     public void verifyCreateRequest(final VerifyCreateCallback callback) {
-        FbInfo.getRequestRef().setValue("verifyCreateClan");
+        FbInfo.getRequestRef().push().setValue("verifyCreateClan");
         FbInfo.getResponseRef().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

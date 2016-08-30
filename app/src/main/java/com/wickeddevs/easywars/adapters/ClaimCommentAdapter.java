@@ -28,7 +28,7 @@ public class ClaimCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        if (position < claims.size()) {
+        if (position == 0) {
             return 0;
         }
         return 1;
@@ -47,13 +47,17 @@ public class ClaimCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        if (position < claims.size()) {
-            String claim = claims.get(position);
+        if (position == 0) {
+            //String claim = claims.get(position);
             ClaimViewHolder vHolder = (ClaimViewHolder) holder;
-            vHolder.name.setText("Claim " + String.valueOf(position + 1) + ": " + claim);
+            String claimText = "Claim Order";
+            for (int i = 0; i < claims.size(); i++) {
+                claimText += "\n" + String.valueOf(i + 1) + ". " + claims.get(i);
+            }
+            vHolder.name.setText(claimText);
         } else {
 
-            Comment comment = comments.get(position-claims.size());
+            Comment comment = comments.get(position-1);
             CommentViewHolder vHolder = (CommentViewHolder) holder;
             vHolder.name.setText(comment.name);
             vHolder.body.setText(comment.body);
@@ -63,29 +67,30 @@ public class ClaimCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return claims.size() + comments.size();
+        return comments.size() + 1;
     }
 
     public void addClaim(String name) {
         claims.add(name);
-        notifyItemInserted(claims.size() - 1);
+        notifyItemChanged(0);
     }
 
     public void removeClaim(String name) {
         for (int i = 0; i < claims.size(); i++) {
             if (claims.get(i).equals(name)) {
                 claims.remove(i);
-                notifyItemRemoved(i);
-                if (claims.size() > 0) {
-                    notifyItemRangeChanged(0, claims.size());
-                }
+                notifyItemChanged(0);
+                //notifyItemRemoved(i);
+//                if (claims.size() > 0) {
+//                    notifyItemRangeChanged(0, claims.size());
+//                }
             }
         }
     }
 
     public void addComment(Comment comment) {
         comments.add(comment);
-        notifyItemInserted(claims.size() + comments.size() - 1);
+        notifyItemInserted(comments.size());
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {

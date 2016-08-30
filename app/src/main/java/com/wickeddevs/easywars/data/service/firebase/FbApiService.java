@@ -18,24 +18,22 @@ import com.wickeddevs.easywars.data.service.contract.ApiService;
 public class FbApiService implements ApiService {
 
     private GenericTypeIndicator<ArrayList<ApiClan>> gtiArrayListClan = new GenericTypeIndicator<ArrayList<ApiClan>>() {};
-    //private GenericTypeIndicator<ArrayList<String>> gtiString = new GenericTypeIndicator<ArrayList<String>>() {};
 
     @Override
     public void getApiClan(String tag, final LoadApiClanCallback callback) {
-        FbInfo.getRequestRef().child("api/clanInfo").setValue(tag);
-        final DatabaseReference responseRef = FbInfo.getResponseRef();
-        responseRef.addValueEventListener(new ValueEventListener() {
+        final String noHashClanTag = tag.substring(1);
+        FbInfo.getRequestRef().push().child("api/clanInfo").setValue(tag);
+        final DatabaseReference clanTagRef = FbInfo.getResponseRef().child("clanInfo/" + noHashClanTag);
+        clanTagRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild("clanInfo")) {
-                    ApiClan apiClan = dataSnapshot.child("clanInfo").getValue(ApiClan.class);
-                    if (apiClan != null) {
-                        if (callback != null) {
-                            callback.onApiClanLoaded(apiClan);
-                        }
-                        responseRef.removeEventListener(this);
-                        responseRef.removeValue();
+                ApiClan apiClan = dataSnapshot.child("clanInfo").getValue(ApiClan.class);
+                if (apiClan != null) {
+                    if (callback != null) {
+                        callback.onApiClanLoaded(apiClan);
                     }
+                    clanTagRef.removeEventListener(this);
+                    clanTagRef.removeValue();
                 }
             }
 
@@ -48,7 +46,7 @@ public class FbApiService implements ApiService {
 
     @Override
     public void searchClans(String query, final SearchApiClansCallback callback) {
-        FbInfo.getRequestRef().child("api/searchClans").setValue(query);
+        FbInfo.getRequestRef().push().child("api/searchClans").setValue(query);
         final DatabaseReference responseRef = FbInfo.getResponseRef();
         responseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -62,31 +60,6 @@ public class FbApiService implements ApiService {
                         responseRef.removeEventListener(this);
                         responseRef.removeValue();
                     }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    @Override
-    public void getJoinableClans(final LoadApiClanCallback callback) {
-        FbInfo.getClanTagsRef().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterator<DataSnapshot> snapshots = dataSnapshot.getChildren().iterator();
-                while (snapshots.hasNext()) {
-                    DataSnapshot ds = snapshots.next();
-                    String clanTag = "#"  + ds.getKey();
-                    getApiClan(clanTag, new LoadApiClanCallback() {
-                        @Override
-                        public void onApiClanLoaded(ApiClan apiClan) {
-                            callback.onApiClanLoaded(apiClan);
-                        }
-                    });
                 }
             }
 

@@ -47,25 +47,35 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/relativeLayout4"
             android:id="@+id/rvClaimsComments"
-            android:layout_above="@+id/btnSend"/>
+            android:layout_above="@+id/relativeLayout2"/>
 
-        <Button
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Send"
-            android:id="@+id/btnSend"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            android:id="@+id/relativeLayout2"
+            android:translationZ="2dp">
 
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/etComment"
-            android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/btnSend"
-            android:layout_toStartOf="@+id/btnSend"
-            android:inputType="textCapSentences|textMultiLine"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send"
+                android:id="@+id/btnSend"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/etComment"
+                android:layout_alignParentBottom="false"
+                android:layout_toLeftOf="@+id/btnSend"
+                android:layout_toStartOf="@+id/btnSend"
+                android:inputType="textCapSentences|textShortMessage|textMultiLine"
+                android:singleLine="true"/>
+        </RelativeLayout>
     </RelativeLayout>
 
 </layout>

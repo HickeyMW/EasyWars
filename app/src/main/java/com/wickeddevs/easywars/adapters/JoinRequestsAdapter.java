@@ -77,8 +77,8 @@ public class JoinRequestsAdapter extends RecyclerView.Adapter<JoinRequestsAdapte
         @Override
         public void onClick(View v) {
             String uid = joinRequest.uid;
-            btnAccept.setVisibility(View.GONE);
-            btnDeny.setVisibility(View.GONE);
+            btnAccept.setVisibility(View.INVISIBLE);
+            btnDeny.setVisibility(View.INVISIBLE);
             status.setVisibility(View.VISIBLE);
             if (v.getId() == btnAccept.getId()) {
                 JoinRequestsAdapter.this.approvalListener.onApproval(joinRequest, true);

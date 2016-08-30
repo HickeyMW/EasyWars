@@ -58,8 +58,8 @@ public class PresenterModule {
 
     @Provides
     @ActivityScope
-    SearchClansContract.ViewListener providesSearchClansPresenter(ApiService apiService) {
-        return new SearchClansPresenter(apiService);
+    SearchClansContract.ViewListener providesSearchClansPresenter(ApiService apiService, JoinClanService joinClanService) {
+        return new SearchClansPresenter(apiService, joinClanService);
     }
 
     @Provides

@@ -21,14 +21,72 @@
             android:id="@+id/layoutMain"
             android:visibility="visible">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Your Name:"
-                android:id="@+id/tvMembers"
-                android:textSize="20sp"
-                android:layout_below="@+id/relativeLayout"
-                android:layout_marginRight="8dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/textView5">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/relativeLayout"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:id="@+id/ivBadge"
+                        android:layout_marginRight="10dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Defualt Name"
+                        android:id="@+id/tvClanName"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/ivBadge"
+                        android:layout_toEndOf="@+id/ivBadge"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="#G98T39"
+                        android:id="@+id/tvClanTag"
+                        android:layout_alignBottom="@+id/ivBadge"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your Name:"
+                    android:id="@+id/tvYourName"
+                    android:textSize="20sp"
+                    android:layout_below="@+id/relativeLayout"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvSelectedName"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/tvYourName"
+                    android:layout_alignTop="@+id/tvYourName"
+                    android:text="Select Below"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rvMembers"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@+id/tvYourName"
+                    android:background="@drawable/background_claim"/>
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -38,66 +96,15 @@
                 android:textSize="20sp"
                 android:layout_above="@+id/etMessage" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvSelectedName"
-                tools:text="Selected Name"
-                android:layout_alignTop="@+id/tvMembers"
-                android:layout_toRightOf="@+id/tvMembers"
-                android:layout_toEndOf="@+id/tvMembers"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:id="@+id/etMessage"
-                android:layout_above="@+id/btnJoin"
-                android:inputType="textCapSentences|textMultiLine" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/relativeLayout"
-                android:layout_marginBottom="16dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/ivBadge"
-                    android:layout_marginRight="10dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="Defualt Name"
-                    android:id="@+id/tvClanName"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/ivBadge"
-                    android:layout_toEndOf="@+id/ivBadge"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="#G98T39"
-                    android:id="@+id/tvClanTag"
-                    android:layout_alignBottom="@+id/ivBadge"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
-            </RelativeLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:id="@+id/rvMembers"
-                android:layout_weight="1"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@+id/tvMembers"
-                android:layout_above="@+id/textView5"
-                android:background="#dcdcdc"/>
+                android:inputType="textCapSentences|textShortMessage|textMultiLine"
+                android:singleLine="true"
+                android:layout_alignParentBottom="false"
+                android:layout_above="@+id/btnJoin"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -109,6 +116,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:visibility="invisible"/>
+
         </RelativeLayout>
 
     </RelativeLayout>

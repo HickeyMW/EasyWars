@@ -54,11 +54,11 @@ tools:context=".ui.noclan.create.CreateClanActivity">
 
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/rvMembers"
                 android:layout_below="@+id/tvYourName"
                 android:visibility="visible"
-                android:background="#dcdcdc"/>
+                android:background="@drawable/background_claim"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,7 +68,8 @@ tools:context=".ui.noclan.create.CreateClanActivity">
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:textSize="20sp"
-                android:layout_marginRight="8dp"/>
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"/>
 
             <TextView
                 android:layout_width="wrap_content"

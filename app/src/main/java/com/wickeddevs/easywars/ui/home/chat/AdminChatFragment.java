@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.adapters.ChatAdapter;
+import com.wickeddevs.easywars.adapters.SpaceItemDecoration;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
 import com.wickeddevs.easywars.dagger.Injector;
 import com.wickeddevs.easywars.data.model.Message;
@@ -47,6 +48,7 @@ public class AdminChatFragment extends BasePresenterFragment<ChatContract.ViewLi
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
         binding.rvMessages.setLayoutManager(linearLayoutManager);
+        binding.rvMessages.addItemDecoration(new SpaceItemDecoration());
         binding.btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -6,19 +6,17 @@
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/item"
+        android:background="@drawable/background_chat_send"
         android:layout_marginLeft="32dp"
-        android:padding="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:translationZ="2dp">
+        android:padding="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Name"
             android:id="@+id/item_chat_send_name"
-            android:paddingBottom="6dp" />
+            android:paddingBottom="6dp"
+            android:textSize="16sp"/>
 
         <TextView
             android:layout_width="wrap_content"

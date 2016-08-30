@@ -28,13 +28,6 @@ public class ClanAdapter extends RecyclerView.Adapter<ClanAdapter.ClanViewHolder
     private ArrayList<ApiClan> apiClans;
     private View.OnClickListener listener;
 
-
-    public ClanAdapter(ArrayList<ApiClan> apiClans, Context context, View.OnClickListener listener) {
-        this.apiClans = apiClans;
-        this.context = context;
-        this.listener = listener;
-    }
-
     public ClanAdapter(Context context, View.OnClickListener listener) {
         this.apiClans = new ArrayList<>();
         this.context = context;
@@ -80,10 +73,19 @@ public class ClanAdapter extends RecyclerView.Adapter<ClanAdapter.ClanViewHolder
 
     public void addClan(ApiClan apiClan) {
         apiClans.add(apiClan);
-
-        notifyItemInserted(apiClans.size() - 1);
+        notifyDataSetChanged();
+        //notifyItemInserted(apiClans.size());
     }
 
+    public void setClans(ArrayList<ApiClan> apiClans) {
+        this.apiClans = apiClans;
+        notifyDataSetChanged();
+    }
+
+    public void clearClans() {
+        this.apiClans.clear();
+        notifyDataSetChanged();
+    }
     public ApiClan getClan(int position) {
         return apiClans.get(position);
     }

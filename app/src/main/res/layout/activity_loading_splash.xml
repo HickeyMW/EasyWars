@@ -8,7 +8,8 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context=".ui.loadingsplash.LoadingSplashActivity">
+        tools:context=".ui.loadingsplash.LoadingSplashActivity"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -19,15 +20,6 @@
             android:textSize="100sp"
             android:gravity="center"
             android:id="@+id/textView" />
-
-        <!--<ProgressBar-->
-            <!--style="?android:attr/progressBarStyleLarge"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/progressBar"-->
-            <!--android:layout_below="@+id/textView"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:indeterminate="false" />-->
     </RelativeLayout>
 </layout>
 

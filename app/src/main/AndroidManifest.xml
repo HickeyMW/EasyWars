@@ -11,7 +11,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.wickeddevs.easywars.ui.loadingsplash.LoadingSplashActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -20,7 +21,6 @@
         </activity>
         <activity
             android:name="com.wickeddevs.easywars.ui.home.HomeActivity"
-            android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize"/>
@@ -39,8 +39,7 @@
         <activity
             android:name="com.wickeddevs.easywars.ui.noclan.join.JoinClanActivity"
             android:label="Join Clan"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.wickeddevs.easywars.ui.noclan.verifyjoin.VerifyJoinClanActivity"
             android:label="Awaiting Approval"

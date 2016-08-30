@@ -1,5 +1,7 @@
 package com.wickeddevs.easywars.data.service.firebase;
 
+import android.util.Log;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -131,6 +133,33 @@ public class FbJoinClanService implements JoinClanService {
                                 }
                             });
                         }
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void searchJoinableClans(final String query, final ClanTagsCallback callback) {
+        FbInfo.getClanRef(new FbInfo.DbRefCallback() {
+            @Override
+            public void onLoaded(DatabaseReference dbRef) {
+                dbRef.orderByChild("name").equalTo(query).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ArrayList<String> clanTags = new ArrayList<String>();
+                        Iterator<DataSnapshot> snapshots = dataSnapshot.getChildren().iterator();
+                        while (snapshots.hasNext()) {
+                            DataSnapshot ds = snapshots.next();
+                            String clanTag = "#"  + ds.getKey();
+                            clanTags.add(clanTag);
+                        }
+                        callback.onLoaded(clanTags);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
                     }
                 });
             }

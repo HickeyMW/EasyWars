@@ -41,7 +41,9 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_below="@+id/layoutHeader"
-            android:id="@+id/rvWarBases"/>
+            android:id="@+id/rvWarBases"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"/>
 
         <TextView
             android:layout_width="wrap_content"

@@ -1,5 +1,7 @@
 TODO
 0: 
+Batch clan info
+Search on join clan
 make recycler view items stand out not different color background (members fo sho) - join requests, name selection
 standardize click animation on recycler views
 UI
@@ -29,9 +31,6 @@ interfaces to button in Service Contracts
 sideways orientation
 
 Project wide:
-views are referenced as view in the presenters
-make sure code lines don’t go past line (too long)
-remove extra imports
 make a utility thing that generates random objects for test?
 redo the way dagger is injecting
 

@@ -10,16 +10,6 @@ import com.wickeddevs.easywars.data.model.JoinRequest;
  */
 public interface JoinClanService {
 
-    interface DecisionListener {
-
-        void onUpdate(JoinDecision joinDecision);
-    }
-
-    interface JoinRequestsCallback {
-
-        void onLoaded(ArrayList<JoinRequest> joinRequests);
-    }
-
     void setDecisionListener(DecisionListener listener);
 
     void removeJoinRequest();
@@ -29,4 +19,18 @@ public interface JoinClanService {
     void getJoinRequests(JoinRequestsCallback callback);
 
     void setDecision(JoinRequest joinRequest, boolean approved);
+
+    void searchJoinableClans(String query, ClanTagsCallback callback);
+
+    interface DecisionListener {
+        void onUpdate(JoinDecision joinDecision);
+    }
+
+    interface JoinRequestsCallback {
+        void onLoaded(ArrayList<JoinRequest> joinRequests);
+    }
+
+    interface ClanTagsCallback {
+        void onLoaded(ArrayList<String> clanTags);
+    }
 }
