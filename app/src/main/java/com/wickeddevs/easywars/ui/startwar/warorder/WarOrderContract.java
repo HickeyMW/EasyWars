@@ -18,7 +18,7 @@ public interface WarOrderContract {
 
     interface ViewListener extends Presenter<WarOrderContract.View> {
 
-
+        void onCreate();
 
 
     }

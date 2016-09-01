@@ -51,13 +51,4 @@ public class BasicWarInfoPresenter implements BasicWarInfoContract.ViewListener 
         view = activity;
     }
 
-    @Override
-    public void onAttach() {
-
-    }
-
-    @Override
-    public void onDetach() {
-
-    }
 }

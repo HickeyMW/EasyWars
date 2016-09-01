@@ -27,6 +27,8 @@ import com.wickeddevs.easywars.databinding.FragmentChatBinding;
  */
 public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListener> implements ChatContract.View {
 
+    private static final String IS_ADMIN = "IS_ADMIN";
+
     @Inject
     public ChatContract.ViewListener presenter;
 
@@ -43,23 +45,7 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
         linearLayoutManager.setStackFromEnd(true);
         binding.rvMessages.setLayoutManager(linearLayoutManager);
         binding.rvMessages.addItemDecoration(new SpaceItemDecoration());
-        binding.btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.sendMessage(binding.etChatInput.getText().toString());
-            }
-        });
-        return binding.getRoot();
-    }
-
-    @Override
-    public boolean isAdminChat() {
-        return true;
-    }
-
-    @Override
-    public void setMessages(ArrayList<Message> messages) {
-        chatAdapter = new ChatAdapter(messages);
+        chatAdapter = new ChatAdapter();
         chatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
@@ -72,11 +58,40 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
             }
         });
         binding.rvMessages.setAdapter(chatAdapter);
+        binding.btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.sendMessage(binding.etChatInput.getText().toString());
+            }
+        });
+        presenter.onCreate();
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
+    }
+
+    @Override
+    public boolean isAdminChat() {
+        return getArguments().getBoolean(IS_ADMIN);
+    }
+
+    @Override
+    public void toggleLoading(boolean loading) {
+        if (loading) {
+            binding.layoutChat.setVisibility(View.INVISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutChat.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
     public void addMessage(Message message) {
-
         chatAdapter.addMessage(message);
     }
 
@@ -90,5 +105,13 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
             Injector.INSTANCE.inject(this);
         }
         return presenter;
+    }
+
+    public static ChatFragment getInstance(boolean isAdmin) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(IS_ADMIN, isAdmin);
+        ChatFragment chatFragment = new ChatFragment();
+        chatFragment.setArguments(bundle);
+        return chatFragment;
     }
 }

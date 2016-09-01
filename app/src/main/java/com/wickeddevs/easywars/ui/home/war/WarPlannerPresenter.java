@@ -27,7 +27,7 @@ public class WarPlannerPresenter implements WarPlannerContract.ViewListener {
     }
 
     @Override
-    public void onAttach() {
+    public void onCreate() {
         warService.getLatestWar(new WarService.LoadWarCallback() {
             @Override
             public void onLoaded(final War war) {
@@ -44,11 +44,6 @@ public class WarPlannerPresenter implements WarPlannerContract.ViewListener {
 
             }
         });
-    }
-
-    @Override
-    public void onDetach() {
-
     }
 
     @Override

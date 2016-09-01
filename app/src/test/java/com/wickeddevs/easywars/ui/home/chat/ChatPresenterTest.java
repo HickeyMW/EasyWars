@@ -19,7 +19,6 @@ import com.wickeddevs.easywars.data.model.Message;
 import com.wickeddevs.easywars.data.service.contract.ChatService;
 import com.wickeddevs.easywars.data.service.contract.ClanService;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -57,13 +56,16 @@ public class ChatPresenterTest {
 //    private ArgumentCaptor<ChatService.MessageListener> mMessageListenerArgumentCaptor;
 
     @Captor
-    private ArgumentCaptor<ClanService.LoadMemberCallback> mLoadMemberCallbackArgumentCaptor;
+    private ArgumentCaptor<ClanService.LoadMemberCallback> loadMemberCallbackArgumentCaptor;
 
     @Captor
-    private ArgumentCaptor<ClanService.LoadClanCallback> mLoadClanCallbackArgumentCaptor;
+    private ArgumentCaptor<ClanService.LoadClanCallback> loadClanCallbackArgumentCaptor;
 
     @Captor
-    private ArgumentCaptor<String> mMessageBodyArgumentCaptor;
+    private ArgumentCaptor<String> messageBodyArgumentCaptor;
+
+    @Captor
+    private ArgumentCaptor<ChatService.MessageListener> messageListenerArgumentCaptor;
 
     private ChatPresenter presenter;
 
@@ -83,31 +85,31 @@ public class ChatPresenterTest {
     @Test
     public void attach_isMemberChat_setListener() {
         when(view.isAdminChat()).thenReturn(false);
-        presenter.onAttach();
-        verify(chatService).setMemberMessageListener(presenter);
+        presenter.onCreate();
+        verify(chatService).setMessageListener(false, messageListenerArgumentCaptor.capture());
     }
 
     @Test
     public void attach_isAdminChat_setListener() {
         when(view.isAdminChat()).thenReturn(true);
-        presenter.onAttach();
-        verify(chatService).setAdminMessageListener(presenter);
+        presenter.onCreate();
+        verify(chatService).setMessageListener(true, messageListenerArgumentCaptor.capture());
     }
 
     @Test
     public void loadsInitialMessages() {
-        presenter.initialMessages(messages);
-        verify(clanService).getClan(mLoadClanCallbackArgumentCaptor.capture());
-        mLoadClanCallbackArgumentCaptor.getValue().onClanLoaded(clan);
-        verify(view).setMessages(messages);
+        attach_isMemberChat_setListener();
+        messageListenerArgumentCaptor.getValue().initialLoadComplete();
+        verify(view).toggleLoading(false);
     }
 
     @Test
     public void addMessage() {
-        Message message = messages.get(0);
+        attach_isMemberChat_setListener();
+        messageListenerArgumentCaptor.getValue().newMessage();
         presenter.newMessage(message);
-        verify(clanService).getMember(eq(message.uid), mLoadMemberCallbackArgumentCaptor.capture());
-        mLoadMemberCallbackArgumentCaptor.getValue().onMemberLoaded(member1);
+        verify(clanService).getMember(eq(message.uid), loadMemberCallbackArgumentCaptor.capture());
+        loadMemberCallbackArgumentCaptor.getValue().onMemberLoaded(member1);
         verify(view).addMessage(messages.get(0));
     }
 
@@ -116,7 +118,7 @@ public class ChatPresenterTest {
         attach_isMemberChat_setListener();
         String message = "Message text";
         presenter.sendMessage(message);
-        verify(chatService).sendMemberMessage(message);
+        verify(chatService).sendMessage(message);
     }
 
     @Test

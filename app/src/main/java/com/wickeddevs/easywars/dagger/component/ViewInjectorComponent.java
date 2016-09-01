@@ -5,7 +5,6 @@ import com.wickeddevs.easywars.dagger.module.PresenterModule;
 import com.wickeddevs.easywars.dagger.scope.ActivityScope;
 
 import com.wickeddevs.easywars.ui.home.HomeActivity;
-import com.wickeddevs.easywars.ui.home.chat.AdminChatFragment;
 import com.wickeddevs.easywars.ui.home.chat.ChatFragment;
 import com.wickeddevs.easywars.ui.home.war.WarPlannerFragment;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
@@ -29,8 +28,6 @@ public interface ViewInjectorComponent {
     void inject(LoadingSplashActivity loadingSplashActivity);
 
     void inject(ChatFragment chatFragment);
-
-    void inject(AdminChatFragment adminChatFragment);
 
     void inject(SearchClansActivity searchClansActivity);
 

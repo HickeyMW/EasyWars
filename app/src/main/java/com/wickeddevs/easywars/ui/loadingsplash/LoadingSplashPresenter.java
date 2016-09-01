@@ -31,7 +31,7 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
     }
 
     @Override
-    public void onAttach() {
+    public void onCreate() {
         versionService.getCurrentVersion(new VersionService.CheckVersionCallback() {
             @Override
             public void onVersionLoaded(int major, int minor) {
@@ -44,11 +44,6 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
                 }
             }
         });
-    }
-
-    @Override
-    public void onDetach() {
-
     }
 
     @Override

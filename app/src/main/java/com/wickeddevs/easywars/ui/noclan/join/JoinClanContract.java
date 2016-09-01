@@ -24,6 +24,8 @@ public interface JoinClanContract {
 
     interface ViewListener extends Presenter<JoinClanContract.View> {
 
+        void onCreate();
+
         void selectedName(String name);
 
         void requestJoin(String message);

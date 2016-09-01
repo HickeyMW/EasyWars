@@ -98,6 +98,7 @@ public class WarOrderFragment extends BasePresenterFragment<WarOrderContract.Vie
                 listener.baseInfo(bases);
             }
         });
+        presenter.onCreate();
         return binding.getRoot();
     }
 

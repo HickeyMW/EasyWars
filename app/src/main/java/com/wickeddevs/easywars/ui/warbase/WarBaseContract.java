@@ -34,6 +34,10 @@ public interface WarBaseContract {
 
     interface ViewListener extends Presenter<WarBaseContract.View> {
 
+        void onCreate();
+
+        void onDestroy();
+
         void pressedClaim();
 
         void sendComment(String body);

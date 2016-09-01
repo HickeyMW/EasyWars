@@ -22,18 +22,7 @@ public class WarOrderPresenter implements WarOrderContract.ViewListener {
     }
 
     @Override
-    public void onAttach() {
-        String clanTag = view.getClanTag();
-        apiService.getApiClan(clanTag, new ApiService.LoadApiClanCallback() {
-            @Override
-            public void onApiClanLoaded(ApiClan apiClan) {
-                view.displayApiClan(apiClan);
-            }
-        });
-    }
-
-    @Override
-    public void onDetach() {
+    public void onCreate() {
 
     }
 }

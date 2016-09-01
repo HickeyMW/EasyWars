@@ -16,10 +16,9 @@ import com.wickeddevs.easywars.data.model.Message;
  */
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<Message> messages;
+    private ArrayList<Message> messages = new ArrayList<>();
 
-    public ChatAdapter(ArrayList<Message> messages) {
-        this.messages = messages;
+    public ChatAdapter() {
     }
 
     @Override

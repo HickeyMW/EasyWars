@@ -30,6 +30,7 @@ public class VerifyJoinClanActivity extends BasePresenterActivity<VerifyJoinClan
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_verify_join_clan);
+        presenter.onCreate();
     }
 
     @Override

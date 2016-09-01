@@ -29,6 +29,8 @@ public interface LoadingSplashContract {
 
     interface ViewListener extends Presenter<LoadingSplashContract.View> {
 
+        void onCreate();
+
         void returnedFromLogin(boolean successful);
 
         void pressedOkMajor();

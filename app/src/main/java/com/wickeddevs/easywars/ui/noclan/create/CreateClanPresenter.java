@@ -31,7 +31,7 @@ public class CreateClanPresenter implements CreateClanContract.ViewListener {
     }
 
     @Override
-    public void onAttach() {
+    public void onCreate() {
         String clanTag = view.getClanTag();
         if (clanTag != null) {
             view.toggleLoading(true);
@@ -46,12 +46,6 @@ public class CreateClanPresenter implements CreateClanContract.ViewListener {
         } else {
             Log.e(TAG, "onAttach: Clan tag was null");
         }
-
-    }
-
-    @Override
-    public void onDetach() {
-
     }
 
     @Override

@@ -19,18 +19,6 @@ public abstract class BasePresenterFragment<T extends  Presenter> extends Fragme
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        getPresenter().onAttach();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        getPresenter().onDetach();
-    }
-
-    @Override
     public void displayMessage(String message) {
         if (toast != null) {
             toast.cancel();

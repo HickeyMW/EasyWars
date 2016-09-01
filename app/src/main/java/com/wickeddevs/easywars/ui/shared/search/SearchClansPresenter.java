@@ -29,14 +29,6 @@ public class SearchClansPresenter implements SearchClansContract.ViewListener {
         view = activity;
     }
 
-    @Override
-    public void onAttach() {
-    }
-
-    @Override
-    public void onDetach() {
-
-    }
 
     @Override
     public void search(String query) {
@@ -50,11 +42,11 @@ public class SearchClansPresenter implements SearchClansContract.ViewListener {
                 @Override
                 public void onLoaded(ArrayList<String> clanTags) {
                     if (clanTags.size() > 0) {
+                        view.toggleLoading(false);
                         for (String clanTag : clanTags) {
                             apiService.getApiClan(clanTag, new ApiService.LoadApiClanCallback() {
                                 @Override
                                 public void onApiClanLoaded(ApiClan apiClan) {
-                                    view.toggleLoading(false);
                                     view.addClan(apiClan);
                                 }
                             });

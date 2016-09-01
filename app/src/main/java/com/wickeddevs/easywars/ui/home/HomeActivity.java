@@ -29,7 +29,6 @@ import com.wickeddevs.easywars.dagger.Injector;
 import com.wickeddevs.easywars.data.model.Member;
 import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.ui.TestingActivity;
-import com.wickeddevs.easywars.ui.home.chat.AdminChatFragment;
 import com.wickeddevs.easywars.ui.home.chat.ChatFragment;
 import com.wickeddevs.easywars.ui.home.war.WarPlannerFragment;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
@@ -89,7 +88,9 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
         adminItems.add(navigationView.getMenu().findItem(R.id.nav_admin_chat));
         setTitle("Chat");
         navigationView.getMenu().findItem(R.id.nav_chat).setChecked(true);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new ChatFragment()).commit();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatFragment.getInstance(false)).commit();
+        presenter.onCreate();
     }
 
     @Override
@@ -110,10 +111,10 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
         int id = item.getItemId();
         if (id == R.id.nav_chat) {
             setTitle("Chat");
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new ChatFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatFragment.getInstance(false)).commit();
         } if (id == R.id.nav_admin_chat) {
             setTitle("Admin Chat");
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new AdminChatFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatFragment.getInstance(true)).commit();
         } else if (id == R.id.nav_war_planner) {
             setTitle("War Planner");
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new WarPlannerFragment()).commit();

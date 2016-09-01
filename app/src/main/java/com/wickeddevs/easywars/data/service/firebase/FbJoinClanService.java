@@ -1,7 +1,6 @@
 package com.wickeddevs.easywars.data.service.firebase;
 
-import android.util.Log;
-
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,31 +25,33 @@ public class FbJoinClanService implements JoinClanService {
         FbInfo.getJoinDecisionRef(new FbInfo.DbRefCallback() {
             @Override
             public void onLoaded(final DatabaseReference dbRef) {
-                dbRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        JoinDecision joinDecision = dataSnapshot.getValue(JoinDecision.class);
-                        if (joinDecision != null) {
-                            listener.onUpdate(joinDecision);
-                            if (joinDecision.approved != JoinDecision.PENDING) {
-                                dbRef.removeEventListener(this);
-                                if (joinDecision.approved == JoinDecision.APPROVED) {
-                                    removeJoinRequest();
-                                    FbInfo.setState(User.STATE_MEMBER);
-                                } else {
-                                    FbInfo.setState(User.STATE_BLANK);
-                                }
+            dbRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    JoinDecision joinDecision = dataSnapshot.getValue(JoinDecision.class);
+                    if (listener == null) {
+                        dbRef.removeEventListener(this);
+                    } else if (joinDecision == null) {
+                        listener.onUpdate(new JoinDecision());
+                    } else {
+                        listener.onUpdate(joinDecision);
+                        if (joinDecision.isApproved != JoinDecision.PENDING) {
+                            dbRef.removeEventListener(this);
+                            if (joinDecision.isApproved == JoinDecision.APPROVED) {
+                                FbInfo.setState(User.STATE_MEMBER);
+                            } else {
+                                FbInfo.setState(User.STATE_BLANK);
                             }
-                        } else {
-                            listener.onUpdate(new JoinDecision());
+                            removeJoinRequest();
                         }
                     }
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
+                }
+            });
             }
         });
 
@@ -88,22 +89,46 @@ public class FbJoinClanService implements JoinClanService {
     }
 
     @Override
-    public void getJoinRequests(final JoinRequestsCallback callback) {
+    public void setJoinRequestListener(final JoinRequestListener listener) {
         FbInfo.getJoinRequestsRef(new FbInfo.DbRefCallback() {
             @Override
-            public void onLoaded(DatabaseReference dbRef) {
+            public void onLoaded(final DatabaseReference dbRef) {
+                dbRef.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        if (listener == null) {
+                            dbRef.removeEventListener(this);
+                        } else {
+                            JoinRequest joinRequest = dataSnapshot.getValue(JoinRequest.class);
+                            joinRequest.key = dataSnapshot.getKey();
+                            listener.addJoinRequest(joinRequest);
+                        }
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
                 dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Iterator<DataSnapshot> snapshots = dataSnapshot.getChildren().iterator();
-                        ArrayList<JoinRequest> joinRequests = new ArrayList<>();
-                        while (snapshots.hasNext()) {
-                            DataSnapshot ds = snapshots.next();
-                            JoinRequest joinRequest = ds.getValue(JoinRequest.class);
-                            joinRequest.uid = ds.getKey();
-                            joinRequests.add(joinRequest);
-                        }
-                        callback.onLoaded(joinRequests);
+                        listener.intialLoadComplete();
                     }
 
                     @Override
@@ -120,16 +145,16 @@ public class FbJoinClanService implements JoinClanService {
         FbInfo.getJoinRequestsRef(new FbInfo.DbRefCallback() {
             @Override
             public void onLoaded(DatabaseReference dbRef) {
-                dbRef.child(joinRequest.uid).removeValue();
+                dbRef.child(joinRequest.key).removeValue();
                 FbInfo.getJoinDecisionsRef(new FbInfo.DbRefCallback() {
                     @Override
                     public void onLoaded(DatabaseReference dbRef) {
-                        dbRef.child(joinRequest.uid).setValue(new JoinDecision(approved));
+                        dbRef.child(joinRequest.key).setValue(new JoinDecision(approved));
                         if (approved) {
                             FbInfo.getClanMembersRef(new FbInfo.DbRefCallback() {
                                 @Override
                                 public void onLoaded(DatabaseReference dbRef) {
-                                    dbRef.child(joinRequest.uid).setValue(new Member(joinRequest.name, false));
+                                    dbRef.child(joinRequest.key).setValue(new Member(joinRequest.name, false));
                                 }
                             });
                         }
@@ -141,27 +166,22 @@ public class FbJoinClanService implements JoinClanService {
 
     @Override
     public void searchJoinableClans(final String query, final ClanTagsCallback callback) {
-        FbInfo.getClanRef(new FbInfo.DbRefCallback() {
+        FbInfo.getAllClansRef().orderByChild("name").equalTo(query).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onLoaded(DatabaseReference dbRef) {
-                dbRef.orderByChild("name").equalTo(query).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        ArrayList<String> clanTags = new ArrayList<String>();
-                        Iterator<DataSnapshot> snapshots = dataSnapshot.getChildren().iterator();
-                        while (snapshots.hasNext()) {
-                            DataSnapshot ds = snapshots.next();
-                            String clanTag = "#"  + ds.getKey();
-                            clanTags.add(clanTag);
-                        }
-                        callback.onLoaded(clanTags);
-                    }
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> clanTags = new ArrayList<String>();
+                Iterator<DataSnapshot> snapshots = dataSnapshot.getChildren().iterator();
+                while (snapshots.hasNext()) {
+                    DataSnapshot ds = snapshots.next();
+                    String clanTag = "#"  + ds.getKey();
+                    clanTags.add(clanTag);
+                }
+                callback.onLoaded(clanTags);
+            }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
             }
         });
     }

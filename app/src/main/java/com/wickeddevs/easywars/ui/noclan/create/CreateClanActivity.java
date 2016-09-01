@@ -41,6 +41,7 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
                 presenter.createClanRequest();
             }
         });
+        presenter.onCreate();
     }
 
     @Override

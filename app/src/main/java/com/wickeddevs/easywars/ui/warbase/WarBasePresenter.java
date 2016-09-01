@@ -51,7 +51,7 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
     }
 
     @Override
-    public void onAttach() {
+    public void onCreate() {
         warId = view.getWarId();
         baseId = view.getBaseId();
         warService.setBaseListener(warId, baseId, new WarService.LoadBaseListener() {
@@ -113,7 +113,7 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
     }
 
     @Override
-    public void onDetach() {
+    public void onDestroy() {
         warService.removeBaseListener();
     }
 }

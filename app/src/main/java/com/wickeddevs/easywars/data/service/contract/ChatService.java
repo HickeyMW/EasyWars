@@ -11,20 +11,14 @@ public interface ChatService {
 
     interface MessageListener {
 
-        void initialMessages(ArrayList<Message> messages);
+        void initialLoadComplete();
 
         void newMessage(Message message);
     }
 
-    void setMemberMessageListener(MessageListener listener);
+    void setMessageListener(boolean isAdmin, MessageListener listener);
 
-    void removeMemberMessageListener();
+    void removeMessageListener();
 
-    void sendMemberMessage(String body);
-
-    void setAdminMessageListener(MessageListener listener);
-
-    void removeAdminMessageListener();
-
-    void sendAdminMessage(String body);
+    void sendMessage(boolean isAdmin, String body);
 }

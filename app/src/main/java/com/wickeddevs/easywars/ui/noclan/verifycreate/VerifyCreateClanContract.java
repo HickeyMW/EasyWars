@@ -23,6 +23,8 @@ public interface VerifyCreateClanContract {
 
     interface ViewListener extends Presenter<VerifyCreateClanContract.View> {
 
+        void onCreate();
+
         void verifyCreateClan();
 
         void cancelCreateClan();

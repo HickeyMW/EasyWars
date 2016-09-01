@@ -16,7 +16,7 @@ public interface JoinClanService {
 
     void setJoinRequest(String clanTag, JoinRequest joinRequest);
 
-    void getJoinRequests(JoinRequestsCallback callback);
+    void setJoinRequestListener(JoinRequestListener listener);
 
     void setDecision(JoinRequest joinRequest, boolean approved);
 
@@ -26,8 +26,9 @@ public interface JoinClanService {
         void onUpdate(JoinDecision joinDecision);
     }
 
-    interface JoinRequestsCallback {
-        void onLoaded(ArrayList<JoinRequest> joinRequests);
+    interface JoinRequestListener {
+        void intialLoadComplete();
+        void addJoinRequest(JoinRequest joinRequest);
     }
 
     interface ClanTagsCallback {

@@ -7,7 +7,7 @@ public class JoinRequest {
 
     public String name;
     public String message;
-    public String uid;
+    public String key;
 
 
     public JoinRequest() {

@@ -31,7 +31,7 @@ public class HomePresenter implements HomeContract.ViewListener {
     }
 
     @Override
-    public void onAttach() {
+    public void onCreate() {
         userService.getUser(new UserService.LoadUserCallback() {
             @Override
             public void onUserLoaded(User user) {
@@ -48,11 +48,6 @@ public class HomePresenter implements HomeContract.ViewListener {
                 });
             }
         });
-    }
-
-    @Override
-    public void onDetach() {
-
     }
 
     @Override

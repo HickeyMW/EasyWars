@@ -13,16 +13,20 @@ public interface ChatContract {
 
     interface View extends PView {
 
-        void setMessages(ArrayList<Message> messages);
-
         void addMessage(Message message);
 
         void clearSendText();
 
         boolean isAdminChat();
+
+        void toggleLoading(boolean loading);
     }
 
     interface ViewListener extends Presenter<ChatContract.View> {
+
+        void onCreate();
+
+        void onDestroy();
 
         void sendMessage(String body);
     }

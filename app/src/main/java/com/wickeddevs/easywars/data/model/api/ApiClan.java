@@ -21,6 +21,14 @@ public class ApiClan {
     public int warLosses;
     public int warTies;
     public int warWinStreak;
+
+    public ApiClan(String name, String tag, int members, ArrayList<ApiMember> memberList) {
+        this.name = name;
+        this.tag = tag;
+        this.members = members;
+        this.memberList = memberList;
+    }
+
     public int warWins;
 
     public ApiClan(String name, String tag, BadgeUrls badgeUrls, int members, ArrayList<ApiMember> memberList) {

@@ -58,6 +58,7 @@ public class WarPlannerFragment extends BasePresenterFragment<WarPlannerContract
         });
         binding.rvWarBases.setLayoutManager(new LinearLayoutManager(getContext()));
         //binding.rvWarBases.addItemDecoration(new SpaceItemDecoration());
+        presenter.onCreate();
         return binding.getRoot();
     }
 

@@ -18,18 +18,6 @@ public abstract class BasePresenterActivity<T extends Presenter> extends AppComp
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        getPresenter().onAttach();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        getPresenter().onDetach();
-    }
-
-    @Override
     public void displayMessage(String message) {
         if (toast != null) {
             toast.cancel();

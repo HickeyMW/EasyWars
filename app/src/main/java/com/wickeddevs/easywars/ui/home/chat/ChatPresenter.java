@@ -13,7 +13,7 @@ import com.wickeddevs.easywars.util.General;
 /**
  * Created by hicke_000 on 7/27/2016.
  */
-public class ChatPresenter implements ChatContract.ViewListener, ChatService.MessageListener {
+public class ChatPresenter implements ChatContract.ViewListener {
 
     final static String TAG = "ChatPresenter";
 
@@ -32,60 +32,39 @@ public class ChatPresenter implements ChatContract.ViewListener, ChatService.Mes
         view = activity;
     }
 
+
     @Override
-    public void onAttach() {
+    public void onCreate() {
         isAdminChat = view.isAdminChat();
-        if (isAdminChat) {
-            chatService.setAdminMessageListener(this);
-        } else {
-            chatService.setMemberMessageListener(this);
-        }
+        view.toggleLoading(true);
+        chatService.setMessageListener(isAdminChat, new ChatService.MessageListener() {
+            @Override
+            public void initialLoadComplete() {
+                view.toggleLoading(false);
+            }
+
+            @Override
+            public void newMessage(final Message message) {
+                clanService.getMember(message.uid, new ClanService.LoadMemberCallback() {
+                    @Override
+                    public void onMemberLoaded(Member member) {
+                        message.name = member.name;
+                        message.dateTime = General.formatDateTime(message.timestamp);
+                        view.addMessage(message);
+                    }
+                });
+            }
+        });
     }
 
     @Override
-    public void onDetach() {
-        if (isAdminChat) {
-            chatService.removeAdminMessageListener();
-        } else {
-            chatService.removeMemberMessageListener();
-        }
+    public void onDestroy() {
+        chatService.removeMessageListener();
     }
-
 
     @Override
     public void sendMessage(String message) {
-        if (isAdminChat) {
-            chatService.sendAdminMessage(message);
-        } else {
-            chatService.sendMemberMessage(message);
-        }
+        chatService.sendMessage(view.isAdminChat(), message);
         view.clearSendText();
-    }
-
-    @Override
-    public void initialMessages(final ArrayList<Message> messages) {
-
-        clanService.getClan(new ClanService.LoadClanCallback() {
-            @Override
-            public void onClanLoaded(Clan clan) {
-                for (Message message : messages) {
-                    message.name = clan.members.get(message.uid).name;
-                    message.dateTime = General.formatDateTime(message.timestamp);
-                }
-                view.setMessages(messages);
-            }
-        });
-    }
-
-    @Override
-    public void newMessage(final Message message) {
-        clanService.getMember(message.uid, new ClanService.LoadMemberCallback() {
-            @Override
-            public void onMemberLoaded(Member member) {
-                message.name = member.name;
-                message.dateTime = General.formatDateTime(message.timestamp);
-                view.addMessage(message);
-            }
-        });
     }
 }

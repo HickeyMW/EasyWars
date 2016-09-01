@@ -19,6 +19,8 @@ public interface WarPlannerContract {
 
     interface ViewListener extends Presenter<WarPlannerContract.View> {
 
+        void onCreate();
+
         void pressedDeleteWar();
     }
 }

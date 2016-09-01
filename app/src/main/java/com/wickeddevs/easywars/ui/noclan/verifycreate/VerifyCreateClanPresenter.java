@@ -28,7 +28,7 @@ public class VerifyCreateClanPresenter implements VerifyCreateClanContract.ViewL
     }
 
     @Override
-    public void onAttach() {
+    public void onCreate() {
         view.toggleLoading(true);
         createClanService.getCreateRequest(new CreateClanService.CreateRequestCallback() {
             @Override
@@ -42,11 +42,6 @@ public class VerifyCreateClanPresenter implements VerifyCreateClanContract.ViewL
                 });
             }
         });
-    }
-
-    @Override
-    public void onDetach() {
-
     }
 
     @Override

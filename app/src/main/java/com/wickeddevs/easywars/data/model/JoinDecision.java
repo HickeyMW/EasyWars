@@ -9,16 +9,16 @@ public class JoinDecision {
     public final static int PENDING = 0;
     public final static int DENIED = -1;
 
-    public int approved = PENDING;
+    public int isApproved = PENDING;
 
     public JoinDecision() {
     }
 
-    public JoinDecision(boolean approved) {
-        if (approved) {
-            this.approved = APPROVED;
+    public JoinDecision(boolean isApproved) {
+        if (isApproved) {
+            this.isApproved = APPROVED;
         } else {
-            this.approved = DENIED;
+            this.isApproved = DENIED;
         }
     }
 }

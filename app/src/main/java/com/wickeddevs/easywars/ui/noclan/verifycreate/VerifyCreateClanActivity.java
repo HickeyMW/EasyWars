@@ -44,6 +44,7 @@ public class VerifyCreateClanActivity extends BasePresenterActivity<VerifyCreate
                 presenter.cancelCreateClan();
             }
         });
+        presenter.onCreate();
     }
 
     @Override

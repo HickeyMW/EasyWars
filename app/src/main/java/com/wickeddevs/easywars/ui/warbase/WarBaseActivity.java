@@ -53,6 +53,13 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
             }
         });
         binding.rvClaimsComments.addItemDecoration(new SpaceItemDecoration());
+        presenter.onCreate();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
     }
 
     @Override

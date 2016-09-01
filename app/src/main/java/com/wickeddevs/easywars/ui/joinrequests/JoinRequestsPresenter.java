@@ -1,7 +1,5 @@
 package com.wickeddevs.easywars.ui.joinrequests;
 
-import java.util.ArrayList;
-
 import com.wickeddevs.easywars.data.model.JoinRequest;
 import com.wickeddevs.easywars.data.service.contract.JoinClanService;
 
@@ -25,22 +23,29 @@ public class JoinRequestsPresenter implements JoinRequestsContract.ViewListener 
     }
 
     @Override
-    public void onAttach() {
-        joinClanService.getJoinRequests(new JoinClanService.JoinRequestsCallback() {
+    public void onCreate() {
+        view.toggleLoading(true);
+        joinClanService.setJoinRequestListener(new JoinClanService.JoinRequestListener() {
             @Override
-            public void onLoaded(ArrayList<JoinRequest> joinRequests) {
-                if (joinRequests.size() != 0) {
-                    view.displayJoinRequests(joinRequests);
-                } else {
-                    view.displayNoJoinRequests();
-                }
+            public void addJoinRequest(JoinRequest joinRequest) {
+                view.addJoinRequest(joinRequest);
+            }
+
+            @Override
+            public void intialLoadComplete() {
+                view.toggleLoading(false);
             }
         });
-    }
-
-    @Override
-    public void onDetach() {
-
+//        joinClanService.getJoinRequests(new JoinClanService.JoinRequestsCallback() {
+//            @Override
+//            public void onLoaded(ArrayList<JoinRequest> joinRequests) {
+//                if (joinRequests.size() != 0) {
+//                    view.displayJoinRequests(joinRequests);
+//                } else {
+//                    view.displayNoJoinRequests();
+//                }
+//            }
+//        });
     }
 
     @Override

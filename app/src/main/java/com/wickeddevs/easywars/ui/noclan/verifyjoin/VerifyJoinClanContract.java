@@ -24,6 +24,8 @@ public interface VerifyJoinClanContract {
 
     interface ViewListener extends Presenter<VerifyJoinClanContract.View> {
 
+        void onCreate();
+
         void cancelJoinClan();
     }
 }

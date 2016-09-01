@@ -39,6 +39,7 @@ public class JoinClanActivity extends BasePresenterActivity<JoinClanContract.Vie
                 presenter.requestJoin(binding.etMessage.getText().toString());
             }
         });
+        presenter.onCreate();
     }
 
     @Override

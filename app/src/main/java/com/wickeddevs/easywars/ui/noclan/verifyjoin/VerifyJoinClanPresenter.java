@@ -31,28 +31,23 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
     }
 
     @Override
-    public void onAttach() {
+    public void onCreate() {
         joinClanService.setDecisionListener(new JoinClanService.DecisionListener() {
             @Override
             public void onUpdate(final JoinDecision joinDecision) {
-            if (joinDecision.approved == JoinDecision.APPROVED) {
-                view.navigateToHomeUi();
-            } else {
-                if (!loadedClanInfo) {
-                    loadDisplayClanInfo();
-                    loadedClanInfo = true;
+                if (joinDecision.isApproved == JoinDecision.APPROVED) {
+                    view.navigateToHomeUi();
+                } else {
+                    if (!loadedClanInfo) {
+                        loadDisplayClanInfo();
+                        loadedClanInfo = true;
+                    }
+                    if (joinDecision.isApproved == JoinDecision.DENIED) {
+                        view.displayJoinDenied();
+                    }
                 }
-                if (joinDecision.approved == JoinDecision.DENIED) {
-                    view.displayJoinDenied();
-                }
-            }
             }
         });
-    }
-
-    @Override
-    public void onDetach() {
-
     }
 
     @Override

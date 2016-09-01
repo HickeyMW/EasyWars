@@ -36,6 +36,7 @@ public class LoadingSplashActivity extends BasePresenterActivity<LoadingSplashCo
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_loading_splash);
         getSupportActionBar().hide();
+        presenter.onCreate();
     }
 
     @Override

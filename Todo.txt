@@ -1,14 +1,18 @@
 TODO
 0: 
-Batch clan info
-Search on join clan
-make recycler view items stand out not different color background (members fo sho) - join requests, name selection
 standardize click animation on recycler views
 UI
-
+Look over tests and use random object creator
+Make sure following MVP maybe make views completely passive
+Can't join with same name as already exists
+Screen for managing players in clan - give admin privladges
+User dagger correctly
 Issues screen: Upvotes, comments - tab view: suggestions, bugs, general chat
+use fragment manager correctly
+Screens with loading, have ui visible loading bar hidden
 
 1:
+Analytics/Crash Reporting
 get stuck if removed from clan (can’t happen yet) and user’s state doesn’t update, check for read denied
 Switch claims to objects
 War vs Enemy Clan on top of recycler view

@@ -20,22 +20,31 @@ public class JoinRequestsActivity extends BasePresenterActivity<JoinRequestsCont
 
     final static String TAG = "JoinRequestsActivity";
 
-    private ActivityJoinRequestsBinding binding;
-
     @Inject
     public JoinRequestsContract.ViewListener presenter;
+    private ActivityJoinRequestsBinding binding;
+
+    JoinRequestsAdapter joinRequestsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_requests);
+        joinRequestsAdapter = new JoinRequestsAdapter(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_join_requests);
         binding.rvJoinRequests.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvJoinRequests.setAdapter(joinRequestsAdapter);
+        presenter.onCreate();
     }
 
     @Override
-    public void displayJoinRequests(ArrayList<JoinRequest> joinRequests) {
-        binding.rvJoinRequests.setAdapter(new JoinRequestsAdapter(joinRequests, this));
+    public void addJoinRequest(JoinRequest joinRequest) {
+        joinRequestsAdapter.addJoinRequest(joinRequest);
+    }
+
+    @Override
+    public void toggleLoading(boolean loading) {
+
     }
 
     @Override

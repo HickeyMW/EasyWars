@@ -18,11 +18,10 @@ import com.wickeddevs.easywars.data.model.JoinRequest;
  */
 public class JoinRequestsAdapter extends RecyclerView.Adapter<JoinRequestsAdapter.JoinRequestsViewHolder> {
 
-    private ArrayList<JoinRequest> joinRequests;
+    private ArrayList<JoinRequest> joinRequests = new ArrayList<>();
     private ApprovalListener approvalListener;
 
-    public JoinRequestsAdapter(ArrayList<JoinRequest> joinRequests, ApprovalListener approvalListener) {
-        this.joinRequests = joinRequests;
+    public JoinRequestsAdapter(ApprovalListener approvalListener) {
         this.approvalListener = approvalListener;
     }
 
@@ -35,7 +34,7 @@ public class JoinRequestsAdapter extends RecyclerView.Adapter<JoinRequestsAdapte
     @Override
     public void onBindViewHolder(JoinRequestsViewHolder holder, int position) {
 
-        holder.name.setText(joinRequests.get(position).name);
+        holder.name.setText("Name: " + joinRequests.get(position).name);
         if (joinRequests.get(position).message.isEmpty()){
             holder.message.setVisibility(View.GONE);
         } else {
@@ -49,8 +48,9 @@ public class JoinRequestsAdapter extends RecyclerView.Adapter<JoinRequestsAdapte
         return joinRequests.size();
     }
 
-    public JoinRequest getMember(int position) {
-        return joinRequests.get(position);
+    public void addJoinRequest(JoinRequest joinRequest) {
+        joinRequests.add(joinRequest);
+        notifyItemInserted(joinRequests.size());
     }
 
     public class JoinRequestsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -76,7 +76,7 @@ public class JoinRequestsAdapter extends RecyclerView.Adapter<JoinRequestsAdapte
 
         @Override
         public void onClick(View v) {
-            String uid = joinRequest.uid;
+            String uid = joinRequest.key;
             btnAccept.setVisibility(View.INVISIBLE);
             btnDeny.setVisibility(View.INVISIBLE);
             status.setVisibility(View.VISIBLE);

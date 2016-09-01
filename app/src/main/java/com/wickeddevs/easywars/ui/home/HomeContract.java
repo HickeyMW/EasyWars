@@ -21,6 +21,8 @@ public interface HomeContract {
 
     interface ViewListener extends Presenter<HomeContract.View> {
 
+        void onCreate();
+
         void pressedLogout();
     }
 }

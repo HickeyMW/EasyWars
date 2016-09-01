@@ -13,12 +13,16 @@ public interface JoinRequestsContract {
 
     interface View extends PView {
 
-        void displayJoinRequests(ArrayList<JoinRequest> joinRequests);
+        void addJoinRequest(JoinRequest joinRequest);
 
         void displayNoJoinRequests();
+
+        void toggleLoading(boolean loading);
     }
 
     interface ViewListener extends Presenter<JoinRequestsContract.View> {
+
+        void onCreate();
 
         void joinRequestDecision(JoinRequest joinRequest, boolean approved);
     }

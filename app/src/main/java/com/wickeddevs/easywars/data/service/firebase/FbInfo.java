@@ -76,16 +76,12 @@ public enum FbInfo {
         return null;
     }
 
+    public static DatabaseReference getAllClansRef() {
+        return FbInfo.getDb().getReference("clans/");
+    }
+
     public static DatabaseReference getUserRef() {
         return FbInfo.getDb().getReference("users/" + getUid());
-    }
-
-    public static DatabaseReference getClanTagsRef() {
-        return getDb().getReference("clanTags");
-    }
-
-    public static DatabaseReference getClanNamesRef() {
-        return getDb().getReference("clanNames");
     }
 
     public static DatabaseReference getRequestRef() {
