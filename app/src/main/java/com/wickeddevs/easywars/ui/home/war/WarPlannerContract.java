@@ -15,6 +15,7 @@ public interface WarPlannerContract {
 
         void displayNoCurrentWar(boolean isAdmin);
 
+        void toggleLoading(boolean loading);
     }
 
     interface ViewListener extends Presenter<WarPlannerContract.View> {

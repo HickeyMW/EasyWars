@@ -32,20 +32,15 @@ public class CreateClanPresenter implements CreateClanContract.ViewListener {
 
     @Override
     public void onCreate() {
-        String clanTag = view.getClanTag();
-        if (clanTag != null) {
-            view.toggleLoading(true);
-            apiService.getApiClan(clanTag, new ApiService.LoadApiClanCallback() {
-                @Override
-                public void onApiClanLoaded(ApiClan apiClan) {
-                    view.toggleLoading(false);
-                    CreateClanPresenter.this.apiClan = apiClan;
-                    view.displayClanInfo(apiClan);
-                }
-            });
-        } else {
-            Log.e(TAG, "onAttach: Clan tag was null");
-        }
+        view.toggleLoading(true);
+        apiService.getApiClan(view.getClanTag(), new ApiService.LoadApiClanCallback() {
+            @Override
+            public void onApiClanLoaded(ApiClan apiClan) {
+                view.toggleLoading(false);
+                CreateClanPresenter.this.apiClan = apiClan;
+                view.displayClanInfo(apiClan);
+            }
+        });
     }
 
     @Override

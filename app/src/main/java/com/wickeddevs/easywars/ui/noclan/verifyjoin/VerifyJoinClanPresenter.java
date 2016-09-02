@@ -32,6 +32,7 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
 
     @Override
     public void onCreate() {
+        view.toggleLoading(true);
         joinClanService.setDecisionListener(new JoinClanService.DecisionListener() {
             @Override
             public void onUpdate(final JoinDecision joinDecision) {
@@ -57,7 +58,6 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
     }
 
     private void loadDisplayClanInfo() {
-        view.toggleLoading(true);
         userService.getUser(new UserService.LoadUserCallback() {
             @Override
             public void onUserLoaded(User user) {

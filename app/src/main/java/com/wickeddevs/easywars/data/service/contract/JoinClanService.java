@@ -27,7 +27,7 @@ public interface JoinClanService {
     }
 
     interface JoinRequestListener {
-        void intialLoadComplete();
+        void initialLoadComplete();
         void addJoinRequest(JoinRequest joinRequest);
     }
 

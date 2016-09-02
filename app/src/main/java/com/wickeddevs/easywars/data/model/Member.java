@@ -17,7 +17,6 @@ public class Member {
     public Member(String name, boolean admin, String uid) {
         this.admin = admin;
         this.name = name;
-
         this.uid = uid;
     }
 

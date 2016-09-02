@@ -17,11 +17,15 @@ import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.data.service.contract.ApiService;
 import com.wickeddevs.easywars.data.service.contract.JoinClanService;
 import com.wickeddevs.easywars.data.service.contract.UserService;
+import com.wickeddevs.easywars.util.Testing;
 
 /**
  * Created by 375csptssce on 8/12/16.
  */
 public class VerifyJoinClanPresenterTest {
+
+    private ApiClan apiClan = Testing.randomApiClan();
+    private User user = Testing.randomUser(User.STATE_JOINING);
 
     private VerifyJoinClanPresenter presenter;
 
@@ -54,38 +58,39 @@ public class VerifyJoinClanPresenterTest {
     }
 
     @Test
-    public void attach_joinPending_loadClanInfo_DisplayClanInfo() {
-        User user = new User(User.STATE_JOINING, "#23098J");
-        ApiClan apiClan = new ApiClan();
-        presenter.onAttach();
+    public void attach_getDecision() {
+        presenter.onCreate();
+        view.toggleLoading(true);
         verify(joinClanService).setDecisionListener(decisionListenerArgumentCaptor.capture());
-        decisionListenerArgumentCaptor.getValue().onUpdate(new JoinDecision());
-        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
-        loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
-        verify(apiService).getApiClan(eq(user.clanTag), loadApiClanCallbackArgumentCaptor.capture());
-        loadApiClanCallbackArgumentCaptor.getValue().onApiClanLoaded(apiClan);
-        verify(view).displayJoinInfo(apiClan);
     }
 
     @Test
-    public void attach_joinDenied_loadClanInfo_DisplayClanInfo() {
-        User user = new User(User.STATE_JOINING, "#23098J");
-        ApiClan apiClan = new ApiClan();
-        presenter.onAttach();
-        verify(joinClanService).setDecisionListener(decisionListenerArgumentCaptor.capture());
+    public void attach_getDecision_joinPending_loadClanInfo_displayClanInfo() {
+        attach_getDecision();
+        decisionListenerArgumentCaptor.getValue().onUpdate(new JoinDecision());
+        helper_loadUser_loadClan_displayInfo();
+    }
+
+    @Test
+    public void attach_getDecision_joinDenied_loadClanInfo_displayClanInfo_displayDenied() {
+        attach_getDecision();
         decisionListenerArgumentCaptor.getValue().onUpdate(new JoinDecision(false));
-        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
-        loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
-        verify(apiService).getApiClan(eq(user.clanTag), loadApiClanCallbackArgumentCaptor.capture());
-        loadApiClanCallbackArgumentCaptor.getValue().onApiClanLoaded(apiClan);
-        verify(view).displayJoinInfo(apiClan);
+        helper_loadUser_loadClan_displayInfo();
         verify(view).displayJoinDenied();
     }
 
+    private void helper_loadUser_loadClan_displayInfo() {
+        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
+        loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
+        verify(apiService).getApiClan(eq(user.clanTag), loadApiClanCallbackArgumentCaptor.capture());
+        loadApiClanCallbackArgumentCaptor.getValue().onApiClanLoaded(apiClan);
+        verify(view).toggleLoading(false);
+        verify(view).displayJoinInfo(apiClan);
+    }
+
     @Test
-    public void attach_joinApproved_navigateToHomeUi() {
-        presenter.onAttach();
-        verify(joinClanService).setDecisionListener(decisionListenerArgumentCaptor.capture());
+    public void attach_getDecision_joinApproved_navigateToHomeUi() {
+        attach_getDecision();
         decisionListenerArgumentCaptor.getValue().onUpdate(new JoinDecision(true));
         verify(view).navigateToHomeUi();
     }

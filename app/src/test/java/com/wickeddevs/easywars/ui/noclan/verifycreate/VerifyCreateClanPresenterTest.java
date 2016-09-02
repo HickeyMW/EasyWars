@@ -17,6 +17,7 @@ import com.wickeddevs.easywars.data.model.CreateRequest;
 import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.data.service.contract.ApiService;
 import com.wickeddevs.easywars.data.service.contract.CreateClanService;
+import com.wickeddevs.easywars.util.Testing;
 
 /**
  * Created by 375csptssce on 8/12/16.
@@ -52,9 +53,9 @@ public class VerifyCreateClanPresenterTest {
 
     @Test
     public void attach_loadRequestAndClanInfo_displayData() {
-        CreateRequest createRequest = new CreateRequest("name", "#3FO38F");
+        CreateRequest createRequest = Testing.randomCreateRequest();
         ApiClan apiClan = new ApiClan();
-        presenter.onAttach();
+        presenter.onCreate();
         verify(view).toggleLoading(true);
         verify(createClanService).getCreateRequest(createRequestCallbackArgumentCaptor.capture());
         createRequestCallbackArgumentCaptor.getValue().onCreateRequestLoaded(createRequest);
@@ -65,25 +66,28 @@ public class VerifyCreateClanPresenterTest {
     }
 
     @Test
-    public void verify_isVerified_navigateHome() {
+    public void verifyCreateClan() {
         presenter.verifyCreateClan();
         verify(createClanService).verifyCreateRequest(verifyCreateCallbackArgumentCaptor.capture());
+    }
+
+    @Test
+    public void verifyCreateClan_isVerified_navigateHome() {
+        verifyCreateClan();
         verifyCreateCallbackArgumentCaptor.getValue().onVerificationLoaded(true);
         verify(view).navigateToHomeUi();
     }
 
     @Test
-    public void verify_isNotVerified_displayErrorMessage() {
-        presenter.verifyCreateClan();
-        verify(createClanService).verifyCreateRequest(verifyCreateCallbackArgumentCaptor.capture());
+    public void verifyCreateClan_isNotVerified_displayErrorMessage() {
+        verifyCreateClan();
         verifyCreateCallbackArgumentCaptor.getValue().onVerificationLoaded(false);
         verify(view).displayMessage(anyString());
     }
 
     @Test
-    public void verify_triedAgainTooSoon_DisplayErrorMessage() {
-        presenter.verifyCreateClan();
-        verify(createClanService).verifyCreateRequest(verifyCreateCallbackArgumentCaptor.capture());
+    public void verifyCreateClan_triedAgainTooSoon_DisplayErrorMessage() {
+        verifyCreateClan();
         verifyCreateCallbackArgumentCaptor.getValue().onVerificationLoaded(false);
         presenter.verifyCreateClan();
         verify(view, times(2)).displayMessage(anyString());

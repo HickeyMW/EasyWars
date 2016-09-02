@@ -44,7 +44,6 @@ public class JoinClanActivity extends BasePresenterActivity<JoinClanContract.Vie
 
     @Override
     public void displayClanInfo(ApiClan apiClan) {
-        binding.layoutMain.setVisibility(View.VISIBLE);
         binding.tvClanName.setText(apiClan.name);
         binding.tvClanTag.setText(apiClan.tag);
         Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().into(binding.ivBadge);
@@ -89,8 +88,10 @@ public class JoinClanActivity extends BasePresenterActivity<JoinClanContract.Vie
     public void toggleLoading(boolean loading) {
         if (loading) {
             binding.progressBar.setVisibility(View.VISIBLE);
+            binding.layoutMain.setVisibility(View.INVISIBLE);
         } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
+            binding.layoutMain.setVisibility(View.VISIBLE);
         }
     }
 

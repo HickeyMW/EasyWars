@@ -27,10 +27,6 @@ public class SearchClansPresenterTest {
 
     private SearchClansPresenter presenter;
     private ApiClan apiClan = Testing.randomApiClan();
-    private ArrayList<ApiClan> apiClans = Testing.randomApiClanList();
-    private ArrayList<String> clanTags = Testing.randomClanTagList();
-    private ArrayList<String> emptyClanTags = new ArrayList<String>();
-    private String tooShortQuery = "jj";
     private String query = Testing.randomString();
 
     @Mock
@@ -59,12 +55,19 @@ public class SearchClansPresenterTest {
     }
 
     @Test
-    public void searchJoinableClans_clansFound_displayClans() {
+    public void searchJoinableClans() {
         when(view.getStartedBy()).thenReturn(SearchClansActivity.STARTED_FOR_JOIN);
         presenter.search(query);
         view.clearClans();
         view.toggleLoading(true);
         verify(joinClanService).searchJoinableClans(eq(query), clanTagsCallbackArgumentCaptor.capture());
+    }
+
+    @Test
+    public void searchJoinableClans_clansFound_displayClans() {
+        ArrayList<String> clanTags = Testing.randomStringList();
+
+        searchJoinableClans();
         clanTagsCallbackArgumentCaptor.getValue().onLoaded(clanTags);
         view.toggleLoading(false);
         for (String clanTag : clanTags) {
@@ -77,20 +80,18 @@ public class SearchClansPresenterTest {
 
     @Test
     public void searchJoinableClans_noClansFound_displayClans() {
-        when(view.getStartedBy()).thenReturn(SearchClansActivity.STARTED_FOR_JOIN);
-        presenter.search(query);
-        view.clearClans();
-        view.toggleLoading(true);
-        verify(joinClanService).searchJoinableClans(eq(query), clanTagsCallbackArgumentCaptor.capture());
+        ArrayList<String> emptyClanTags = new ArrayList<String>();
+
+        searchJoinableClans();
         clanTagsCallbackArgumentCaptor.getValue().onLoaded(emptyClanTags);
         view.toggleLoading(false);
         view.displayMessage(anyString());
     }
 
-
-
     @Test
     public void search_getsSearchResults_displaysSearchResults() {
+        ArrayList<ApiClan> apiClans = Testing.randomApiClanList();
+
         presenter.search(query);
         verify(apiService).searchClans(eq(query), searchApiClansCallbackArgumentCaptor.capture());
         searchApiClansCallbackArgumentCaptor.getValue().onApiClansLoaded(apiClans);
@@ -99,6 +100,7 @@ public class SearchClansPresenterTest {
 
     @Test
     public void search_queryLessThanThreeCharacters_displayWarning() {
+        String tooShortQuery = "jj";
         presenter.search(tooShortQuery);
         verify(view).displayQueryTooShort();
     }

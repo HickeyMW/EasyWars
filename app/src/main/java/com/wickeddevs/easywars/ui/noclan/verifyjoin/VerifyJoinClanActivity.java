@@ -35,10 +35,8 @@ public class VerifyJoinClanActivity extends BasePresenterActivity<VerifyJoinClan
 
     @Override
     public void displayJoinInfo(ApiClan apiClan) {
-        binding.progressBar.setVisibility(View.GONE);
         binding.tvClanName.setText(apiClan.name);
         binding.tvTag.setText(apiClan.tag);
-        binding.layoutMain.setVisibility(View.VISIBLE);
         Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -91,8 +89,10 @@ public class VerifyJoinClanActivity extends BasePresenterActivity<VerifyJoinClan
     public void toggleLoading(boolean loading) {
         if (loading) {
             binding.progressBar.setVisibility(View.VISIBLE);
+            binding.layoutMain.setVisibility(View.INVISIBLE);
         } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
+            binding.layoutMain.setVisibility(View.VISIBLE);
         }
     }
 }

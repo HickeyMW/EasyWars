@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,6 +44,7 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
     static final String EXTRA_IS_ADMIN  = "extraIsAdmin";
     private ArrayList<MenuItem> adminItems = new ArrayList<>();
     private DrawerLayout drawer;
+    private MenuItem settingsItem;
 
     @Inject
     public HomeContract.ViewListener presenter;
@@ -94,6 +96,13 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home, menu);
+        settingsItem = menu.findItem(R.id.action_settings);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -102,6 +111,15 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
             //super.onBackPressed();
             finishAffinity();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Log.i(TAG, "onOptionsItemSelected: Pressed it");
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -116,8 +134,10 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
             setTitle("Admin Chat");
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatFragment.getInstance(true)).commit();
         } else if (id == R.id.nav_war_planner) {
-            setTitle("War Planner");
+            setTitle("War Against Other Clan");
+            getSupportActionBar().setSubtitle("Time Remining: 5:35");
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new WarPlannerFragment()).commit();
+            settingsItem.setVisible(true);
         } else if (id == R.id.nav_join_requests) {
             Intent i = new Intent(this, JoinRequestsActivity.class);
             startActivity(i);

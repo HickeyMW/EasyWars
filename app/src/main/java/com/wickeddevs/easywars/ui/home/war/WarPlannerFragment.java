@@ -43,19 +43,19 @@ public class WarPlannerFragment extends BasePresenterFragment<WarPlannerContract
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_war_planner, container, false);
-        binding.btnNewWar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getContext(), StartWarActivity.class);
-                startActivity(i);
-            }
-        });
-        binding.btnDeleteWar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.pressedDeleteWar();
-            }
-        });
+//        binding.btnNewWar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(getContext(), StartWarActivity.class);
+//                startActivity(i);
+//            }
+//        });
+//        binding.btnDeleteWar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                presenter.pressedDeleteWar();
+//            }
+//        });
         binding.rvWarBases.setLayoutManager(new LinearLayoutManager(getContext()));
         //binding.rvWarBases.addItemDecoration(new SpaceItemDecoration());
         presenter.onCreate();
@@ -72,13 +72,13 @@ public class WarPlannerFragment extends BasePresenterFragment<WarPlannerContract
 
     @Override
     public void displayWar(final War war, boolean isAdmin) {
-        binding.btnNewWar.setVisibility(View.INVISIBLE);
+       // binding.btnNewWar.setVisibility(View.INVISIBLE);
         binding.tvNoWar.setText("");
 
         if (isAdmin) {
-            binding.btnDeleteWar.setVisibility(View.VISIBLE);
+            //binding.btnDeleteWar.setVisibility(View.VISIBLE);
         }
-        binding.layoutHeader.setVisibility(View.VISIBLE);
+        //binding.layoutHeader.setVisibility(View.VISIBLE);
         binding.tvTitle.setText("War against " + war.enemyName);
         binding.tvTimeRemaining.setText(String.valueOf(formattedTimeRemainging(war.startTime)));
         binding.rvWarBases.setVisibility(View.VISIBLE);
@@ -95,12 +95,23 @@ public class WarPlannerFragment extends BasePresenterFragment<WarPlannerContract
     public void displayNoCurrentWar(boolean isAdmin) {
         binding.layoutHeader.setVisibility(View.INVISIBLE);
         binding.rvWarBases.setVisibility(View.INVISIBLE);
-        binding.btnDeleteWar.setVisibility(View.INVISIBLE);
+       // binding.btnDeleteWar.setVisibility(View.INVISIBLE);
         if (isAdmin) {
             binding.tvNoWar.setText("There is no war going on right now. Press the button below to start one");
-            binding.btnNewWar.setVisibility(View.VISIBLE);
+            //binding.btnNewWar.setVisibility(View.VISIBLE);
         } else {
             binding.tvNoWar.setText("There is no war going on right now. Please wait for an admin to start one");
+        }
+    }
+
+    @Override
+    public void toggleLoading(boolean loading) {
+        if (loading) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.layoutMain.setVisibility(View.INVISIBLE);
+        } else {
+            binding.progressBar.setVisibility(View.INVISIBLE);
+            binding.layoutMain.setVisibility(View.VISIBLE);
         }
     }
 

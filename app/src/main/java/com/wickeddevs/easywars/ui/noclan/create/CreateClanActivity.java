@@ -32,7 +32,6 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setHomeButtonEnabled(true);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_clan);
         binding.rvMembers.setLayoutManager(new LinearLayoutManager(this));
         binding.btnCreate.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +45,6 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
 
     @Override
     public void displayClanInfo(ApiClan apiClan) {
-        binding.layoutClan.setVisibility(View.VISIBLE);
         binding.tvClanName.setText(apiClan.name);
         binding.tvMembers.setText("Members " + apiClan.members + "/50");
         Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().into(binding.ivClanBadge);
@@ -93,8 +91,10 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
     public void toggleLoading(boolean loading) {
         if (loading) {
             binding.progressBar.setVisibility(View.VISIBLE);
+            binding.layoutClan.setVisibility(View.INVISIBLE);
         } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
+            binding.layoutClan.setVisibility(View.VISIBLE);
         }
     }
 

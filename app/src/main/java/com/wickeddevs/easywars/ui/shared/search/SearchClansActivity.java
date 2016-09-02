@@ -110,9 +110,8 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
 
     @Override
     public void displayQueryTooShort() {
-        Toast.makeText(this, "Searches must be at least three characters long", Toast.LENGTH_LONG).show();
+        displayMessage("Searches must be at least three characters long");
     }
-
 
     @Override
     public int getStartedBy() {
@@ -167,8 +166,10 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
     public void toggleLoading(boolean loading) {
         if (loading) {
             binding.progressBar.setVisibility(View.VISIBLE);
+            binding.rvSearch.setVisibility(View.INVISIBLE);
         } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
+            binding.rvSearch.setVisibility(View.VISIBLE);
         }
     }
 

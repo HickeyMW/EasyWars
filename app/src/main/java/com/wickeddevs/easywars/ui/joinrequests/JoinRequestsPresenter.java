@@ -13,6 +13,8 @@ public class JoinRequestsPresenter implements JoinRequestsContract.ViewListener 
     private JoinRequestsContract.View view;
     private JoinClanService joinClanService;
 
+    private boolean anyJoinRequests = false;
+
     public JoinRequestsPresenter(JoinClanService joinClanService) {
         this.joinClanService = joinClanService;
     }
@@ -28,24 +30,18 @@ public class JoinRequestsPresenter implements JoinRequestsContract.ViewListener 
         joinClanService.setJoinRequestListener(new JoinClanService.JoinRequestListener() {
             @Override
             public void addJoinRequest(JoinRequest joinRequest) {
+                anyJoinRequests = true;
                 view.addJoinRequest(joinRequest);
             }
 
             @Override
-            public void intialLoadComplete() {
+            public void initialLoadComplete() {
+                if (!anyJoinRequests) {
+                    view.displayMessage("There are no join requests to display");
+                }
                 view.toggleLoading(false);
             }
         });
-//        joinClanService.getJoinRequests(new JoinClanService.JoinRequestsCallback() {
-//            @Override
-//            public void onLoaded(ArrayList<JoinRequest> joinRequests) {
-//                if (joinRequests.size() != 0) {
-//                    view.displayJoinRequests(joinRequests);
-//                } else {
-//                    view.displayNoJoinRequests();
-//                }
-//            }
-//        });
     }
 
     @Override

@@ -28,12 +28,14 @@ public class WarPlannerPresenter implements WarPlannerContract.ViewListener {
 
     @Override
     public void onCreate() {
+        view.toggleLoading(true);
         warService.getLatestWar(new WarService.LoadWarCallback() {
             @Override
             public void onLoaded(final War war) {
                 clanService.getSelf(new ClanService.LoadMemberCallback() {
                     @Override
                     public void onMemberLoaded(Member member) {
+                        view.toggleLoading(false);
                         if (war == null) {
                             view.displayNoCurrentWar(member.admin);
                         } else {

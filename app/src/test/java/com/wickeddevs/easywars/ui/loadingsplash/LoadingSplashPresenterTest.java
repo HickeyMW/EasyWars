@@ -17,6 +17,7 @@ import com.wickeddevs.easywars.MyApplication;
 import com.wickeddevs.easywars.data.model.User;
 import com.wickeddevs.easywars.data.service.contract.UserService;
 import com.wickeddevs.easywars.data.service.contract.VersionService;
+import com.wickeddevs.easywars.util.Testing;
 
 /**
  * Created by 375csptssce on 7/26/16.
@@ -48,9 +49,14 @@ public class LoadingSplashPresenterTest {
     }
 
     @Test
-    public void attach_behindMinorVersion() {
-        presenter.onAttach();
+    public void attach_getVersion() {
+        presenter.onCreate();
         verify(versionService).getCurrentVersion(checkVersionCallbackArgumentCaptor.capture());
+    }
+
+    @Test
+    public void attach_getVersion_behindMinorVersion() {
+        attach_getVersion();
         checkVersionCallbackArgumentCaptor.getValue().onVersionLoaded(MyApplication.MAJOR_VERSION, MyApplication.MINOR_VERSION + 1);
         verify(view).displayBehindMinorVersion();
         presenter.pressedOkMinor();
@@ -58,9 +64,8 @@ public class LoadingSplashPresenterTest {
     }
 
     @Test
-    public void attach_behindMajorVersion() {
-        presenter.onAttach();
-        verify(versionService).getCurrentVersion(checkVersionCallbackArgumentCaptor.capture());
+    public void attach_getVersion_behindMajorVersion() {
+        attach_getVersion();
         checkVersionCallbackArgumentCaptor.getValue().onVersionLoaded(MyApplication.MAJOR_VERSION + 1, MyApplication.MINOR_VERSION);
         verify(view).displayBehindMajorVersion();
         presenter.pressedOkMajor();
@@ -68,16 +73,15 @@ public class LoadingSplashPresenterTest {
     }
 
     @Test
-    public void attach_upToDate() {
-        presenter.onAttach();
-        verify(versionService).getCurrentVersion(checkVersionCallbackArgumentCaptor.capture());
+    public void attach_getVersion_upToDate() {
+        attach_getVersion();
         checkVersionCallbackArgumentCaptor.getValue().onVersionLoaded(MyApplication.MAJOR_VERSION, MyApplication.MINOR_VERSION);
     }
 
     @Test
     public void attach_isUpToDate_isNotLoggedIn_NavigateToLogInUi() {
         when(userService.isLoggedIn()).thenReturn(false);
-        attach_upToDate();
+        attach_getVersion_upToDate();
         verify(userService).isLoggedIn();
         verify(view).navigateToLoginUi();
     }
@@ -95,53 +99,54 @@ public class LoadingSplashPresenterTest {
     }
 
     @Test
-    public void helper_attach_isUpToDate_isLoggedIn() {
+    public void attach_isUpToDate_isLoggedIn_getUser() {
         when(userService.isLoggedIn()).thenReturn(true);
-        attach_upToDate();
+        attach_getVersion_upToDate();
         verify(userService).isLoggedIn();
+        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
     }
 
     @Test
     public void attach_isUpToDate_isLoggedIn_stateNoClan() {
-        helper_attach_isUpToDate_isLoggedIn();
         User user = new User(User.STATE_BLANK, "");
-        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
+
+        attach_isUpToDate_isLoggedIn_getUser();
         loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
         verify(view).navigateToNoClanUi();
     }
 
     @Test
     public void attach_isUpToDate_isLoggedIn_stateCreating() {
-        helper_attach_isUpToDate_isLoggedIn();
-        User user = new User(User.STATE_CREATING, "");
-        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
+        User user = Testing.randomUser(User.STATE_CREATING);
+
+        attach_isUpToDate_isLoggedIn_getUser();
         loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
         verify(view).navigateToCreatingClanUi();
     }
 
     @Test
     public void attach_isUpToDate_isLoggedIn_stateJoining() {
-        helper_attach_isUpToDate_isLoggedIn();
-        User user = new User(User.STATE_JOINING, "");
-        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
+        User user = Testing.randomUser(User.STATE_JOINING);
+
+        attach_isUpToDate_isLoggedIn_getUser();
         loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
         verify(view).navigateToJoiningClanUi();
     }
 
     @Test
     public void attach_isUpToDate_isLoggedIn_stateMember() {
-        helper_attach_isUpToDate_isLoggedIn();
-        User user = new User(User.STATE_MEMBER, "");
-        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
+        User user = Testing.randomUser(User.STATE_MEMBER);
+
+        attach_isUpToDate_isLoggedIn_getUser();
         loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
         verify(view).navigateToHomeUi();
     }
 
     @Test
     public void attach_isUpToDate_isLoggedIn_stateAdmin() {
-        helper_attach_isUpToDate_isLoggedIn();
-        User user = new User(User.STATE_ADMIN, "");
-        verify(userService).getUser(loadUserCallbackArgumentCaptor.capture());
+        User user = Testing.randomUser(User.STATE_ADMIN);
+
+        attach_isUpToDate_isLoggedIn_getUser();
         loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
         verify(view).navigateToHomeUi();
     }

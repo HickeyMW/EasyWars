@@ -128,7 +128,7 @@ public class FbJoinClanService implements JoinClanService {
                 dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        listener.intialLoadComplete();
+                        listener.initialLoadComplete();
                     }
 
                     @Override

@@ -85,9 +85,6 @@ public class SearchClansPresenter implements SearchClansContract.ViewListener {
             case SearchClansActivity.STARTED_FOR_WAR:
                 view.navigateToWarUi(apiClan);
                 break;
-            default:
-                Log.e(TAG, "selectedClan: Started by value is invalid");
-                break;
         }
     }
 }

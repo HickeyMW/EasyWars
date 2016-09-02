@@ -15,10 +15,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.wickeddevs.easywars.data.model.api.ApiClan;
-import com.wickeddevs.easywars.data.model.api.ApiMember;
-import com.wickeddevs.easywars.data.model.api.BadgeUrls;
 import com.wickeddevs.easywars.data.service.contract.ApiService;
 import com.wickeddevs.easywars.data.service.contract.CreateClanService;
+import com.wickeddevs.easywars.util.Testing;
 
 
 /**
@@ -26,10 +25,7 @@ import com.wickeddevs.easywars.data.service.contract.CreateClanService;
  */
 public class CreateClanPresenterTest {
 
-    private String tag1 = "#FOI30FJ";
-    private ApiMember apiMember1 = new ApiMember("Mem1Name", "Mem1Tag");
-    private ApiMember apiMember2 = new ApiMember("Mem2Name", "Mem2Tag");
-    private ArrayList<ApiMember> apiMembers = new ArrayList<>();
+    String clanTag = Testing.randomString();
     private ApiClan apiClan;
 
     private CreateClanPresenter presenter;
@@ -48,28 +44,28 @@ public class CreateClanPresenterTest {
 
     @Before
     public void setup() {
+        apiClan = Testing.randomApiClan(clanTag);
+
         MockitoAnnotations.initMocks(this);
         presenter = new CreateClanPresenter(apiService, createClanService);
         presenter.registerView(view);
-        apiMembers.add(apiMember1);
-        apiMembers.add(apiMember2);
-        apiClan = new ApiClan("Clan Name", "ClanTag", new BadgeUrls(), 2, apiMembers);
     }
 
     @Test
     public void attach_loadClanInfo_DisplayClanInfo() {
-        when(view.getClanTag()).thenReturn(tag1);
-        presenter.onAttach();
+        when(view.getClanTag()).thenReturn(clanTag);
+        presenter.onCreate();
         verify(view).getClanTag();
-        verify(apiService).getApiClan(eq(tag1), loadApiClanCallbackArgumentCaptor.capture());
+        verify(apiService).getApiClan(eq(clanTag), loadApiClanCallbackArgumentCaptor.capture());
         loadApiClanCallbackArgumentCaptor.getValue().onApiClanLoaded(apiClan);
         verify(view).displayClanInfo(apiClan);
     }
 
     @Test
     public void selectedName_createRequest_requestCreated() {
+        String name = Testing.randomString();
+
         attach_loadClanInfo_DisplayClanInfo();
-        String name = "selectedName";
         presenter.selectedName(name);
         verify(view).allowCreate();
         presenter.createClanRequest();

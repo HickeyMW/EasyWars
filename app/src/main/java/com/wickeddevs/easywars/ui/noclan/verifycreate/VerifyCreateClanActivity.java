@@ -49,7 +49,6 @@ public class VerifyCreateClanActivity extends BasePresenterActivity<VerifyCreate
 
     @Override
     public void displayCreateRequestDetails(CreateRequest createRequest, ApiClan apiClan) {
-        binding.layoutMain.setVisibility(View.VISIBLE);
         binding.tvClanName.setText(apiClan.name);
         binding.tvTag.setText(apiClan.tag);
         binding.tvVerification.setText("Code: " + String.valueOf(createRequest.verification));
@@ -99,8 +98,10 @@ public class VerifyCreateClanActivity extends BasePresenterActivity<VerifyCreate
     public void toggleLoading(boolean loading) {
         if (loading) {
             binding.progressBar.setVisibility(View.VISIBLE);
+            binding.layoutMain.setVisibility(View.INVISIBLE);
         } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
+            binding.layoutMain.setVisibility(View.VISIBLE);
         }
     }
 }

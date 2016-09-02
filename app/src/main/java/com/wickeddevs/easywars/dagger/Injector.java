@@ -84,6 +84,7 @@ public enum Injector {
     private ViewInjectorComponent getViewInjectorComponent() {
         return DaggerViewInjectorComponent.builder()
                     .serviceComponent(getServiceComponent()).build();
+
     }
 
     private ServiceComponent getServiceComponent() {
