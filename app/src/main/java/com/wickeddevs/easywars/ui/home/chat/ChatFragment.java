@@ -35,6 +35,7 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
     private FragmentChatBinding binding;
     private ChatAdapter chatAdapter;
     private LinearLayoutManager linearLayoutManager;
+    private boolean displayingShadow = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +55,30 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
                 int lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
                 if (lastVisiblePosition == -1 || lastVisiblePosition == friendlyMessageCount -2) {
                     binding.rvMessages.scrollToPosition(positionStart);
+                }
+            }
+        });
+        binding.rvMessages.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int friendlyMessageCount = chatAdapter.getItemCount();
+                int lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                if (lastVisiblePosition != friendlyMessageCount -1) {
+                    if (!displayingShadow) {
+                        displayingShadow = true;
+                        binding.layoutShadow.animate().alpha(1.0f).setDuration(300).start();
+                    }
+                } else {
+                    if (displayingShadow) {
+                        displayingShadow = false;
+                        binding.layoutShadow.animate().alpha(0.0f).setDuration(300).start();
+                    }
                 }
             }
         });

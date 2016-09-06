@@ -41,10 +41,8 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
         HomeContract.View, NavigationView.OnNavigationItemSelectedListener {
 
     final static String TAG = "HomeActivity";
-    static final String EXTRA_IS_ADMIN  = "extraIsAdmin";
     private ArrayList<MenuItem> adminItems = new ArrayList<>();
     private DrawerLayout drawer;
-    private MenuItem settingsItem;
 
     @Inject
     public HomeContract.ViewListener presenter;
@@ -86,20 +84,12 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        adminItems.add(navigationView.getMenu().findItem(R.id.nav_member_manager));
         adminItems.add(navigationView.getMenu().findItem(R.id.nav_join_requests));
-        adminItems.add(navigationView.getMenu().findItem(R.id.nav_admin_chat));
         setTitle("Chat");
-        navigationView.getMenu().findItem(R.id.nav_chat).setChecked(true);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatFragment.getInstance(false)).commit();
         presenter.onCreate();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home, menu);
-        settingsItem = menu.findItem(R.id.action_settings);
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -127,21 +117,14 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_chat) {
-            setTitle("Chat");
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatFragment.getInstance(false)).commit();
-        } if (id == R.id.nav_admin_chat) {
-            setTitle("Admin Chat");
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatFragment.getInstance(true)).commit();
-        } else if (id == R.id.nav_war_planner) {
+        if (id == R.id.nav_war_history) {
             setTitle("War Against Other Clan");
             getSupportActionBar().setSubtitle("Time Remining: 5:35");
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new WarPlannerFragment()).commit();
-            settingsItem.setVisible(true);
         } else if (id == R.id.nav_join_requests) {
             Intent i = new Intent(this, JoinRequestsActivity.class);
             startActivity(i);
-        } else if (id == R.id.nav_test) {
+        } else if (id == R.id.nav_issue_tracker) {
             Intent i = new Intent(this, TestingActivity.class);
             startActivity(i);
             finish();
