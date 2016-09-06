@@ -19,6 +19,7 @@ import com.wickeddevs.easywars.dagger.Injector;
 import com.wickeddevs.easywars.data.model.CreateRequest;
 import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.databinding.ActivityVerifyCreateClanBinding;
+import com.wickeddevs.easywars.miscellaneous.HideProgressBarRequestListener;
 import com.wickeddevs.easywars.ui.home.HomeActivity;
 import com.wickeddevs.easywars.ui.noclan.NoClanActivity;
 
@@ -52,18 +53,8 @@ public class VerifyCreateClanActivity extends BasePresenterActivity<VerifyCreate
         binding.tvClanName.setText(apiClan.name);
         binding.tvTag.setText(apiClan.tag);
         binding.tvVerification.setText("Code: " + String.valueOf(createRequest.verification));
-        Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().listener(new RequestListener<String, GlideDrawable>() {
-            @Override
-            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                binding.badgeProgressBar.setVisibility(View.INVISIBLE);
-                return false;
-            }
-        }).into(binding.ivBadge);
+        Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop()
+                .listener(new HideProgressBarRequestListener(binding.badgeProgressBar)).into(binding.ivBadge);
         binding.btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

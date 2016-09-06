@@ -18,4 +18,6 @@ public interface UserService {
     interface LoadUserCallback {
         void onUserLoaded(User user);
     }
+
+    boolean isMyId(String uid);
 }

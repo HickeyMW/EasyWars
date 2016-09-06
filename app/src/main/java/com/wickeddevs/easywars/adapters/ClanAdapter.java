@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.data.model.api.ApiClan;
+import com.wickeddevs.easywars.miscellaneous.HideProgressBarRequestListener;
 
 /**
  * Created by 375csptssce on 6/9/16.
@@ -50,18 +51,7 @@ public class ClanAdapter extends RecyclerView.Adapter<ClanAdapter.ClanViewHolder
         holder.tag.setText(apiClan.tag);
         holder.progressBar.setVisibility(View.VISIBLE);
         Glide.with(context).load(apiClan.badgeUrls.medium)
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        holder.progressBar.setVisibility(View.INVISIBLE);
-                        return false;
-                    }
-                })
+                .listener(new HideProgressBarRequestListener(holder.progressBar))
                 .centerCrop()
                 .into(holder.badge);
     }

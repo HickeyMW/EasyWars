@@ -18,13 +18,8 @@ import com.wickeddevs.easywars.data.model.war.Comment;
  */
 public class ClaimCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<String> claims;
-    private ArrayList<Comment> comments;
-
-    public ClaimCommentAdapter(ArrayList<String> claims, ArrayList<Comment> comments) {
-        this.claims = claims;
-        this.comments = comments;
-    }
+    private ArrayList<String> claims = new ArrayList<>();
+    private ArrayList<Comment> comments= new ArrayList<>();
 
     @Override
     public int getItemViewType(int position) {

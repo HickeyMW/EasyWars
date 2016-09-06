@@ -139,7 +139,7 @@ public class LoadingSplashPresenterTest {
 
         attach_isUpToDate_isLoggedIn_getUser();
         loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
-        verify(view).navigateToHomeUi();
+        verify(view).navigateToHomeUi(false);
     }
 
     @Test
@@ -148,6 +148,6 @@ public class LoadingSplashPresenterTest {
 
         attach_isUpToDate_isLoggedIn_getUser();
         loadUserCallbackArgumentCaptor.getValue().onUserLoaded(user);
-        verify(view).navigateToHomeUi();
+        verify(view).navigateToHomeUi(true);
     }
 }

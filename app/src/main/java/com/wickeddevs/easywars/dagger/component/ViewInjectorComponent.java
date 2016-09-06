@@ -6,7 +6,8 @@ import com.wickeddevs.easywars.dagger.scope.ActivityScope;
 
 import com.wickeddevs.easywars.ui.home.HomeActivity;
 import com.wickeddevs.easywars.ui.home.chat.ChatFragment;
-import com.wickeddevs.easywars.ui.home.war.WarPlannerFragment;
+import com.wickeddevs.easywars.ui.home.war.WarViewPagerFragment;
+import com.wickeddevs.easywars.ui.home.war.enemybases.WarEnemyBasesFragment;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
 import com.wickeddevs.easywars.ui.loadingsplash.LoadingSplashActivity;
 import com.wickeddevs.easywars.ui.noclan.create.CreateClanActivity;
@@ -43,11 +44,13 @@ public interface ViewInjectorComponent {
 
     void inject(HomeActivity homeActivity);
 
-    void inject(WarPlannerFragment warPlannerFragment);
+    void inject(WarEnemyBasesFragment warEnemyBasesFragment);
 
     void inject(BasicWarInfoFragment basicWarInfoFragment);
 
     void inject(WarOrderFragment warOrderFragment);
 
     void inject(WarBaseActivity warBaseActivity);
+
+    void inject(WarViewPagerFragment warViewPagerFragment);
 }

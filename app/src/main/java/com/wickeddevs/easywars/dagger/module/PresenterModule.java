@@ -15,8 +15,10 @@ import com.wickeddevs.easywars.ui.home.HomeContract;
 import com.wickeddevs.easywars.ui.home.HomePresenter;
 import com.wickeddevs.easywars.ui.home.chat.ChatContract;
 import com.wickeddevs.easywars.ui.home.chat.ChatPresenter;
-import com.wickeddevs.easywars.ui.home.war.WarPlannerContract;
-import com.wickeddevs.easywars.ui.home.war.WarPlannerPresenter;
+import com.wickeddevs.easywars.ui.home.war.WarViewPagerContract;
+import com.wickeddevs.easywars.ui.home.war.WarViewPagerPresenter;
+import com.wickeddevs.easywars.ui.home.war.enemybases.WarEnemyBasesContract;
+import com.wickeddevs.easywars.ui.home.war.enemybases.WarEnemyBasesPresenter;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsContract;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsPresenter;
 import com.wickeddevs.easywars.ui.loadingsplash.LoadingSplashContract;
@@ -101,8 +103,8 @@ public class PresenterModule {
 
     @Provides
     @ActivityScope
-    WarPlannerContract.ViewListener providesWarPresenter(WarService warService, ClanService clanService) {
-        return new WarPlannerPresenter(warService, clanService);
+    WarEnemyBasesContract.ViewListener providesWarPresenter(WarService warService, ClanService clanService) {
+        return new WarEnemyBasesPresenter(warService, clanService);
     }
 
     @Provides
@@ -119,7 +121,13 @@ public class PresenterModule {
 
     @Provides
     @ActivityScope
-    WarBaseContract.ViewListener providesWarBasePresenter(WarService warService, ClanService clanService) {
-        return new WarBasePresenter(clanService, warService);
+    WarBaseContract.ViewListener providesWarBasePresenter(WarService warService, ClanService clanService, UserService userService) {
+        return new WarBasePresenter(warService, clanService, userService);
+    }
+
+    @Provides
+    @ActivityScope
+    WarViewPagerContract.ViewListener providesWarViewPagerPresenter(WarService warService) {
+        return new WarViewPagerPresenter(warService);
     }
 }

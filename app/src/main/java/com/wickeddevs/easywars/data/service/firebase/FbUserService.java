@@ -61,4 +61,9 @@ public class FbUserService implements UserService {
             }
         });
     }
+
+    @Override
+    public boolean isMyId(String uid) {
+        return uid.equals(FbInfo.getUid());
+    }
 }

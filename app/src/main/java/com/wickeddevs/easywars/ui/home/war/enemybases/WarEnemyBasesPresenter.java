@@ -1,4 +1,4 @@
-package com.wickeddevs.easywars.ui.home.war;
+package com.wickeddevs.easywars.ui.home.war.enemybases;
 
 import com.wickeddevs.easywars.data.model.Member;
 import com.wickeddevs.easywars.data.model.war.War;
@@ -8,21 +8,21 @@ import com.wickeddevs.easywars.data.service.contract.WarService;
 /**
  * Created by 375csptssce on 8/16/16.
  */
-public class WarPlannerPresenter implements WarPlannerContract.ViewListener {
+public class WarEnemyBasesPresenter implements WarEnemyBasesContract.ViewListener {
 
     final static String TAG = "ChatPresenter";
 
-    private WarPlannerContract.View view;
+    private WarEnemyBasesContract.View view;
     private WarService warService;
     private ClanService clanService;
 
-    public WarPlannerPresenter(WarService warService, ClanService clanService) {
+    public WarEnemyBasesPresenter(WarService warService, ClanService clanService) {
         this.warService = warService;
         this.clanService = clanService;
     }
 
     @Override
-    public void registerView(WarPlannerContract.View activity) {
+    public void registerView(WarEnemyBasesContract.View activity) {
         view = activity;
     }
 

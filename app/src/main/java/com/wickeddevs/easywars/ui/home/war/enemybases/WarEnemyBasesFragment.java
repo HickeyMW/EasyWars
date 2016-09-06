@@ -1,7 +1,6 @@
-package com.wickeddevs.easywars.ui.home.war;
+package com.wickeddevs.easywars.ui.home.war.enemybases;
 
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,27 +12,25 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.SpaceItemDecoration;
 import com.wickeddevs.easywars.adapters.WarBasesAdapter;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
 import com.wickeddevs.easywars.dagger.Injector;
 import com.wickeddevs.easywars.data.model.war.War;
 import com.wickeddevs.easywars.databinding.FragmentWarPlannerBinding;
-import com.wickeddevs.easywars.ui.startwar.StartWarActivity;
 import com.wickeddevs.easywars.ui.warbase.WarBaseActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WarPlannerFragment extends BasePresenterFragment<WarPlannerContract.ViewListener>
-        implements WarPlannerContract.View {
+public class WarEnemyBasesFragment extends BasePresenterFragment<WarEnemyBasesContract.ViewListener>
+        implements WarEnemyBasesContract.View {
 
     @Inject
-    public WarPlannerContract.ViewListener presenter;
+    public WarEnemyBasesContract.ViewListener presenter;
 
     private FragmentWarPlannerBinding binding;
 
-    public WarPlannerFragment() {
+    public WarEnemyBasesFragment() {
         // Required empty public constructor
     }
 
@@ -63,7 +60,7 @@ public class WarPlannerFragment extends BasePresenterFragment<WarPlannerContract
     }
 
     @Override
-    protected WarPlannerContract.ViewListener getPresenter() {
+    protected WarEnemyBasesContract.ViewListener getPresenter() {
         if(presenter == null){
             Injector.INSTANCE.inject(this);
         }

@@ -18,7 +18,7 @@ public interface LoadingSplashContract {
 
         void navigateToLoginUi();
 
-        void navigateToHomeUi();
+        void navigateToHomeUi(boolean isAdmin);
 
         void navigateToNoClanUi();
 

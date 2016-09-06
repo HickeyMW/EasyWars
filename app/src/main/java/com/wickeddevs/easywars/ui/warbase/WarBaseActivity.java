@@ -52,6 +52,8 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
                 binding.etComment.setText("");
             }
         });
+        claimCommentAdapter = new ClaimCommentAdapter();
+        binding.rvClaimsComments.setAdapter(claimCommentAdapter);
         binding.rvClaimsComments.addItemDecoration(new SpaceItemDecoration());
         presenter.onCreate();
     }
@@ -90,8 +92,6 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
         binding.tvName.setText(base.name);
         binding.ivTownHall.setImageResource(Shared.getThResource(base.townHallLevel));
         binding.rvClaimsComments.setLayoutManager(new LinearLayoutManager(this));
-        claimCommentAdapter = new ClaimCommentAdapter(base.claims, base.comments);
-        binding.rvClaimsComments.setAdapter(claimCommentAdapter);
     }
 
     @Override

@@ -13,6 +13,10 @@ public interface WarService {
         void onLoaded(War war);
     }
 
+    interface ActiveWarCallback {
+        void onLoaded(boolean isActive);
+    }
+
     interface LoadBaseListener {
         void onLoaded(Base base);
         void newComment(Comment comment);
@@ -35,4 +39,6 @@ public interface WarService {
     void removeClaim(String warId, String baseId);
 
     void addComment(String body, String warId, String baseId);
+
+    void isActiveWar(ActiveWarCallback callback);
 }

@@ -10,7 +10,6 @@ public class Base {
     public String key;
     public int townHallLevel;
     public String name;
-    public boolean didClaim = false;
     public ArrayList<Comment> comments;
     public ArrayList<String> claims;
 

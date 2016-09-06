@@ -90,8 +90,10 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
                             view.navigateToJoiningClanUi();
                             break;
                         case User.STATE_MEMBER:
+                            view.navigateToHomeUi(false);
+                            break;
                         case User.STATE_ADMIN:
-                            view.navigateToHomeUi();
+                            view.navigateToHomeUi(true);
                             break;
                         default:
                             Log.e(TAG, "User doesn't have a valid state");

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 
 import javax.inject.Inject;
@@ -35,7 +36,6 @@ public class LoadingSplashActivity extends BasePresenterActivity<LoadingSplashCo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_loading_splash);
-        getSupportActionBar().hide();
         presenter.onCreate();
     }
 
@@ -90,9 +90,8 @@ public class LoadingSplashActivity extends BasePresenterActivity<LoadingSplashCo
     }
 
     @Override
-    public void navigateToHomeUi() {
-        Intent i = new Intent(this, HomeActivity.class);
-        startActivity(i);
+    public void navigateToHomeUi(boolean isAdmin) {
+        startActivity(HomeActivity.getInstance(this, isAdmin));
         finish();
     }
 

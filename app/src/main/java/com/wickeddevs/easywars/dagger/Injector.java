@@ -6,7 +6,8 @@ import com.wickeddevs.easywars.dagger.component.ServiceComponent;
 import com.wickeddevs.easywars.dagger.component.ViewInjectorComponent;
 import com.wickeddevs.easywars.ui.home.HomeActivity;
 import com.wickeddevs.easywars.ui.home.chat.ChatFragment;
-import com.wickeddevs.easywars.ui.home.war.WarPlannerFragment;
+import com.wickeddevs.easywars.ui.home.war.WarViewPagerFragment;
+import com.wickeddevs.easywars.ui.home.war.enemybases.WarEnemyBasesFragment;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
 import com.wickeddevs.easywars.ui.loadingsplash.LoadingSplashActivity;
 import com.wickeddevs.easywars.ui.noclan.create.CreateClanActivity;
@@ -63,8 +64,8 @@ public enum Injector {
         getViewInjectorComponent().inject(homeActivity);
     }
 
-    public void inject(WarPlannerFragment warPlannerFragment) {
-        getViewInjectorComponent().inject(warPlannerFragment);
+    public void inject(WarEnemyBasesFragment warEnemyBasesFragment) {
+        getViewInjectorComponent().inject(warEnemyBasesFragment);
     }
 
     public void inject(BasicWarInfoFragment basicWarInfoFragment) {
@@ -77,6 +78,10 @@ public enum Injector {
 
     public void inject(WarBaseActivity warBaseActivity) {
         getViewInjectorComponent().inject(warBaseActivity);
+    }
+
+    public void inject(WarViewPagerFragment warViewPagerFragment) {
+        getViewInjectorComponent().inject(warViewPagerFragment);
     }
 
 

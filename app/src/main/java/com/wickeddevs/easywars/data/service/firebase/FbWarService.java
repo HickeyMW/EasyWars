@@ -15,6 +15,8 @@ import com.wickeddevs.easywars.data.model.war.Base;
 import com.wickeddevs.easywars.data.model.war.Comment;
 import com.wickeddevs.easywars.data.model.war.War;
 import com.wickeddevs.easywars.data.service.contract.WarService;
+import com.wickeddevs.easywars.util.General;
+import com.wickeddevs.easywars.util.Shared;
 
 /**
  * Created by 375csptssce on 8/18/16.
@@ -24,9 +26,6 @@ public class FbWarService implements WarService, ChildEventListener {
     LoadBaseListener listener;
     DatabaseReference commentRef;
     DatabaseReference claimRef;
-
-    int claimsToIgnore = 0;
-    int commentsToIgnore = 0;
 
     @Override
     public void getLatestWar(final LoadWarCallback callback) {
@@ -93,34 +92,16 @@ public class FbWarService implements WarService, ChildEventListener {
         FbInfo.getWarRef(new FbInfo.DbRefCallback() {
             @Override
             public void onLoaded(final DatabaseReference dbRef) {
-                dbRef.child(warId).addListenerForSingleValueEvent(new ValueEventListener() {
+                commentRef = dbRef.child(warId + "/comments/" + baseId);
+                claimRef = dbRef.child(warId + "/claims/" + baseId);
+                commentRef.addChildEventListener(FbWarService.this);
+                claimRef.addChildEventListener(FbWarService.this);
+                dbRef.child(warId + "/bases/" + baseId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Base base = dataSnapshot.child("bases/" + baseId).getValue(Base.class);
-                        DataSnapshot ds = dataSnapshot.child("claims/" + baseId);
-                        if (ds.hasChild(FbInfo.getUid())) {
-                            base.didClaim = true;
-                        }
-                        Iterator<DataSnapshot> iterator = ds.getChildren().iterator();
-                        ArrayList<String> claims = new ArrayList<>();
-                        while (iterator.hasNext()) {
-                            claims.add(iterator.next().getKey());
-                        }
-
-                        Iterator<DataSnapshot> iter = dataSnapshot.child("comments/" + baseId).getChildren().iterator();
-                        ArrayList<Comment> comments = new ArrayList<>();
-                        while (iter.hasNext()) {
-                            comments.add(iter.next().getValue(Comment.class));
-                        }
-                        claimsToIgnore = claims.size();
-                        commentsToIgnore = comments.size();
-                        base.claims = claims;
-                        base.comments = comments;
+                        Base base = dataSnapshot.getValue(Base.class);
+                        base.key = dataSnapshot.getKey();
                         listener.onLoaded(base);
-                        commentRef = dbRef.child(warId + "/comments/" + baseId);
-                        claimRef = dbRef.child(warId + "/claims/" + baseId);
-                        commentRef.addChildEventListener(FbWarService.this);
-                        claimRef.addChildEventListener(FbWarService.this);
                     }
 
                     @Override
@@ -175,22 +156,26 @@ public class FbWarService implements WarService, ChildEventListener {
     }
 
     @Override
+    public void isActiveWar(final ActiveWarCallback callback) {
+        getLatestWar(new LoadWarCallback() {
+            @Override
+            public void onLoaded(War war) {
+                if (war != null && !(war.startTime < (System.currentTimeMillis() - 86400000))) {
+                    callback.onLoaded(true);
+                }
+                callback.onLoaded(false);
+            }
+        });
+    }
+
+    @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         if (dataSnapshot.hasChild("body")) {
-            if (commentsToIgnore > 0) {
-                commentsToIgnore--;
-
-            } else {
-                Comment comment = dataSnapshot.getValue(Comment.class);
-                listener.newComment(comment);
-            }
+            Comment comment = dataSnapshot.getValue(Comment.class);
+            listener.newComment(comment);
         } else {
-            if (claimsToIgnore > 0) {
-                claimsToIgnore--;
-            } else {
-                String claim = dataSnapshot.getKey();
-                listener.newClaim(claim);
-            }
+            String claim = dataSnapshot.getKey();
+            listener.newClaim(claim);
         }
     }
 
