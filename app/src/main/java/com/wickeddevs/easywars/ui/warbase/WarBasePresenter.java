@@ -35,7 +35,7 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
     public void pressedClaim() {
         if (didClaim) {
             warService.removeClaim(warId, baseId);
-            view.setButtonClaimText("Claim");
+            view.setButtonClaimText("Attack");
         } else {
             warService.claimBase(warId, baseId);
             view.setButtonClaimText("Unclaim");

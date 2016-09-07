@@ -16,7 +16,7 @@ import com.wickeddevs.easywars.adapters.WarBasesAdapter;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
 import com.wickeddevs.easywars.dagger.Injector;
 import com.wickeddevs.easywars.data.model.war.War;
-import com.wickeddevs.easywars.databinding.FragmentWarPlannerBinding;
+import com.wickeddevs.easywars.databinding.FragmentWarEnemyBasesBinding;
 import com.wickeddevs.easywars.ui.warbase.WarBaseActivity;
 
 /**
@@ -28,7 +28,7 @@ public class WarEnemyBasesFragment extends BasePresenterFragment<WarEnemyBasesCo
     @Inject
     public WarEnemyBasesContract.ViewListener presenter;
 
-    private FragmentWarPlannerBinding binding;
+    private FragmentWarEnemyBasesBinding binding;
 
     public WarEnemyBasesFragment() {
         // Required empty public constructor
@@ -39,20 +39,9 @@ public class WarEnemyBasesFragment extends BasePresenterFragment<WarEnemyBasesCo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_war_planner, container, false);
-//        binding.btnNewWar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(getContext(), StartWarActivity.class);
-//                startActivity(i);
-//            }
-//        });
-//        binding.btnDeleteWar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                presenter.pressedDeleteWar();
-//            }
-//        });
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_war_enemy_bases, container, false);
+
+
         binding.rvWarBases.setLayoutManager(new LinearLayoutManager(getContext()));
         //binding.rvWarBases.addItemDecoration(new SpaceItemDecoration());
         presenter.onCreate();
@@ -69,15 +58,6 @@ public class WarEnemyBasesFragment extends BasePresenterFragment<WarEnemyBasesCo
 
     @Override
     public void displayWar(final War war, boolean isAdmin) {
-       // binding.btnNewWar.setVisibility(View.INVISIBLE);
-        binding.tvNoWar.setText("");
-
-        if (isAdmin) {
-            //binding.btnDeleteWar.setVisibility(View.VISIBLE);
-        }
-        //binding.layoutHeader.setVisibility(View.VISIBLE);
-        binding.tvTitle.setText("War against " + war.enemyName);
-        binding.tvTimeRemaining.setText(String.valueOf(formattedTimeRemainging(war.startTime)));
         binding.rvWarBases.setVisibility(View.VISIBLE);
         binding.rvWarBases.setAdapter(new WarBasesAdapter(war.bases, new View.OnClickListener() {
             @Override
@@ -90,15 +70,9 @@ public class WarEnemyBasesFragment extends BasePresenterFragment<WarEnemyBasesCo
 
     @Override
     public void displayNoCurrentWar(boolean isAdmin) {
-        binding.layoutHeader.setVisibility(View.INVISIBLE);
         binding.rvWarBases.setVisibility(View.INVISIBLE);
        // binding.btnDeleteWar.setVisibility(View.INVISIBLE);
-        if (isAdmin) {
-            binding.tvNoWar.setText("There is no war going on right now. Press the button below to start one");
-            //binding.btnNewWar.setVisibility(View.VISIBLE);
-        } else {
-            binding.tvNoWar.setText("There is no war going on right now. Please wait for an admin to start one");
-        }
+
     }
 
     @Override
@@ -110,31 +84,5 @@ public class WarEnemyBasesFragment extends BasePresenterFragment<WarEnemyBasesCo
             binding.progressBar.setVisibility(View.INVISIBLE);
             binding.layoutMain.setVisibility(View.VISIBLE);
         }
-    }
-
-    private String formattedTimeRemainging(long time) {
-        long warStart = time;
-        long elapsedTime = System.currentTimeMillis() - warStart;
-        String timeUntil = "";
-        if (elapsedTime > 86400000) {
-            elapsedTime -= 86400000;
-            timeUntil += "Time until war end: ";
-        } else {
-            timeUntil += "Time until war start: ";
-        }
-        long hours = elapsedTime / 3600000;
-        long remainingHours = 23 - hours;
-        long remainingMinutes = 60 - ((elapsedTime - (hours * 3600000)) / 60000);
-        if (remainingHours < 0) {
-            timeUntil +=  "0:00";
-        } else if (remainingMinutes == 60) {
-            timeUntil += (remainingHours + 1) + ":00";
-        } else if (remainingMinutes < 10) {
-            timeUntil += remainingHours + ":0" + remainingMinutes;
-        } else {
-            timeUntil += remainingHours+ ":" + remainingMinutes;
-        }
-
-        return timeUntil;
     }
 }

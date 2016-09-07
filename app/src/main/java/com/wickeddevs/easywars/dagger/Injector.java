@@ -15,8 +15,8 @@ import com.wickeddevs.easywars.ui.noclan.verifycreate.VerifyCreateClanActivity;
 import com.wickeddevs.easywars.ui.noclan.join.JoinClanActivity;
 import com.wickeddevs.easywars.ui.noclan.verifyjoin.VerifyJoinClanActivity;
 import com.wickeddevs.easywars.ui.shared.search.SearchClansActivity;
-import com.wickeddevs.easywars.ui.startwar.basicinfo.BasicWarInfoFragment;
-import com.wickeddevs.easywars.ui.startwar.warorder.WarOrderFragment;
+import com.wickeddevs.easywars.ui.startwar.info.WarInfoActivity;
+import com.wickeddevs.easywars.ui.startwar.warorder.WarOrderActivity;
 import com.wickeddevs.easywars.ui.warbase.WarBaseActivity;
 
 /**
@@ -68,20 +68,20 @@ public enum Injector {
         getViewInjectorComponent().inject(warEnemyBasesFragment);
     }
 
-    public void inject(BasicWarInfoFragment basicWarInfoFragment) {
-        getViewInjectorComponent().inject(basicWarInfoFragment);
-    }
-
-    public void inject(WarOrderFragment warOrderFragment) {
-        getViewInjectorComponent().inject(warOrderFragment);
-    }
-
     public void inject(WarBaseActivity warBaseActivity) {
         getViewInjectorComponent().inject(warBaseActivity);
     }
 
     public void inject(WarViewPagerFragment warViewPagerFragment) {
         getViewInjectorComponent().inject(warViewPagerFragment);
+    }
+
+    public void inject(WarInfoActivity warInfoActivity) {
+        getViewInjectorComponent().inject(warInfoActivity);
+    }
+
+    public void inject(WarOrderActivity warOrderActivity) {
+        getViewInjectorComponent().inject(warOrderActivity);
     }
 
 

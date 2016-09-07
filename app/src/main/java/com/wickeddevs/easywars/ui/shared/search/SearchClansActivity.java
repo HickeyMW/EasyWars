@@ -30,6 +30,10 @@ import com.wickeddevs.easywars.ui.noclan.join.JoinClanActivity;
 public class SearchClansActivity extends BasePresenterActivity<SearchClansContract.ViewListener> implements SearchClansContract.View  {
 
     public final static String EXTRA_STARTED_BY = "EXTRA_STARTED_BY";
+    public final static String EXTRA_CLAN_NAME = "EXTRA_CLAN_NAME";
+    public final static String EXTRA_CLAN_TAG = "EXTRA_CLAN_TAG";
+    public final static String EXTRA_IMAGE_URL = "EXTRA_IMAGE_URL";
+    public final static String EXTRA_CLAN_MEMBERS = "EXTRA_CLAN_MEMBERS";
     public final static int STARTED_FOR_CREATE = 0;
     public final static int STARTED_FOR_JOIN = 1;
     public final static int STARTED_FOR_WAR = 2;
@@ -147,9 +151,10 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
     @Override
     public void navigateToWarUi(ApiClan apiClan) {
         Intent i = new Intent();
-        i.putExtra("clanName", apiClan.name);
-        i.putExtra("clanTag", apiClan.tag);
-        i.putExtra("imageUrl", apiClan.badgeUrls.medium);
+        i.putExtra(EXTRA_CLAN_NAME, apiClan.name);
+        i.putExtra(EXTRA_CLAN_TAG, apiClan.tag);
+        i.putExtra(EXTRA_CLAN_MEMBERS, apiClan.members);
+        i.putExtra(EXTRA_IMAGE_URL, apiClan.badgeUrls.medium);
         setResult(RESULT_OK, i);
         finish();
     }

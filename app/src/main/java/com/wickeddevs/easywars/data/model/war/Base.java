@@ -8,14 +8,14 @@ import java.util.ArrayList;
 public class Base {
 
     public String key;
-    public int townHallLevel;
     public String name;
+    public int townHallLevel;
     public ArrayList<Comment> comments;
     public ArrayList<String> claims;
 
-    public Base(int townHallLevel, String name) {
-        this.townHallLevel = townHallLevel;
+    public Base(String name, int townHallLevel) {
         this.name = name;
+        this.townHallLevel = townHallLevel;
     }
 
     public Base() {

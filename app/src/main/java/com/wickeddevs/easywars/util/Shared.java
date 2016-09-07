@@ -14,6 +14,36 @@ public class Shared {
 
     final static String TAG = "FbInfo";
 
+    public final static long MILIS_IN_ONE_DAY = 86400000;
+    public final static long MILIS_IN_TWO_DAYS = 172800000;
+    public final static long MILIS_IN_ONE_HOUR = 3600000;
+    public final static long MILIS_IN_ONE_MINUTE = 60000;
+
+    public static String formattedTimeRemainging(long startTime) {
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        String timeUntil = "";
+        if (elapsedTime > MILIS_IN_ONE_DAY) {
+            elapsedTime -= MILIS_IN_ONE_DAY;
+            timeUntil += "Time until war end: ";
+        } else {
+            timeUntil += "Time until war start: ";
+        }
+        long hours = elapsedTime / MILIS_IN_ONE_HOUR;
+        long remainingHours = 23 - hours;
+        long remainingMinutes = 60 - ((elapsedTime - (hours * MILIS_IN_ONE_HOUR)) / MILIS_IN_ONE_MINUTE);
+        if (remainingHours < 0) {
+            timeUntil +=  "0:00";
+        } else if (remainingMinutes == 60) {
+            timeUntil += (remainingHours + 1) + ":00";
+        } else if (remainingMinutes < 10) {
+            timeUntil += remainingHours + ":0" + remainingMinutes;
+        } else {
+            timeUntil += remainingHours+ ":" + remainingMinutes;
+        }
+
+        return timeUntil;
+    }
+
     public static int getThResource(int thLevel) {
         switch (thLevel) {
             case 1:

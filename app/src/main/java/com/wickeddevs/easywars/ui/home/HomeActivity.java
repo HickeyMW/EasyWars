@@ -92,11 +92,8 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_chat) {
-            setTitle("War Against Other Clan");
-            getSupportActionBar().setSubtitle("Time Remining: 5:35");
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatViewPagerFragment.getInstance(isAdmin)).commit();
         } else if (id == R.id.nav_war_planner) {
-            setTitle("War Against Other Clan");
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, WarViewPagerFragment.getInstance(isAdmin)).commit();
         } else if (id == R.id.nav_join_requests) {
             Intent i = new Intent(this, JoinRequestsActivity.class);

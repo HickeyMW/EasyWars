@@ -3,14 +3,14 @@
           package="com.wickeddevs.easywars">
 
     <application
-        android:name="com.wickeddevs.easywars.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/launcher_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.wickeddevs.easywars.ui.loadingsplash.LoadingSplashActivity"
+            android:name=".ui.loadingsplash.LoadingSplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -20,49 +20,50 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.wickeddevs.easywars.ui.home.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name="com.wickeddevs.easywars.ui.noclan.NoClanActivity"
+            android:name=".ui.noclan.NoClanActivity"
             android:label="Setup"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.wickeddevs.easywars.ui.noclan.create.CreateClanActivity"
+            android:name=".ui.noclan.create.CreateClanActivity"
             android:label="Create Clan"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.wickeddevs.easywars.ui.noclan.verifycreate.VerifyCreateClanActivity"
+            android:name=".ui.noclan.verifycreate.VerifyCreateClanActivity"
             android:label="Verify Ownership"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.wickeddevs.easywars.ui.noclan.join.JoinClanActivity"
+            android:name=".ui.noclan.join.JoinClanActivity"
             android:label="Join Clan"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.wickeddevs.easywars.ui.noclan.verifyjoin.VerifyJoinClanActivity"
+            android:name=".ui.noclan.verifyjoin.VerifyJoinClanActivity"
             android:label="Awaiting Approval"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.wickeddevs.easywars.ui.shared.search.SearchClansActivity"
+            android:name=".ui.shared.search.SearchClansActivity"
             android:label=""
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.wickeddevs.easywars.ui.TestingActivity"
+            android:name=".ui.TestingActivity"
             android:label="Testing"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity"
+            android:name=".ui.joinrequests.JoinRequestsActivity"
             android:label="Join Requests"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.wickeddevs.easywars.ui.startwar.StartWarActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name="com.wickeddevs.easywars.ui.warbase.WarBaseActivity"
+            android:name=".ui.warbase.WarBaseActivity"
             android:label="Enemy Base"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.startwar.info.WarInfoActivity">
+        </activity>
+        <activity android:name=".ui.startwar.warorder.WarOrderActivity">
+        </activity>
     </application>
 
 </manifest>

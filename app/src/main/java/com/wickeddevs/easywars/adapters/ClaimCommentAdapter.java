@@ -45,7 +45,7 @@ public class ClaimCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (position == 0) {
             //String claim = claims.get(position);
             ClaimViewHolder vHolder = (ClaimViewHolder) holder;
-            String claimText = "Claim Order";
+            String claimText = "Attack Order";
             for (int i = 0; i < claims.size(); i++) {
                 claimText += "\n" + String.valueOf(i + 1) + ". " + claims.get(i);
             }

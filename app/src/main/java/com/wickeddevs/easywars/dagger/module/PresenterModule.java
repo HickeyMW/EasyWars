@@ -33,8 +33,8 @@ import com.wickeddevs.easywars.ui.noclan.verifyjoin.VerifyJoinClanContract;
 import com.wickeddevs.easywars.ui.noclan.verifyjoin.VerifyJoinClanPresenter;
 import com.wickeddevs.easywars.ui.shared.search.SearchClansContract;
 import com.wickeddevs.easywars.ui.shared.search.SearchClansPresenter;
-import com.wickeddevs.easywars.ui.startwar.basicinfo.BasicWarInfoContract;
-import com.wickeddevs.easywars.ui.startwar.basicinfo.BasicWarInfoPresenter;
+import com.wickeddevs.easywars.ui.startwar.info.WarInfoContract;
+import com.wickeddevs.easywars.ui.startwar.info.WarInfoPresenter;
 import com.wickeddevs.easywars.ui.startwar.warorder.WarOrderContract;
 import com.wickeddevs.easywars.ui.startwar.warorder.WarOrderPresenter;
 import com.wickeddevs.easywars.ui.warbase.WarBaseContract;
@@ -109,14 +109,8 @@ public class PresenterModule {
 
     @Provides
     @ActivityScope
-    BasicWarInfoContract.ViewListener providesBasicWarInfoPresenter() {
-        return new BasicWarInfoPresenter();
-    }
-
-    @Provides
-    @ActivityScope
-    WarOrderContract.ViewListener providesWarOrderPresenter(ApiService apiService) {
-        return new WarOrderPresenter(apiService);
+    WarOrderContract.ViewListener providesWarOrderPresenter(ApiService apiService, WarService warService) {
+        return new WarOrderPresenter(apiService, warService);
     }
 
     @Provides
@@ -129,5 +123,11 @@ public class PresenterModule {
     @ActivityScope
     WarViewPagerContract.ViewListener providesWarViewPagerPresenter(WarService warService) {
         return new WarViewPagerPresenter(warService);
+    }
+
+    @Provides
+    @ActivityScope
+    WarInfoContract.ViewListener providesWarInfoPresenter(WarService warService) {
+        return new WarInfoPresenter(warService);
     }
 }

@@ -1,5 +1,7 @@
 package com.wickeddevs.easywars.data.service.firebase;
 
+import android.util.Log;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,6 +16,7 @@ import java.util.Iterator;
 import com.wickeddevs.easywars.data.model.war.Base;
 import com.wickeddevs.easywars.data.model.war.Comment;
 import com.wickeddevs.easywars.data.model.war.War;
+import com.wickeddevs.easywars.data.model.war.WarInfo;
 import com.wickeddevs.easywars.data.service.contract.WarService;
 import com.wickeddevs.easywars.util.General;
 import com.wickeddevs.easywars.util.Shared;
@@ -63,15 +66,30 @@ public class FbWarService implements WarService, ChildEventListener {
     }
 
     @Override
-    public void startWar(final War war) {
-        FbInfo.getWarRef(new FbInfo.DbRefCallback() {
+    public void saveWarInfo(WarInfo warInfo) {
+        FbInfo.getUserRef().child("creatingWar").setValue(warInfo);
+    }
+
+    @Override
+    public void startWar(final ArrayList<Base> bases) {
+        FbInfo.getUserRef().child("creatingWar").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onLoaded(DatabaseReference dbRef) {
-                DatabaseReference warRef = dbRef.push();
-                warRef.child("startTime").setValue(war.startTime);
-                warRef.child("enemyName").setValue(war.enemyName);
-                warRef.child("enemyTag").setValue(war.enemyTag);
-                warRef.child("bases").setValue(war.bases);
+            public void onDataChange(final DataSnapshot dataSnapshot) {
+                final WarInfo warInfo = dataSnapshot.getValue(WarInfo.class);
+                FbInfo.getWarRef(new FbInfo.DbRefCallback() {
+                    @Override
+                    public void onLoaded(DatabaseReference dbRef) {
+                        DatabaseReference warRef = dbRef.push();
+                        warRef.child("warInfo").setValue(warInfo);
+                        warRef.child("bases").setValue(bases);
+                        dataSnapshot.getRef().removeValue();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
@@ -160,10 +178,18 @@ public class FbWarService implements WarService, ChildEventListener {
         getLatestWar(new LoadWarCallback() {
             @Override
             public void onLoaded(War war) {
-                if (war != null && !(war.startTime < (System.currentTimeMillis() - 86400000))) {
+                Log.i("TAG", "onLoaded: Current time " + System.currentTimeMillis());
+                Log.i("TAG", "onLoaded: Start time  " + war.warInfo.startTime);
+                Log.i("TAG", "onLoaded: Two Days ago  " + (System.currentTimeMillis() - Shared.MILIS_IN_TWO_DAYS));
+                long diff = ((war.warInfo.startTime - (System.currentTimeMillis() - Shared.MILIS_IN_TWO_DAYS)) );
+                Log.i("TAG", "onLoaded: Difference " + diff);
+                Log.i("TAG", "onLoaded: Difference hours " + (diff/ (1000 * 60 * 60)));
+
+                if (war != null && (war.warInfo.startTime > (System.currentTimeMillis() - Shared.MILIS_IN_TWO_DAYS))) {
                     callback.onLoaded(true);
+                } else {
+                    callback.onLoaded(false);
                 }
-                callback.onLoaded(false);
             }
         });
     }

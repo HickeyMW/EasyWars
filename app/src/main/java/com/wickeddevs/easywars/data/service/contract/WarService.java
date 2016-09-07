@@ -3,6 +3,9 @@ package com.wickeddevs.easywars.data.service.contract;
 import com.wickeddevs.easywars.data.model.war.Base;
 import com.wickeddevs.easywars.data.model.war.Comment;
 import com.wickeddevs.easywars.data.model.war.War;
+import com.wickeddevs.easywars.data.model.war.WarInfo;
+
+import java.util.ArrayList;
 
 /**
  * Created by 375csptssce on 8/16/16.
@@ -30,7 +33,9 @@ public interface WarService {
 
     void getLatestWar(LoadWarCallback callback);
 
-    void startWar(War war);
+    void saveWarInfo(WarInfo warInfo);
+
+    void startWar(ArrayList<Base> bases);
 
     void deleteWar();
 

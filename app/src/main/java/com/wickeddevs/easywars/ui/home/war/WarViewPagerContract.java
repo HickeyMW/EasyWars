@@ -10,9 +10,15 @@ public interface WarViewPagerContract {
 
     interface View extends PView {
 
-        void displayUi(boolean isCurrentWar);
+        void displayUi(boolean activeWar);
 
         void toggleLoading(boolean loading);
+
+        void setTitle(String title);
+
+        void setSubTitle(String subTitle);
+
+        boolean isAdmin();
     }
 
     interface ViewListener extends Presenter<View> {

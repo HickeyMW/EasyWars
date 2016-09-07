@@ -8,9 +8,7 @@ import java.util.ArrayList;
 public class War {
 
     public String key;
-    public long startTime;
-    public String enemyName;
-    public String enemyTag;
+    public WarInfo warInfo;
     public ArrayList<Base> bases;
 
 }
