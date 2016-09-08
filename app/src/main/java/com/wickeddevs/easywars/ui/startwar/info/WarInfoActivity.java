@@ -3,17 +3,15 @@ package com.wickeddevs.easywars.ui.startwar.info;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.RadioGroup;
 
 import com.bumptech.glide.Glide;
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
-import com.wickeddevs.easywars.dagger.Injector;
+import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
+import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.databinding.ActivityWarInfoBinding;
 import com.wickeddevs.easywars.miscellaneous.HoursTextWatcher;
 import com.wickeddevs.easywars.miscellaneous.MinutesTextWatcher;
@@ -98,7 +96,9 @@ public class WarInfoActivity extends BasePresenterActivity<WarInfoContract.ViewL
     @Override
     protected WarInfoContract.ViewListener getPresenter() {
         if(presenter == null){
-            Injector.INSTANCE.inject(this);
+            DaggerViewInjectorComponent.builder()
+                    .serviceComponent(DaggerServiceComponent.create())
+                    .build().inject(this);
         }
         return presenter;
     }

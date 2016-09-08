@@ -5,16 +5,15 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
-import com.wickeddevs.easywars.dagger.Injector;
+import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
+import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.databinding.ActivityLoadingSplashBinding;
 import com.wickeddevs.easywars.ui.home.HomeActivity;
 import com.wickeddevs.easywars.ui.noclan.NoClanActivity;
@@ -119,7 +118,9 @@ public class LoadingSplashActivity extends BasePresenterActivity<LoadingSplashCo
     @Override
     protected LoadingSplashContract.ViewListener getPresenter() {
         if(presenter == null){
-            Injector.INSTANCE.inject(this);
+            DaggerViewInjectorComponent.builder()
+                    .serviceComponent(DaggerServiceComponent.create())
+                    .build().inject(this);
         }
         return presenter;
     }

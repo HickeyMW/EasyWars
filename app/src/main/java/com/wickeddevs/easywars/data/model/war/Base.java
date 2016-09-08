@@ -9,13 +9,13 @@ public class Base {
 
     public String key;
     public String name;
-    public int townHallLevel;
+    public int thLevel;
     public ArrayList<Comment> comments;
-    public ArrayList<String> claims;
+    public ArrayList<Attack> attacks;
 
-    public Base(String name, int townHallLevel) {
+    public Base(String name, int thLevel) {
         this.name = name;
-        this.townHallLevel = townHallLevel;
+        this.thLevel = thLevel;
     }
 
     public Base() {

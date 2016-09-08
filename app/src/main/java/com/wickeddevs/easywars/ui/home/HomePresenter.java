@@ -7,6 +7,8 @@ import com.wickeddevs.easywars.data.service.contract.ApiService;
 import com.wickeddevs.easywars.data.service.contract.ClanService;
 import com.wickeddevs.easywars.data.service.contract.UserService;
 
+import javax.inject.Inject;
+
 /**
  * Created by 375csptssce on 8/16/16.
  */
@@ -19,6 +21,7 @@ public class HomePresenter implements HomeContract.ViewListener {
     private UserService userService;
     private ApiService apiService;
 
+    @Inject
     public HomePresenter(ClanService clanService, UserService userService, ApiService apiService) {
         this.clanService = clanService;
         this.userService = userService;

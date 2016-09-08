@@ -1,5 +1,9 @@
 package com.wickeddevs.easywars.data.model;
 
+import com.google.firebase.database.ServerValue;
+
+import java.util.HashMap;
+
 /**
  * Created by hicke_000 on 7/27/2016.
  */
@@ -13,10 +17,12 @@ public class Message {
     public String dateTime;
     public boolean isSentMessage;
 
-    public Message(String uid, String body, long timestamp) {
-        this.uid = uid;
-        this.body = body;
-        this.timestamp = timestamp;
+    public static HashMap<String, Object> createMessageHashMap(String uid, String body) {
+        final HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("uid", uid);
+        hashMap.put("body", body);
+        hashMap.put("timestamp", ServerValue.TIMESTAMP);
+        return  hashMap;
     }
 
     public Message(String uid, String message) {

@@ -7,6 +7,8 @@ import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.data.service.contract.ApiService;
 import com.wickeddevs.easywars.data.service.contract.JoinClanService;
 
+import javax.inject.Inject;
+
 /**
  * Created by hicke_000 on 8/3/2016.
  */
@@ -21,6 +23,7 @@ public class JoinClanPresenter implements JoinClanContract.ViewListener {
     private ApiService apiService;
     private JoinClanService joinClanService;
 
+    @Inject
     public JoinClanPresenter(ApiService apiService, JoinClanService joinClanService) {
         this.apiService = apiService;
         this.joinClanService = joinClanService;

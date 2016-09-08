@@ -9,12 +9,10 @@ import com.bumptech.glide.Glide;
 
 import javax.inject.Inject;
 
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
-import com.wickeddevs.easywars.dagger.Injector;
+import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
+import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.databinding.ActivityVerifyJoinClanBinding;
 import com.wickeddevs.easywars.miscellaneous.HideProgressBarRequestListener;
@@ -71,7 +69,9 @@ public class VerifyJoinClanActivity extends BasePresenterActivity<VerifyJoinClan
     @Override
     protected VerifyJoinClanContract.ViewListener getPresenter() {
         if(presenter == null){
-            Injector.INSTANCE.inject(this);
+            DaggerViewInjectorComponent.builder()
+                    .serviceComponent(DaggerServiceComponent.create())
+                    .build().inject(this);
         }
         return presenter;
     }

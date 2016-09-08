@@ -14,7 +14,8 @@ import javax.inject.Inject;
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.adapters.ClanMembersAdapter;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
-import com.wickeddevs.easywars.dagger.Injector;
+import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
+import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.databinding.ActivityCreateClanBinding;
 import com.wickeddevs.easywars.ui.noclan.verifycreate.VerifyCreateClanActivity;
@@ -82,7 +83,9 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
     @Override
     protected CreateClanContract.ViewListener getPresenter() {
         if(presenter == null){
-            Injector.INSTANCE.inject(this);
+            DaggerViewInjectorComponent.builder()
+                    .serviceComponent(DaggerServiceComponent.create())
+                    .build().inject(this);
         }
         return presenter;
     }

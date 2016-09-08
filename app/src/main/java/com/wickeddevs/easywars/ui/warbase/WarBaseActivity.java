@@ -15,7 +15,8 @@ import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.adapters.ClaimCommentAdapter;
 import com.wickeddevs.easywars.adapters.SpaceItemDecoration;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
-import com.wickeddevs.easywars.dagger.Injector;
+import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
+import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.data.model.war.Base;
 import com.wickeddevs.easywars.data.model.war.Comment;
 import com.wickeddevs.easywars.databinding.ActivityWarBaseBinding;
@@ -67,7 +68,9 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
     @Override
     protected WarBaseContract.ViewListener getPresenter() {
         if(presenter == null){
-            Injector.INSTANCE.inject(this);
+            DaggerViewInjectorComponent.builder()
+                    .serviceComponent(DaggerServiceComponent.create())
+                    .build().inject(this);
         }
         return presenter;
     }
@@ -77,9 +80,10 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
         return getIntent().getStringExtra(EXTRA_WAR_ID);
     }
 
+
     @Override
-    public String getBaseId() {
-        return getIntent().getStringExtra(EXTRA_BASE_ID);
+    public int getBaseId() {
+        return getIntent().getIntExtra(EXTRA_BASE_ID, -1);
     }
 
     @Override
@@ -90,7 +94,7 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
     @Override
     public void displayBase(Base base) {
         binding.tvName.setText(base.name);
-        binding.ivTownHall.setImageResource(Shared.getThResource(base.townHallLevel));
+        binding.ivTownHall.setImageResource(Shared.getThResource(base.thLevel));
         binding.rvClaimsComments.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -114,7 +118,7 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
         claimCommentAdapter.removeClaim(claim);
     }
 
-    public static Intent createIntent(Context context, String warId, String baseId) {
+    public static Intent createIntent(Context context, String warId, int baseId) {
         Intent i = new Intent(context, WarBaseActivity.class);
         i.putExtra(EXTRA_WAR_ID, warId);
         i.putExtra(EXTRA_BASE_ID, baseId);

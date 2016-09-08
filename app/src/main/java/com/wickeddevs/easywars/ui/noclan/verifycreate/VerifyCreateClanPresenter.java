@@ -5,6 +5,8 @@ import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.data.service.contract.ApiService;
 import com.wickeddevs.easywars.data.service.contract.CreateClanService;
 
+import javax.inject.Inject;
+
 /**
  * Created by hicke_000 on 8/3/2016.
  */
@@ -16,6 +18,7 @@ public class VerifyCreateClanPresenter implements VerifyCreateClanContract.ViewL
 
     long timeOfLastVerification = 0;
 
+    @Inject
     public VerifyCreateClanPresenter(ApiService apiService, CreateClanService createClanService) {
         this.apiService = apiService;
         this.createClanService = createClanService;

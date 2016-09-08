@@ -4,6 +4,8 @@ import com.wickeddevs.easywars.data.model.war.WarInfo;
 import com.wickeddevs.easywars.data.service.contract.WarService;
 import com.wickeddevs.easywars.util.Shared;
 
+import javax.inject.Inject;
+
 /**
  * Created by 375csptssce on 9/7/16.
  */
@@ -20,6 +22,7 @@ public class WarInfoPresenter implements WarInfoContract.ViewListener {
     private  int members;
     private boolean untilWarStart = true;
 
+    @Inject
     public WarInfoPresenter(WarService warService) {
         this.warService = warService;
     }

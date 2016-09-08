@@ -3,6 +3,8 @@ package com.wickeddevs.easywars.ui.joinrequests;
 import com.wickeddevs.easywars.data.model.JoinRequest;
 import com.wickeddevs.easywars.data.service.contract.JoinClanService;
 
+import javax.inject.Inject;
+
 /**
  * Created by 375csptssce on 8/15/16.
  */
@@ -15,6 +17,7 @@ public class JoinRequestsPresenter implements JoinRequestsContract.ViewListener 
 
     private boolean anyJoinRequests = false;
 
+    @Inject
     public JoinRequestsPresenter(JoinClanService joinClanService) {
         this.joinClanService = joinClanService;
     }

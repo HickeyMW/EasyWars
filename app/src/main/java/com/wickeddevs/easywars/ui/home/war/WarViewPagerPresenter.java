@@ -4,6 +4,8 @@ import com.wickeddevs.easywars.data.model.war.War;
 import com.wickeddevs.easywars.data.service.contract.WarService;
 import com.wickeddevs.easywars.util.Shared;
 
+import javax.inject.Inject;
+
 /**
  * Created by 375csptssce on 9/6/16.
  */
@@ -13,6 +15,7 @@ public class WarViewPagerPresenter implements WarViewPagerContract.ViewListener 
     private WarService warService;
     private boolean warLoaded = false;
 
+    @Inject
     public WarViewPagerPresenter(WarService warService) {
         this.warService = warService;
     }

@@ -7,6 +7,8 @@ import com.wickeddevs.easywars.data.service.contract.ApiService;
 import com.wickeddevs.easywars.data.service.contract.JoinClanService;
 import com.wickeddevs.easywars.data.service.contract.UserService;
 
+import javax.inject.Inject;
+
 /**
  * Created by hicke_000 on 8/3/2016.
  */
@@ -19,6 +21,7 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
 
     private boolean loadedClanInfo = false;
 
+    @Inject
     public VerifyJoinClanPresenter(ApiService apiService, JoinClanService joinClanService, UserService userService) {
         this.apiService = apiService;
         this.joinClanService = joinClanService;

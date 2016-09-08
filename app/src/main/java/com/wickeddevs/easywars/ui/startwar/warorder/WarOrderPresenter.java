@@ -9,6 +9,8 @@ import com.wickeddevs.easywars.data.service.contract.WarService;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 /**
  * Created by 375csptssce on 8/22/16.
  */
@@ -24,6 +26,7 @@ public class WarOrderPresenter implements WarOrderContract.ViewListener {
     private int remaining;
     private ArrayList<Base> bases = new ArrayList<>();
 
+    @Inject
     public WarOrderPresenter(ApiService apiService, WarService warService) {
         this.apiService = apiService;
         this.warService = warService;

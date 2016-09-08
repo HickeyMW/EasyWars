@@ -55,11 +55,7 @@ public class FbChatService implements ChatService, ValueEventListener, ChildEven
 
     @Override
     public void sendMessage(boolean isAdmin, String body) {
-
-        final HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("body", body);
-        hashMap.put("uid", FbInfo.getUid());
-        hashMap.put("timestamp", ServerValue.TIMESTAMP);
+        final HashMap<String, Object> hashMap = Message.createMessageHashMap(FbInfo.getUid(), body);
         if (isAdmin) {
             FbInfo.getAdminChatRef(new FbInfo.DbRefCallback() {
                 @Override

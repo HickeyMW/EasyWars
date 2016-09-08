@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import java.util.ArrayList;
-
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.adapters.JoinRequestsAdapter;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
-import com.wickeddevs.easywars.dagger.Injector;
+import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
+import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.data.model.JoinRequest;
 import com.wickeddevs.easywars.databinding.ActivityJoinRequestsBinding;
 
@@ -55,7 +54,9 @@ public class JoinRequestsActivity extends BasePresenterActivity<JoinRequestsCont
     @Override
     protected JoinRequestsContract.ViewListener getPresenter() {
         if(presenter == null){
-            Injector.INSTANCE.inject(this);
+            DaggerViewInjectorComponent.builder()
+                    .serviceComponent(DaggerServiceComponent.create())
+                    .build().inject(this);
         }
         return presenter;
     }

@@ -14,7 +14,8 @@ import javax.inject.Inject;
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.adapters.WarBasesAdapter;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
-import com.wickeddevs.easywars.dagger.Injector;
+import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
+import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.data.model.war.War;
 import com.wickeddevs.easywars.databinding.FragmentWarEnemyBasesBinding;
 import com.wickeddevs.easywars.ui.warbase.WarBaseActivity;
@@ -51,7 +52,9 @@ public class WarEnemyBasesFragment extends BasePresenterFragment<WarEnemyBasesCo
     @Override
     protected WarEnemyBasesContract.ViewListener getPresenter() {
         if(presenter == null){
-            Injector.INSTANCE.inject(this);
+            DaggerViewInjectorComponent.builder()
+                    .serviceComponent(DaggerServiceComponent.create())
+                    .build().inject(this);
         }
         return presenter;
     }
@@ -63,7 +66,7 @@ public class WarEnemyBasesFragment extends BasePresenterFragment<WarEnemyBasesCo
             @Override
             public void onClick(View view) {
                 int position = binding.rvWarBases.getChildLayoutPosition(view);
-                startActivity(WarBaseActivity.createIntent(getContext(), war.key, String.valueOf(position)));
+                startActivity(WarBaseActivity.createIntent(getContext(), war.key, position));
             }
         }));
     }

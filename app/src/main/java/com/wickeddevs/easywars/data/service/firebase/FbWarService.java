@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.wickeddevs.easywars.data.model.war.Attack;
 import com.wickeddevs.easywars.data.model.war.Base;
 import com.wickeddevs.easywars.data.model.war.Comment;
 import com.wickeddevs.easywars.data.model.war.War;
 import com.wickeddevs.easywars.data.model.war.WarInfo;
 import com.wickeddevs.easywars.data.service.contract.WarService;
-import com.wickeddevs.easywars.util.General;
 import com.wickeddevs.easywars.util.Shared;
 
 /**
@@ -26,9 +26,12 @@ import com.wickeddevs.easywars.util.Shared;
  */
 public class FbWarService implements WarService, ChildEventListener {
 
+    final static String TAG = "FbWarService";
+
     LoadBaseListener listener;
     DatabaseReference commentRef;
-    DatabaseReference claimRef;
+    DatabaseReference attackRef;
+    int baseId;
 
     @Override
     public void getLatestWar(final LoadWarCallback callback) {
@@ -105,15 +108,15 @@ public class FbWarService implements WarService, ChildEventListener {
     }
 
     @Override
-    public void setBaseListener(final String warId, final String baseId, final LoadBaseListener listener) {
+    public void setBaseListener(final String warId, final int baseId, final LoadBaseListener listener) {
         this.listener = listener;
         FbInfo.getWarRef(new FbInfo.DbRefCallback() {
             @Override
             public void onLoaded(final DatabaseReference dbRef) {
-                commentRef = dbRef.child(warId + "/comments/" + baseId);
-                claimRef = dbRef.child(warId + "/claims/" + baseId);
+                commentRef = dbRef.child(warId + "/comments");
+                attackRef = dbRef.child(warId + "/attacks");
                 commentRef.addChildEventListener(FbWarService.this);
-                claimRef.addChildEventListener(FbWarService.this);
+                attackRef.addChildEventListener(FbWarService.this);
                 dbRef.child(warId + "/bases/" + baseId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -135,40 +138,70 @@ public class FbWarService implements WarService, ChildEventListener {
     public void removeBaseListener() {
         listener = null;
         commentRef.removeEventListener(this);
-        claimRef.removeEventListener(this);
+        attackRef.removeEventListener(this);
     }
 
     @Override
-    public void claimBase(final String warId, final String baseId) {
-        final HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("timestamp", ServerValue.TIMESTAMP);
+    public void claimBase(final String warId, final int baseId) {
         FbInfo.getWarRef(new FbInfo.DbRefCallback() {
             @Override
             public void onLoaded(DatabaseReference dbRef) {
-                dbRef.child(warId + "/claims/" + baseId + "/" + FbInfo.getUid()).setValue(hashMap);
-
+                HashMap<String, Object> hashMap = Attack.createAttackClaimHashMap(baseId);
+                dbRef.child(warId + "/attacks").push().setValue(hashMap);
             }
         });
     }
 
     @Override
-    public void removeClaim(final String warId, final String baseId) {
+    public void removeClaim(final String warId, final Attack attack) {
         FbInfo.getWarRef(new FbInfo.DbRefCallback() {
             @Override
             public void onLoaded(DatabaseReference dbRef) {
-                dbRef.child(warId + "/claims/" + baseId + "/" + FbInfo.getUid()).removeValue();
-
+                dbRef.child(warId + "/attacks/" + attack.key).removeValue();
             }
         });
     }
 
     @Override
-    public void addComment(final String body, final String warId, final String baseId) {
+    public void getAttacks(final String warId, final LoadAttacksCallback callback) {
         FbInfo.getWarRef(new FbInfo.DbRefCallback() {
             @Override
             public void onLoaded(DatabaseReference dbRef) {
-                Comment comment = new Comment(FbInfo.getUid(), body, System.currentTimeMillis());
-                dbRef.child(warId + "/comments/" + baseId).push().setValue(comment);
+                dbRef.child(warId + "/attacks").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ArrayList<Attack> attacks = new ArrayList<Attack>();
+                        Iterator<DataSnapshot> iterDsAttacks = dataSnapshot.getChildren().iterator();
+                        while (iterDsAttacks.hasNext()) {
+                            DataSnapshot dsAttack = iterDsAttacks.next();
+                            Attack attack = dsAttack.getValue(Attack.class);
+                            attack.key = dsAttack.getKey();
+                            if (attack.uid == FbInfo.getUid()) {
+                                attacks.add(attack);
+                                if (attacks.size() > 2) {
+                                    Log.e(TAG, "onDataChange: More than two attacks for user");
+                                }
+                            }
+                        }
+                        callback.onLoaded(attacks);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void addComment(final String body, final String warId, final int baseId) {
+        FbInfo.getWarRef(new FbInfo.DbRefCallback() {
+            @Override
+            public void onLoaded(DatabaseReference dbRef) {
+                HashMap<String, Object> hashMap = Comment.createCommentHashMap(FbInfo.getUid(), body, baseId);
+                dbRef.child(warId + "/comments").push().setValue(hashMap);
             }
         });
     }
@@ -178,13 +211,6 @@ public class FbWarService implements WarService, ChildEventListener {
         getLatestWar(new LoadWarCallback() {
             @Override
             public void onLoaded(War war) {
-                Log.i("TAG", "onLoaded: Current time " + System.currentTimeMillis());
-                Log.i("TAG", "onLoaded: Start time  " + war.warInfo.startTime);
-                Log.i("TAG", "onLoaded: Two Days ago  " + (System.currentTimeMillis() - Shared.MILIS_IN_TWO_DAYS));
-                long diff = ((war.warInfo.startTime - (System.currentTimeMillis() - Shared.MILIS_IN_TWO_DAYS)) );
-                Log.i("TAG", "onLoaded: Difference " + diff);
-                Log.i("TAG", "onLoaded: Difference hours " + (diff/ (1000 * 60 * 60)));
-
                 if (war != null && (war.warInfo.startTime > (System.currentTimeMillis() - Shared.MILIS_IN_TWO_DAYS))) {
                     callback.onLoaded(true);
                 } else {
@@ -198,10 +224,16 @@ public class FbWarService implements WarService, ChildEventListener {
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         if (dataSnapshot.hasChild("body")) {
             Comment comment = dataSnapshot.getValue(Comment.class);
-            listener.newComment(comment);
-        } else {
-            String claim = dataSnapshot.getKey();
-            listener.newClaim(claim);
+            comment.key = dataSnapshot.getKey();
+            if (comment.base == baseId) {
+                listener.newComment(comment);
+            }
+        } else if (dataSnapshot.hasChild("stars")) {
+            Attack attack = new Attack(dataSnapshot.getKey(), baseId);
+            attack.key = dataSnapshot.getKey();
+            if (attack.base == baseId && attack.stars == -1) {
+                listener.newClaim(attack);
+            }
         }
     }
 
@@ -214,9 +246,12 @@ public class FbWarService implements WarService, ChildEventListener {
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         if (dataSnapshot.hasChild("body")) {
 
-        } else {
-            String claim = dataSnapshot.getKey();
-            listener.removeClaim(claim);
+        } else if (dataSnapshot.hasChild("stars")) {
+            Attack attack = new Attack(dataSnapshot.getKey(), baseId);
+            attack.key = dataSnapshot.getKey();
+            if (attack.base == baseId && attack.stars == -1) {
+                listener.removeClaim(attack);
+            }
         }
     }
 

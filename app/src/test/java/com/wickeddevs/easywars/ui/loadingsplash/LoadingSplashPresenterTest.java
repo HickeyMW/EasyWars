@@ -13,7 +13,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.wickeddevs.easywars.MyApplication;
 import com.wickeddevs.easywars.data.model.User;
 import com.wickeddevs.easywars.data.service.contract.UserService;
 import com.wickeddevs.easywars.data.service.contract.VersionService;
@@ -57,7 +56,7 @@ public class LoadingSplashPresenterTest {
     @Test
     public void attach_getVersion_behindMinorVersion() {
         attach_getVersion();
-        checkVersionCallbackArgumentCaptor.getValue().onVersionLoaded(MyApplication.MAJOR_VERSION, MyApplication.MINOR_VERSION + 1);
+        checkVersionCallbackArgumentCaptor.getValue().onVersionLoaded(LoadingSplashPresenter.MAJOR_VERSION, LoadingSplashPresenter.MINOR_VERSION + 1);
         verify(view).displayBehindMinorVersion();
         presenter.pressedOkMinor();
         verify(userService).isLoggedIn();
@@ -66,7 +65,7 @@ public class LoadingSplashPresenterTest {
     @Test
     public void attach_getVersion_behindMajorVersion() {
         attach_getVersion();
-        checkVersionCallbackArgumentCaptor.getValue().onVersionLoaded(MyApplication.MAJOR_VERSION + 1, MyApplication.MINOR_VERSION);
+        checkVersionCallbackArgumentCaptor.getValue().onVersionLoaded(LoadingSplashPresenter.MAJOR_VERSION + 1, LoadingSplashPresenter.MINOR_VERSION);
         verify(view).displayBehindMajorVersion();
         presenter.pressedOkMajor();
         verify(view).closeApp();
@@ -75,7 +74,7 @@ public class LoadingSplashPresenterTest {
     @Test
     public void attach_getVersion_upToDate() {
         attach_getVersion();
-        checkVersionCallbackArgumentCaptor.getValue().onVersionLoaded(MyApplication.MAJOR_VERSION, MyApplication.MINOR_VERSION);
+        checkVersionCallbackArgumentCaptor.getValue().onVersionLoaded(LoadingSplashPresenter.MAJOR_VERSION, LoadingSplashPresenter.MINOR_VERSION);
     }
 
     @Test

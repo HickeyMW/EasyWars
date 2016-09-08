@@ -37,12 +37,12 @@ public class WarBasesAdapter extends RecyclerView.Adapter<WarBasesAdapter.WarBas
     public void onBindViewHolder(WarBasesAdapter.WarBasesHolder holder, int position) {
         Base base = bases.get(position);
         int claims = 0;
-        if (base.claims != null) {
-            claims = base.claims.size();
+        if (base.attacks != null) {
+            claims = base.attacks.size();
         }
         holder.tvNumber.setText(String.valueOf(position + 1) + ". ");
         holder.tvName.setText(base.name);
-        holder.imageView.setImageResource(Shared.getThResource(base.townHallLevel));
+        holder.imageView.setImageResource(Shared.getThResource(base.thLevel));
         //holder.tvClaimed.setText(claims + " claims");
     }
 

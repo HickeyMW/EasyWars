@@ -48,86 +48,86 @@ public class PresenterModule {
 
     @Provides
     @ActivityScope
-    LoadingSplashContract.ViewListener providesLoadingSplashPresenter(UserService userService, VersionService versionService) {
-        return new LoadingSplashPresenter(userService, versionService);
+    LoadingSplashContract.ViewListener providesLoadingSplashPresenter(LoadingSplashPresenter loadingSplashPresenter) {
+        return loadingSplashPresenter;
+    }
+
+
+    @Provides
+    @ActivityScope
+    ChatContract.ViewListener providesChatContractPresenter(ChatPresenter chatPresenter) {
+        return chatPresenter;
     }
 
     @Provides
     @ActivityScope
-    ChatContract.ViewListener providesChatContractPresenter(ChatService chatService, ClanService clanService) {
-        return new ChatPresenter(chatService, clanService);
+    SearchClansContract.ViewListener providesSearchClansPresenter(SearchClansPresenter searchClansPresenter) {
+        return searchClansPresenter;
     }
 
     @Provides
     @ActivityScope
-    SearchClansContract.ViewListener providesSearchClansPresenter(ApiService apiService, JoinClanService joinClanService) {
-        return new SearchClansPresenter(apiService, joinClanService);
+    CreateClanContract.ViewListener providesCreateClanPresenter(CreateClanPresenter createClanPresenter) {
+        return createClanPresenter;
     }
 
     @Provides
     @ActivityScope
-    CreateClanContract.ViewListener providesCreateClanPresenter(ApiService apiService, CreateClanService createClanService) {
-        return new CreateClanPresenter(apiService, createClanService);
+    JoinClanContract.ViewListener providesJoinClanPresenter(JoinClanPresenter joinClanPresenter) {
+        return joinClanPresenter;
     }
 
     @Provides
     @ActivityScope
-    JoinClanContract.ViewListener providesJoinClanPresenter(ApiService apiService, JoinClanService joinClanService) {
-        return new JoinClanPresenter(apiService, joinClanService);
+    VerifyCreateClanContract.ViewListener providesCreatingClanPresenter(VerifyCreateClanPresenter verifyCreateClanPresenter) {
+        return verifyCreateClanPresenter;
     }
 
     @Provides
     @ActivityScope
-    VerifyCreateClanContract.ViewListener providesCreatingClanPresenter(ApiService apiService, CreateClanService createClanService) {
-        return new VerifyCreateClanPresenter(apiService,createClanService);
+    VerifyJoinClanContract.ViewListener providesJoiningClanPresenter(VerifyJoinClanPresenter verifyJoinClanPresenter) {
+        return verifyJoinClanPresenter;
     }
 
     @Provides
     @ActivityScope
-    VerifyJoinClanContract.ViewListener providesJoiningClanPresenter(ApiService apiService, JoinClanService joinClanService,
-                                                                     UserService userService) {
-        return new VerifyJoinClanPresenter(apiService,joinClanService, userService);
+    JoinRequestsContract.ViewListener providesJoinRequestsPresenter(JoinRequestsPresenter joinRequestsPresenter) {
+        return joinRequestsPresenter;
     }
 
     @Provides
     @ActivityScope
-    JoinRequestsContract.ViewListener providesJoinRequestsPresenter(JoinClanService joinClanService) {
-        return new JoinRequestsPresenter(joinClanService);
+    HomeContract.ViewListener providesHomePresenter(HomePresenter homePresenter) {
+        return homePresenter;
     }
 
     @Provides
     @ActivityScope
-    HomeContract.ViewListener providesHomePresenter(ClanService clanService, UserService userService, ApiService apiService) {
-        return new HomePresenter(clanService, userService, apiService);
+    WarEnemyBasesContract.ViewListener providesWarPresenter(WarEnemyBasesPresenter warEnemyBasesPresenter) {
+        return warEnemyBasesPresenter;
     }
 
     @Provides
     @ActivityScope
-    WarEnemyBasesContract.ViewListener providesWarPresenter(WarService warService, ClanService clanService) {
-        return new WarEnemyBasesPresenter(warService, clanService);
+    WarOrderContract.ViewListener providesWarOrderPresenter(WarOrderPresenter warOrderPresenter) {
+        return warOrderPresenter;
     }
 
     @Provides
     @ActivityScope
-    WarOrderContract.ViewListener providesWarOrderPresenter(ApiService apiService, WarService warService) {
-        return new WarOrderPresenter(apiService, warService);
+    WarBaseContract.ViewListener providesWarBasePresenter(WarBasePresenter warBasePresenter) {
+        return warBasePresenter;
     }
 
     @Provides
     @ActivityScope
-    WarBaseContract.ViewListener providesWarBasePresenter(WarService warService, ClanService clanService, UserService userService) {
-        return new WarBasePresenter(warService, clanService, userService);
+    WarViewPagerContract.ViewListener providesWarViewPagerPresenter(WarViewPagerPresenter warViewPagerPresenter) {
+        return warViewPagerPresenter;
     }
 
     @Provides
     @ActivityScope
-    WarViewPagerContract.ViewListener providesWarViewPagerPresenter(WarService warService) {
-        return new WarViewPagerPresenter(warService);
-    }
-
-    @Provides
-    @ActivityScope
-    WarInfoContract.ViewListener providesWarInfoPresenter(WarService warService) {
-        return new WarInfoPresenter(warService);
+    WarInfoContract.ViewListener providesWarInfoPresenter(WarInfoPresenter warInfoPresenter) {
+        return warInfoPresenter;
     }
 }

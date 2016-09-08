@@ -7,6 +7,7 @@ public class Member {
 
     public String name;
     public boolean admin;
+    public int thLevel;
     public String uid;
 
     public Member(String name, boolean admin) {

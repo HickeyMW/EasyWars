@@ -10,6 +10,8 @@ import com.wickeddevs.easywars.data.service.contract.ChatService;
 import com.wickeddevs.easywars.data.service.contract.ClanService;
 import com.wickeddevs.easywars.util.General;
 
+import javax.inject.Inject;
+
 /**
  * Created by hicke_000 on 7/27/2016.
  */
@@ -22,6 +24,7 @@ public class ChatPresenter implements ChatContract.ViewListener {
     private ClanService clanService;
     private boolean isAdminChat;
 
+    @Inject
     public ChatPresenter(ChatService chatService, ClanService clanService) {
         this.chatService = chatService;
         this.clanService = clanService;

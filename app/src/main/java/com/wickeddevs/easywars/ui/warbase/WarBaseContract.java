@@ -16,7 +16,7 @@ public interface WarBaseContract {
 
         String getWarId();
 
-        String getBaseId();
+        int getBaseId();
 
         void setButtonClaimText(String text);
 

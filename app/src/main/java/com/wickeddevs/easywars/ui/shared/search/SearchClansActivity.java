@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.view.MenuItemCompat;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,7 +18,8 @@ import javax.inject.Inject;
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.adapters.ClanAdapter;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
-import com.wickeddevs.easywars.dagger.Injector;
+import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
+import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.databinding.ActivitySearchClansBinding;
 import com.wickeddevs.easywars.ui.noclan.create.CreateClanActivity;
@@ -162,7 +160,9 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
     @Override
     protected SearchClansContract.ViewListener getPresenter() {
         if(presenter == null){
-            Injector.INSTANCE.inject(this);
+            DaggerViewInjectorComponent.builder()
+                    .serviceComponent(DaggerServiceComponent.create())
+                    .build().inject(this);
         }
         return presenter;
     }

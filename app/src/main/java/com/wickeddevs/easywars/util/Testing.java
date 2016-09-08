@@ -86,10 +86,11 @@ public class Testing {
     //////////////////// Message ////////////////////
 
     public static Message randomMessage() {
-        String uid = "uid " + randomString();
-        String body = "body " + randomString();
-        long timeStamp = System.currentTimeMillis();
-        return new Message(uid, body, timeStamp);
+        Message message = new Message();
+        message.uid = "uid " + randomString();
+        message.body = "body " + randomString();
+        message.timestamp = System.currentTimeMillis();
+        return message;
     }
 
 

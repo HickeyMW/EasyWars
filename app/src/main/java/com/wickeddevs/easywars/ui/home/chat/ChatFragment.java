@@ -10,15 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.adapters.ChatAdapter;
 import com.wickeddevs.easywars.adapters.SpaceItemDecoration;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
-import com.wickeddevs.easywars.dagger.Injector;
+import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
+import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.data.model.Message;
 import com.wickeddevs.easywars.databinding.FragmentChatBinding;
 
@@ -127,7 +126,9 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
 
     protected ChatContract.ViewListener getPresenter() {
         if(presenter == null){
-            Injector.INSTANCE.inject(this);
+            DaggerViewInjectorComponent.builder()
+                    .serviceComponent(DaggerServiceComponent.create())
+                    .build().inject(this);
         }
         return presenter;
     }

@@ -5,6 +5,8 @@ import com.wickeddevs.easywars.data.model.war.War;
 import com.wickeddevs.easywars.data.service.contract.ClanService;
 import com.wickeddevs.easywars.data.service.contract.WarService;
 
+import javax.inject.Inject;
+
 /**
  * Created by 375csptssce on 8/16/16.
  */
@@ -16,6 +18,7 @@ public class WarEnemyBasesPresenter implements WarEnemyBasesContract.ViewListene
     private WarService warService;
     private ClanService clanService;
 
+    @Inject
     public WarEnemyBasesPresenter(WarService warService, ClanService clanService) {
         this.warService = warService;
         this.clanService = clanService;

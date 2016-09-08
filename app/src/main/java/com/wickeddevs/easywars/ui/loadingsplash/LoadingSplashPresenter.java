@@ -2,10 +2,11 @@ package com.wickeddevs.easywars.ui.loadingsplash;
 
 import android.util.Log;
 
-import com.wickeddevs.easywars.MyApplication;
 import com.wickeddevs.easywars.data.model.User;
 import com.wickeddevs.easywars.data.service.contract.UserService;
 import com.wickeddevs.easywars.data.service.contract.VersionService;
+
+import javax.inject.Inject;
 
 /**
  * Created by 375csptssce on 7/26/16.
@@ -13,6 +14,8 @@ import com.wickeddevs.easywars.data.service.contract.VersionService;
 public class LoadingSplashPresenter implements LoadingSplashContract.ViewListener {
 
     private final static String TAG = "LoadingSplashPresenter";
+    public static final int MAJOR_VERSION = 0;
+    public static final int MINOR_VERSION = 0;
 
     private LoadingSplashContract.View view;
     private UserService userService;
@@ -20,6 +23,7 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
 
     private boolean navigated = false; //Hack because when creating navigate fires twice
 
+    @Inject
     public LoadingSplashPresenter(UserService userService, VersionService versionService) {
         this.userService = userService;
         this.versionService = versionService;
@@ -35,9 +39,9 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
         versionService.getCurrentVersion(new VersionService.CheckVersionCallback() {
             @Override
             public void onVersionLoaded(int major, int minor) {
-                if (major > MyApplication.MAJOR_VERSION) {
+                if (major > MAJOR_VERSION) {
                     view.displayBehindMajorVersion();
-                } else if (minor > MyApplication.MAJOR_VERSION) {
+                } else if (minor > MAJOR_VERSION) {
                     view.displayBehindMinorVersion();
                 } else {
                     startLogin();

@@ -13,7 +13,8 @@ import android.view.ViewGroup;
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.adapters.viewpager.WarViewPagerAdapter;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
-import com.wickeddevs.easywars.dagger.Injector;
+import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
+import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.databinding.FragmentWarViewPagerBinding;
 import com.wickeddevs.easywars.ui.home.NavigationDrawerProvider;
 import com.wickeddevs.easywars.ui.startwar.info.WarInfoActivity;
@@ -106,7 +107,9 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
     @Override
     protected WarViewPagerContract.ViewListener getPresenter() {
         if(presenter == null){
-            Injector.INSTANCE.inject(this);
+            DaggerViewInjectorComponent.builder()
+                    .serviceComponent(DaggerServiceComponent.create())
+                    .build().inject(this);
         }
         return presenter;
     }

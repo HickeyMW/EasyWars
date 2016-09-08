@@ -3,12 +3,15 @@ package com.wickeddevs.easywars.ui.warbase;
 import java.util.ArrayList;
 
 import com.wickeddevs.easywars.data.model.Clan;
+import com.wickeddevs.easywars.data.model.war.Attack;
 import com.wickeddevs.easywars.data.model.war.Base;
 import com.wickeddevs.easywars.data.model.war.Comment;
 import com.wickeddevs.easywars.data.service.contract.ClanService;
 import com.wickeddevs.easywars.data.service.contract.UserService;
 import com.wickeddevs.easywars.data.service.contract.WarService;
 import com.wickeddevs.easywars.util.General;
+
+import javax.inject.Inject;
 
 /**
  * Created by 375csptssce on 8/22/16.
@@ -21,10 +24,11 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
     private ClanService clanService;
     private UserService userService;
 
-    String warId;
-    String baseId;
-    boolean didClaim;
+    private String warId;
+    private int baseId;
+    private Attack attackClaim;
 
+    @Inject
     public WarBasePresenter(WarService warService, ClanService clanService, UserService userService) {
         this.warService = warService;
         this.clanService = clanService;
@@ -33,14 +37,13 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
 
     @Override
     public void pressedClaim() {
-        if (didClaim) {
-            warService.removeClaim(warId, baseId);
+        if (attackClaim != null) {
+            warService.removeClaim(warId, attackClaim);
             view.setButtonClaimText("Attack");
         } else {
             warService.claimBase(warId, baseId);
             view.setButtonClaimText("Unclaim");
         }
-        didClaim = !didClaim;
     }
 
     @Override
@@ -60,12 +63,7 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
         warService.setBaseListener(warId, baseId, new WarService.LoadBaseListener() {
             @Override
             public void onLoaded(final Base base) {
-                clanService.getClan(new ClanService.LoadClanCallback() {
-                    @Override
-                    public void onClanLoaded(Clan clan) {
-                        view.displayBase(base);
-                    }
-                });
+                view.displayBase(base);
             }
 
             @Override
@@ -81,24 +79,25 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
             }
 
             @Override
-            public void newClaim(final String claim) {
-                if (userService.isMyId(claim)) {
+            public void newClaim(final Attack attack) {
+                if (userService.isMyId(attack.uid)) {
+                    attackClaim = attack;
                     view.setButtonClaimText("Unclaim");
                 }
                 clanService.getClan(new ClanService.LoadClanCallback() {
                     @Override
                     public void onClanLoaded(Clan clan) {
-                        view.addClaim(clan.members.get(claim).name);
+                        view.addClaim(clan.members.get(attack.key).name);
                     }
                 });
             }
 
             @Override
-            public void removeClaim(final String claim) {
+            public void removeClaim(final Attack attack) {
                 clanService.getClan(new ClanService.LoadClanCallback() {
                     @Override
                     public void onClanLoaded(Clan clan) {
-                        view.removeClaim(clan.members.get(claim).name);
+                        view.removeClaim(clan.members.get(attack.key).name);
                     }
                 });
             }
