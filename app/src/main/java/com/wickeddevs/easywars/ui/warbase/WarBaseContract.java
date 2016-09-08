@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.wickeddevs.easywars.base.PView;
 import com.wickeddevs.easywars.base.Presenter;
+import com.wickeddevs.easywars.data.model.war.Attack;
 import com.wickeddevs.easywars.data.model.war.Base;
 import com.wickeddevs.easywars.data.model.war.Comment;
 
@@ -24,11 +25,11 @@ public interface WarBaseContract {
 
         void displayClaimsComments(ArrayList<String> claims, ArrayList<Comment> comments);
 
-        void addClaim(String claim);
+        void addClaim(Attack attackClaim);
 
         void addComment(Comment comment);
 
-        void removeClaim(String claim);
+        void removeClaim(Attack attackClaim);
     }
 
     interface ViewListener extends Presenter<WarBaseContract.View> {

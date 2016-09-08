@@ -46,12 +46,20 @@ public class FbWarService implements WarService, ChildEventListener {
                             DataSnapshot ds = iterator.next();
                             War war = ds.getValue(War.class);
                             war.key = ds.getKey();
-//                            Iterator<DataSnapshot> iter = ds.child("claims").getChildren().iterator();
-//                            while(iter.hasNext()) {
-//                                DataSnapshot claimSnap = iter.next();
-//                                Base base = war.bases.get(Integer.valueOf(claimSnap.getKey()));
-//                                base.claims.add()
-//                            }
+                            Iterator<DataSnapshot> iter = ds.child("attacks").getChildren().iterator();
+                            while(iter.hasNext()) {
+                                DataSnapshot dsAttack = iter.next();
+                                Attack attack = dsAttack.getValue(Attack.class);
+                                Base base = war.bases.get(attack.base);
+                                if (attack.stars > -1) {
+                                    base.attacks.add(attack);
+                                    if (attack.stars > base.stars) {
+                                        base.stars = attack.stars;
+                                    }
+                                } else {
+                                    base.claims.add(attack);
+                                }
+                            }
 
                             callback.onLoaded(war);
                         } else {
@@ -110,18 +118,16 @@ public class FbWarService implements WarService, ChildEventListener {
     @Override
     public void setBaseListener(final String warId, final int baseId, final LoadBaseListener listener) {
         this.listener = listener;
+        this.baseId = baseId;
         FbInfo.getWarRef(new FbInfo.DbRefCallback() {
             @Override
             public void onLoaded(final DatabaseReference dbRef) {
-                commentRef = dbRef.child(warId + "/comments");
-                attackRef = dbRef.child(warId + "/attacks");
-                commentRef.addChildEventListener(FbWarService.this);
-                attackRef.addChildEventListener(FbWarService.this);
-                dbRef.child(warId + "/bases/" + baseId).addListenerForSingleValueEvent(new ValueEventListener() {
+                dbRef.child(warId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Base base = dataSnapshot.getValue(Base.class);
-                        base.key = dataSnapshot.getKey();
+                        DataSnapshot dsBase = dataSnapshot.child("bases/" + baseId);
+                        Base base = dsBase.getValue(Base.class);
+                        base.key = dsBase.getKey();
                         listener.onLoaded(base);
                     }
 
@@ -130,6 +136,11 @@ public class FbWarService implements WarService, ChildEventListener {
 
                     }
                 });
+                commentRef = dbRef.child(warId + "/comments");
+                attackRef = dbRef.child(warId + "/attacks");
+                commentRef.addChildEventListener(FbWarService.this);
+                attackRef.addChildEventListener(FbWarService.this);
+
             }
         });
     }
@@ -146,7 +157,7 @@ public class FbWarService implements WarService, ChildEventListener {
         FbInfo.getWarRef(new FbInfo.DbRefCallback() {
             @Override
             public void onLoaded(DatabaseReference dbRef) {
-                HashMap<String, Object> hashMap = Attack.createAttackClaimHashMap(baseId);
+                HashMap<String, Object> hashMap = Attack.createAttackClaimHashMap(FbInfo.getUid(), baseId);
                 dbRef.child(warId + "/attacks").push().setValue(hashMap);
             }
         });
@@ -229,7 +240,7 @@ public class FbWarService implements WarService, ChildEventListener {
                 listener.newComment(comment);
             }
         } else if (dataSnapshot.hasChild("stars")) {
-            Attack attack = new Attack(dataSnapshot.getKey(), baseId);
+            Attack attack = dataSnapshot.getValue(Attack.class);
             attack.key = dataSnapshot.getKey();
             if (attack.base == baseId && attack.stars == -1) {
                 listener.newClaim(attack);

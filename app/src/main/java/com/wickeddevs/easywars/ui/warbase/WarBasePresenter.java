@@ -39,7 +39,8 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
     public void pressedClaim() {
         if (attackClaim != null) {
             warService.removeClaim(warId, attackClaim);
-            view.setButtonClaimText("Attack");
+            view.setButtonClaimText("Claim");
+            attackClaim = null;
         } else {
             warService.claimBase(warId, baseId);
             view.setButtonClaimText("Unclaim");
@@ -87,19 +88,15 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
                 clanService.getClan(new ClanService.LoadClanCallback() {
                     @Override
                     public void onClanLoaded(Clan clan) {
-                        view.addClaim(clan.members.get(attack.key).name);
+                        attack.name = clan.members.get(attack.uid).name;
+                        view.addClaim(attack);
                     }
                 });
             }
 
             @Override
             public void removeClaim(final Attack attack) {
-                clanService.getClan(new ClanService.LoadClanCallback() {
-                    @Override
-                    public void onClanLoaded(Clan clan) {
-                        view.removeClaim(clan.members.get(attack.key).name);
-                    }
-                });
+                view.removeClaim(attack);
             }
         });
     }

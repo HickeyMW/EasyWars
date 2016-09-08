@@ -26,10 +26,11 @@ public class Attack {
         this.stars = -1;
     }
 
-    public static HashMap<String, Object> createAttackClaimHashMap(int base) {
+    public static HashMap<String, Object> createAttackClaimHashMap(String uid, int base) {
         final HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("stars", -1);
         hashMap.put("base", base);
+        hashMap.put("uid", uid);
         hashMap.put("timestamp", ServerValue.TIMESTAMP);
         return  hashMap;
     }

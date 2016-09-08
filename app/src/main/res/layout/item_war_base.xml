@@ -17,7 +17,7 @@
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:id="@+id/ivItemWar"
+            android:id="@+id/ivItemWarBase"
             android:layout_alignParentTop="false"
             android:layout_alignParentLeft="false"
             android:layout_alignParentStart="false"
@@ -28,9 +28,9 @@
             android:layout_height="wrap_content"
             tools:text="1."
             android:id="@+id/tvItemWarBaseNumber"
-            android:layout_alignTop="@+id/ivItemWar"
-            android:layout_toRightOf="@+id/ivItemWar"
-            android:layout_toEndOf="@+id/ivItemWar"
+            android:layout_alignTop="@+id/ivItemWarBase"
+            android:layout_toRightOf="@+id/ivItemWarBase"
+            android:layout_toEndOf="@+id/ivItemWarBase"
             android:textSize="20sp"
             android:layout_marginRight="8dp"/>
 
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvItemWarBaseName"
-            android:layout_alignTop="@+id/ivItemWar"
+            android:layout_alignTop="@+id/ivItemWarBase"
             android:layout_toRightOf="@+id/tvItemWarBaseNumber"
             android:layout_toEndOf="@+id/tvItemWarBaseNumber"
             android:textSize="20sp"
@@ -47,11 +47,39 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvItemWarClaimed"
-            android:layout_alignBottom="@+id/ivItemWar"
-            android:layout_toRightOf="@+id/ivItemWar"
-            android:layout_toEndOf="@+id/ivItemWar"
+            android:id="@+id/tvItemWarBaseClaimsAttacks"
+            tools:text="Claims: X   Attacks: X"
+            android:layout_alignBottom="@+id/ivItemWarBase"
+            android:layout_toRightOf="@+id/ivItemWarBase"
+            android:layout_toEndOf="@+id/ivItemWarBase"
             android:textSize="18sp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/ivItemWarBaseStar3"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/empty_star"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/ivItemWarBaseStar2"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/ivItemWarBaseStar3"
+            android:layout_toStartOf="@+id/ivItemWarBaseStar3"
+            android:src="@drawable/empty_star"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/ivItemWarBaseStar1"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/ivItemWarBaseStar2"
+            android:layout_toStartOf="@+id/ivItemWarBaseStar2"
+            android:src="@drawable/empty_star"/>
 
     </RelativeLayout>
 

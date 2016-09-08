@@ -36,14 +36,22 @@ public class WarBasesAdapter extends RecyclerView.Adapter<WarBasesAdapter.WarBas
     @Override
     public void onBindViewHolder(WarBasesAdapter.WarBasesHolder holder, int position) {
         Base base = bases.get(position);
-        int claims = 0;
-        if (base.attacks != null) {
-            claims = base.attacks.size();
-        }
-        holder.tvNumber.setText(String.valueOf(position + 1) + ". ");
+        holder.tvNumber.setText((position + 1) + ". ");
         holder.tvName.setText(base.name);
         holder.imageView.setImageResource(Shared.getThResource(base.thLevel));
-        //holder.tvClaimed.setText(claims + " claims");
+        holder.tvClaimsAttacks.setText("Claims: " + base.claims.size() + "    Attacks: " + base.attacks.size());
+        holder.ivStar1.setImageResource(R.drawable.empty_star);
+        holder.ivStar2.setImageResource(R.drawable.empty_star);
+        holder.ivStar3.setImageResource(R.drawable.empty_star);
+        switch (base.stars) {
+            case 3:
+                holder.ivStar3.setImageResource(R.drawable.gold_star);
+            case 2:
+                holder.ivStar2.setImageResource(R.drawable.gold_star);
+            case 1:
+                holder.ivStar1.setImageResource(R.drawable.gold_star);
+                break;
+        }
     }
 
     @Override
@@ -53,16 +61,22 @@ public class WarBasesAdapter extends RecyclerView.Adapter<WarBasesAdapter.WarBas
 
     public static class WarBasesHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+        ImageView ivStar1;
+        ImageView ivStar2;
+        ImageView ivStar3;
         TextView tvNumber;
         TextView tvName;
-        TextView tvClaimed;
+        TextView tvClaimsAttacks;
 
         public WarBasesHolder(View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.ivItemWar);
+            imageView = (ImageView) itemView.findViewById(R.id.ivItemWarBase);
+            ivStar1 = (ImageView) itemView.findViewById(R.id.ivItemWarBaseStar1);
+            ivStar2 = (ImageView) itemView.findViewById(R.id.ivItemWarBaseStar2);
+            ivStar3 = (ImageView) itemView.findViewById(R.id.ivItemWarBaseStar3);
             tvNumber = (TextView) itemView.findViewById(R.id.tvItemWarBaseNumber);
             tvName = (TextView) itemView.findViewById(R.id.tvItemWarBaseName);
-            tvClaimed = (TextView) itemView.findViewById(R.id.tvItemWarClaimed);
+            tvClaimsAttacks = (TextView) itemView.findViewById(R.id.tvItemWarBaseClaimsAttacks);
         }
     }
 }

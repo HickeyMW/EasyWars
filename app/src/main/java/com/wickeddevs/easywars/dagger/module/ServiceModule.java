@@ -2,6 +2,8 @@ package com.wickeddevs.easywars.dagger.module;
 
 import dagger.Module;
 import dagger.Provides;
+
+import com.wickeddevs.easywars.dagger.scope.ActivityScope;
 import com.wickeddevs.easywars.data.service.contract.ApiService;
 import com.wickeddevs.easywars.data.service.contract.ChatService;
 import com.wickeddevs.easywars.data.service.contract.ClanService;

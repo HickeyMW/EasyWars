@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import com.wickeddevs.easywars.adapters.SpaceItemDecoration;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
+import com.wickeddevs.easywars.data.model.war.Attack;
 import com.wickeddevs.easywars.data.model.war.Base;
 import com.wickeddevs.easywars.data.model.war.Comment;
 import com.wickeddevs.easywars.databinding.ActivityWarBaseBinding;
@@ -29,6 +32,8 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
     public final static String EXTRA_BASE_ID = "EXTRA_BASE_ID";
 
     private ClaimCommentAdapter claimCommentAdapter;
+    private LinearLayoutManager linearLayoutManager;
+    private boolean displayingShadow = false;
 
     @Inject
     public WarBaseContract.ViewListener presenter;
@@ -56,6 +61,21 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
         claimCommentAdapter = new ClaimCommentAdapter();
         binding.rvClaimsComments.setAdapter(claimCommentAdapter);
         binding.rvClaimsComments.addItemDecoration(new SpaceItemDecoration());
+        linearLayoutManager = new LinearLayoutManager(this);
+        binding.rvClaimsComments.setLayoutManager(linearLayoutManager);
+        binding.rvClaimsComments.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                checkDrawShadow();
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+            }
+        });
         presenter.onCreate();
     }
 
@@ -63,6 +83,22 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
+    }
+
+    private void checkDrawShadow() {
+        int friendlyMessageCount = claimCommentAdapter.getItemCount();
+        int lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+        if (lastVisiblePosition != friendlyMessageCount -1) {
+            if (!displayingShadow) {
+                displayingShadow = true;
+                binding.layoutShadow.animate().alpha(1.0f).setDuration(300).start();
+            }
+        } else {
+            if (displayingShadow) {
+                displayingShadow = false;
+                binding.layoutShadow.animate().alpha(0.0f).setDuration(300).start();
+            }
+        }
     }
 
     @Override
@@ -95,7 +131,7 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
     public void displayBase(Base base) {
         binding.tvName.setText(base.name);
         binding.ivTownHall.setImageResource(Shared.getThResource(base.thLevel));
-        binding.rvClaimsComments.setLayoutManager(new LinearLayoutManager(this));
+        checkDrawShadow();
     }
 
     @Override
@@ -104,8 +140,13 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
     }
 
     @Override
-    public void addClaim(String claim) {
-        claimCommentAdapter.addClaim(claim);
+    public void addClaim(Attack attackClaim) {
+        claimCommentAdapter.addClaim(attackClaim);
+    }
+
+    @Override
+    public void removeClaim(Attack attackClaim) {
+        claimCommentAdapter.removeClaim(attackClaim);
     }
 
     @Override
@@ -113,10 +154,6 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
         claimCommentAdapter.addComment(comment);
     }
 
-    @Override
-    public void removeClaim(String claim) {
-        claimCommentAdapter.removeClaim(claim);
-    }
 
     public static Intent createIntent(Context context, String warId, int baseId) {
         Intent i = new Intent(context, WarBaseActivity.class);

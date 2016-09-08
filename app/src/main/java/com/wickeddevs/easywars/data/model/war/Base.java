@@ -10,8 +10,10 @@ public class Base {
     public String key;
     public String name;
     public int thLevel;
+    public int stars = -1;
     public ArrayList<Comment> comments;
-    public ArrayList<Attack> attacks;
+    public ArrayList<Attack> attacks = new ArrayList<>();
+    public ArrayList<Attack> claims = new ArrayList<>();
 
     public Base(String name, int thLevel) {
         this.name = name;

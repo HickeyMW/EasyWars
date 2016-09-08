@@ -119,6 +119,7 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
     public void toggleLoading(boolean loading) {
         if (loading) {
             binding.progressBar.setVisibility(View.VISIBLE);
+            binding.cardView.setVisibility(View.INVISIBLE);
         } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
         }

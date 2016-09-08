@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import com.wickeddevs.easywars.R;
+import com.wickeddevs.easywars.data.model.war.Attack;
 import com.wickeddevs.easywars.data.model.war.Comment;
 
 /**
@@ -18,7 +19,7 @@ import com.wickeddevs.easywars.data.model.war.Comment;
  */
 public class ClaimCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<String> claims = new ArrayList<>();
+    private ArrayList<Attack> attackClaims = new ArrayList<>();
     private ArrayList<Comment> comments= new ArrayList<>();
 
     @Override
@@ -45,11 +46,15 @@ public class ClaimCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (position == 0) {
             //String claim = claims.get(position);
             ClaimViewHolder vHolder = (ClaimViewHolder) holder;
-            String claimText = "Attack Order";
-            for (int i = 0; i < claims.size(); i++) {
-                claimText += "\n" + String.valueOf(i + 1) + ". " + claims.get(i);
+            String claimText = "Claim Order";
+            if (attackClaims.size() > 0) {
+                for (int i = 0; i < attackClaims.size(); i++) {
+                    claimText += "\n" + String.valueOf(i + 1) + ". " + attackClaims.get(i).name;
+                }
+                vHolder.name.setText(claimText);
+            } else {
+                holder.itemView.setVisibility(View.GONE);
             }
-            vHolder.name.setText(claimText);
         } else {
 
             Comment comment = comments.get(position-1);
@@ -65,15 +70,15 @@ public class ClaimCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return comments.size() + 1;
     }
 
-    public void addClaim(String name) {
-        claims.add(name);
+    public void addClaim(Attack attackClaim) {
+        attackClaims.add(attackClaim);
         notifyItemChanged(0);
     }
 
-    public void removeClaim(String name) {
-        for (int i = 0; i < claims.size(); i++) {
-            if (claims.get(i).equals(name)) {
-                claims.remove(i);
+    public void removeClaim(Attack attackClaim) {
+        for (int i = 0; i < attackClaims.size(); i++) {
+            if (attackClaims.get(i).key.equals(attackClaim.key)) {
+                attackClaims.remove(i);
                 notifyItemChanged(0);
                 //notifyItemRemoved(i);
 //                if (claims.size() > 0) {
