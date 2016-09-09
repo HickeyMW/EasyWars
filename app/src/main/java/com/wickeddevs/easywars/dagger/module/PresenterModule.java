@@ -17,6 +17,8 @@ import com.wickeddevs.easywars.ui.home.chat.ChatContract;
 import com.wickeddevs.easywars.ui.home.chat.ChatPresenter;
 import com.wickeddevs.easywars.ui.home.war.WarViewPagerContract;
 import com.wickeddevs.easywars.ui.home.war.WarViewPagerPresenter;
+import com.wickeddevs.easywars.ui.home.war.clanoverview.ClanOverviewContract;
+import com.wickeddevs.easywars.ui.home.war.clanoverview.ClanOverviewPresenter;
 import com.wickeddevs.easywars.ui.home.war.enemybases.WarEnemyBasesContract;
 import com.wickeddevs.easywars.ui.home.war.enemybases.WarEnemyBasesPresenter;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsContract;
@@ -129,5 +131,11 @@ public class PresenterModule {
     @ActivityScope
     WarInfoContract.ViewListener providesWarInfoPresenter(WarInfoPresenter warInfoPresenter) {
         return warInfoPresenter;
+    }
+
+    @Provides
+    @ActivityScope
+    ClanOverviewContract.ViewListener providesClanOverviewPresenter(ClanOverviewPresenter clanOverviewPresenter) {
+        return clanOverviewPresenter;
     }
 }

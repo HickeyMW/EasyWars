@@ -14,7 +14,7 @@ import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.adapters.ChatAdapter;
-import com.wickeddevs.easywars.adapters.SpaceItemDecoration;
+import com.wickeddevs.easywars.miscellaneous.SpaceItemDecoration;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;

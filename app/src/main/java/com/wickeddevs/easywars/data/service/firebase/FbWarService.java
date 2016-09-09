@@ -6,7 +6,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import java.util.Iterator;
 import com.wickeddevs.easywars.data.model.war.Attack;
 import com.wickeddevs.easywars.data.model.war.Base;
 import com.wickeddevs.easywars.data.model.war.Comment;
+import com.wickeddevs.easywars.data.model.war.Participent;
 import com.wickeddevs.easywars.data.model.war.War;
 import com.wickeddevs.easywars.data.model.war.WarInfo;
 import com.wickeddevs.easywars.data.service.contract.WarService;
@@ -27,6 +28,8 @@ import com.wickeddevs.easywars.util.Shared;
 public class FbWarService implements WarService, ChildEventListener {
 
     final static String TAG = "FbWarService";
+
+    private GenericTypeIndicator<ArrayList<Participent>> gtiArrayListParticipents = new GenericTypeIndicator<ArrayList<Participent>>() {};
 
     LoadBaseListener listener;
     DatabaseReference commentRef;
@@ -62,6 +65,53 @@ public class FbWarService implements WarService, ChildEventListener {
                             }
 
                             callback.onLoaded(war);
+                        } else {
+                            callback.onLoaded(null);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void getLatestWarOverview(final LoadOverviewCallback callback) {
+        FbInfo.getWarRef(new FbInfo.DbRefCallback() {
+            @Override
+            public void onLoaded(DatabaseReference dbRef) {
+                dbRef.limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                        if (iterator.hasNext()) {
+                            DataSnapshot dsWar = iterator.next();
+                            ArrayList<Participent> participents = dsWar.child("participents").getValue(gtiArrayListParticipents);
+                            Iterator<DataSnapshot> iter = dsWar.child("attacks").getChildren().iterator();
+                            while(iter.hasNext()) {
+                                DataSnapshot dsAttack = iter.next();
+                                Attack attack = dsAttack.getValue(Attack.class);
+                                attack.baseName = dsWar.child("bases/" + attack.base + "/name").getValue(String.class);
+                                for (Participent participent : participents) {
+                                    if (participent.uid != null) {
+                                        if (attack.uid.equals(participent.uid)) {
+                                            participent.attackClaims.add(attack);
+                                            break;
+                                        }
+                                    } else {
+                                        if (attack.uid.equals(participent.name)) {
+                                            participent.attackClaims.add(attack);
+                                            break;
+                                        }
+                                    }
+
+                                }
+                            }
+                            callback.onLoaded(participents);
                         } else {
                             callback.onLoaded(null);
                         }

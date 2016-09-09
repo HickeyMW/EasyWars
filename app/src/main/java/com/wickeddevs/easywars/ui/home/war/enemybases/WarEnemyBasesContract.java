@@ -11,9 +11,7 @@ public interface WarEnemyBasesContract {
 
     interface View extends PView {
 
-        void displayWar(War war, boolean isAdmin);
-
-        void displayNoCurrentWar(boolean isAdmin);
+        void displayEnemyBases(War war);
 
         void toggleLoading(boolean loading);
     }
@@ -21,7 +19,5 @@ public interface WarEnemyBasesContract {
     interface ViewListener extends Presenter<WarEnemyBasesContract.View> {
 
         void onCreate();
-
-        void pressedDeleteWar();
     }
 }

@@ -1,4 +1,4 @@
-package com.wickeddevs.easywars.adapters;
+package com.wickeddevs.easywars.miscellaneous;
 
 import android.content.res.Resources;
 import android.graphics.Rect;

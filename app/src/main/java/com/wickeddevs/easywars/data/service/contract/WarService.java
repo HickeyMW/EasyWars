@@ -3,6 +3,7 @@ package com.wickeddevs.easywars.data.service.contract;
 import com.wickeddevs.easywars.data.model.war.Attack;
 import com.wickeddevs.easywars.data.model.war.Base;
 import com.wickeddevs.easywars.data.model.war.Comment;
+import com.wickeddevs.easywars.data.model.war.Participent;
 import com.wickeddevs.easywars.data.model.war.War;
 import com.wickeddevs.easywars.data.model.war.WarInfo;
 
@@ -15,6 +16,10 @@ public interface WarService {
 
     interface LoadWarCallback {
         void onLoaded(War war);
+    }
+
+    interface LoadOverviewCallback {
+        void onLoaded(ArrayList<Participent> participents);
     }
 
     interface LoadAttacksCallback {
@@ -37,6 +42,8 @@ public interface WarService {
     void removeBaseListener();
 
     void getLatestWar(LoadWarCallback callback);
+
+    void getLatestWarOverview(LoadOverviewCallback callback);
 
     void getAttacks(String warId, LoadAttacksCallback callback);
 

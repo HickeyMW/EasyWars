@@ -5,7 +5,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="wickeddevs.easywars.ui.home.war.WarPlannerFragment">
+        tools:context="com.wickeddevs.easywars.ui.home.war.clanoverview.ClanOverviewFragment">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/rvWarBases"/>
+                android:id="@+id/rvClanOverview"/>
 
         </RelativeLayout>
 

@@ -1,5 +1,12 @@
 TODO
 0: 
+Only claim two bases
+Add participents in the war
+Live updating - War bases, overview
+Add attack per person
+
+Inject clan name into services
+Databinding for recyclerview items
 standardize click animation on recycler views
 UI
 listen for admin changes on home activity - presenter display admin ui
@@ -8,10 +15,17 @@ Make sure following MVP maybe make views completely passive
 Can't join with same name as already exists
 Screen for managing players in clan - give admin privladges
 User dagger correctly
-Issues screen: Upvotes, comments - tab view: suggestions, bugs, general chat
 use fragment manager correctly
 Screens with loading, have ui visible loading bar hidden
 Timestamp validates correctly serverside
+
+War Settings
+Clan manager
+Issues screen: Upvotes, comments - tab view: suggestions, bugs, general chat
+
+Notification fragment
+push Notifications
+Image uploading
 
 1:
 Analytics/Crash Reporting
@@ -36,10 +50,6 @@ customized login
 interfaces to button in Service Contracts
 sideways orientation
 
-Project wide:
-make a utility thing that generates random objects for test?
-redo the way dagger is injecting
-
 Features before next release:
 Push Notifications
 Uploading Base Images
@@ -50,3 +60,7 @@ View all members and see their stats, make notes about them
 Future Releases:
 Drawing on bases to plan attacks
 Everyone can add in their upgrade status for buildings
+
+Things to learn:
+Conductor
+onDraw

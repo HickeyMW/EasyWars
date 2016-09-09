@@ -1,4 +1,4 @@
-package com.wickeddevs.easywars.ui.home.war.enemybases;
+package com.wickeddevs.easywars.ui.home.war.clanoverview;
 
 
 import android.databinding.DataBindingUtil;
@@ -9,31 +9,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import javax.inject.Inject;
-
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.WarBasesAdapter;
+import com.wickeddevs.easywars.adapters.ParticipentAdapter;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
+import com.wickeddevs.easywars.data.model.war.Participent;
 import com.wickeddevs.easywars.data.model.war.War;
-import com.wickeddevs.easywars.databinding.FragmentWarEnemyBasesBinding;
+import com.wickeddevs.easywars.databinding.FragmentClanOverviewBinding;
 import com.wickeddevs.easywars.miscellaneous.DividerItemDecoration;
-import com.wickeddevs.easywars.ui.warbase.WarBaseActivity;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WarEnemyBasesFragment extends BasePresenterFragment<WarEnemyBasesContract.ViewListener>
-        implements WarEnemyBasesContract.View {
-
+public class ClanOverviewFragment extends BasePresenterFragment<ClanOverviewContract.ViewListener>
+        implements ClanOverviewContract.View  {
 
     @Inject
-    public WarEnemyBasesContract.ViewListener presenter;
+    public ClanOverviewContract.ViewListener presenter;
 
-    private FragmentWarEnemyBasesBinding binding;
+    private FragmentClanOverviewBinding binding;
 
-    public WarEnemyBasesFragment() {
+    public ClanOverviewFragment() {
         // Required empty public constructor
     }
 
@@ -42,15 +43,15 @@ public class WarEnemyBasesFragment extends BasePresenterFragment<WarEnemyBasesCo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_war_enemy_bases, container, false);
-        binding.rvWarBases.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.rvWarBases.addItemDecoration(new DividerItemDecoration(getContext(), R.drawable.divider));
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_clan_overview, container, false);
+        binding.rvClanOverview.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvClanOverview.addItemDecoration(new DividerItemDecoration(getContext(), R.drawable.divider));
         presenter.onCreate();
         return binding.getRoot();
     }
 
     @Override
-    protected WarEnemyBasesContract.ViewListener getPresenter() {
+    protected ClanOverviewContract.ViewListener getPresenter() {
         if(presenter == null){
             DaggerViewInjectorComponent.builder()
                     .serviceComponent(DaggerServiceComponent.create())
@@ -60,13 +61,13 @@ public class WarEnemyBasesFragment extends BasePresenterFragment<WarEnemyBasesCo
     }
 
     @Override
-    public void displayEnemyBases(final War war) {
-        binding.rvWarBases.setVisibility(View.VISIBLE);
-        binding.rvWarBases.setAdapter(new WarBasesAdapter(war.bases, new View.OnClickListener() {
+    public void displayOverview(ArrayList<Participent> participents) {
+        binding.rvClanOverview.setVisibility(View.VISIBLE);
+        binding.rvClanOverview.setAdapter(new ParticipentAdapter(participents, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int position = binding.rvWarBases.getChildLayoutPosition(view);
-                startActivity(WarBaseActivity.createIntent(getContext(), war.key, position));
+                int position = binding.rvClanOverview.getChildLayoutPosition(view);
+                
             }
         }));
     }

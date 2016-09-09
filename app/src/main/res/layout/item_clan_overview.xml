@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@color/popup">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/ivTownHall"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:layout_marginRight="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1."
+            android:id="@+id/tvOrderNumber"
+            android:layout_alignTop="@+id/ivTownHall"
+            android:layout_toRightOf="@+id/ivTownHall"
+            android:layout_toEndOf="@+id/ivTownHall"
+            android:textSize="20sp"
+            android:layout_marginRight="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvName"
+            android:layout_alignTop="@+id/ivTownHall"
+            android:layout_toRightOf="@+id/tvOrderNumber"
+            android:layout_toEndOf="@+id/tvOrderNumber"
+            android:textSize="20sp"
+            tools:text="Base name"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/divider1"
+            android:layout_toRightOf="@+id/ivTownHall"
+            android:layout_below="@+id/tvOrderNumber"
+            android:background="@drawable/divider"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layoutAttack1"
+            android:layout_below="@+id/divider1"
+            android:layout_alignLeft="@+id/tvOrderNumber"
+            android:layout_alignStart="@+id/tvOrderNumber">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvAttack1"
+                android:textSize="16sp"
+                android:text="No claim or attack"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/layoutAttack1Stars"
+                />
+
+            <RelativeLayout
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/layoutAttack1Stars"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/ivAttack1Star1"
+                    android:layout_alignParentTop="true"
+                    android:layout_toStartOf="@+id/ivAttack1Star2"
+                    android:src="@drawable/empty_star"
+                    android:layout_alignParentRight="false"/>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/ivAttack1Star2"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/ivAttack1Star3"
+                    android:layout_toStartOf="@+id/ivAttack1Star3"
+                    android:src="@drawable/empty_star"/>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/ivAttack1Star3"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/empty_star"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/divider2"
+            android:layout_toRightOf="@+id/ivTownHall"
+            android:layout_below="@+id/layoutAttack1"
+            android:background="@drawable/divider"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider2"
+            android:layout_alignLeft="@+id/tvOrderNumber"
+            android:layout_alignStart="@+id/tvOrderNumber">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvAttack2"
+                android:textSize="16sp"
+                android:text="No claim or attack"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/layoutAttack2Stars"
+                />
+
+            <RelativeLayout
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/layoutAttack2Stars"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/ivAttack2Star1"
+                    android:layout_alignParentTop="true"
+                    android:layout_toStartOf="@+id/ivAttack2Star2"
+                    android:src="@drawable/empty_star"
+                    android:layout_alignParentRight="false"/>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/ivAttack2Star2"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/ivAttack2Star3"
+                    android:layout_toStartOf="@+id/ivAttack2Star3"
+                    android:src="@drawable/empty_star"/>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/ivAttack2Star3"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/empty_star"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

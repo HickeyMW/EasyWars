@@ -1,87 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="2dp"
-    android:layout_margin="5dp">
-    <RelativeLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+    android:padding="8dp"
+    android:background="@color/popup">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/ivTownHall"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_marginRight="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:background="@color/popup">
+        tools:text="1."
+        android:id="@+id/tvOrderNumber"
+        android:layout_alignTop="@+id/ivTownHall"
+        android:layout_toRightOf="@+id/ivTownHall"
+        android:layout_toEndOf="@+id/ivTownHall"
+        android:textSize="20sp"
+        android:layout_marginRight="8dp"/>
 
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:id="@+id/ivItemWarBase"
-            android:layout_alignParentTop="false"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentStart="false"
-            android:layout_marginRight="16dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemWarBaseName"
+        android:layout_alignTop="@+id/ivTownHall"
+        android:layout_toRightOf="@+id/tvOrderNumber"
+        android:layout_toEndOf="@+id/tvOrderNumber"
+        android:textSize="20sp"
+        tools:text="Base name"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="1."
-            android:id="@+id/tvItemWarBaseNumber"
-            android:layout_alignTop="@+id/ivItemWarBase"
-            android:layout_toRightOf="@+id/ivItemWarBase"
-            android:layout_toEndOf="@+id/ivItemWarBase"
-            android:textSize="20sp"
-            android:layout_marginRight="8dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemWarBaseClaimsAttacks"
+        tools:text="Claims: X   Attacks: X"
+        android:layout_alignBottom="@+id/ivTownHall"
+        android:layout_toRightOf="@+id/ivTownHall"
+        android:layout_toEndOf="@+id/ivTownHall"
+        android:textSize="18sp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvItemWarBaseName"
-            android:layout_alignTop="@+id/ivItemWarBase"
-            android:layout_toRightOf="@+id/tvItemWarBaseNumber"
-            android:layout_toEndOf="@+id/tvItemWarBaseNumber"
-            android:textSize="20sp"
-            tools:text="Base name"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/tvAttack1Star3"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/empty_star"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvItemWarBaseClaimsAttacks"
-            tools:text="Claims: X   Attacks: X"
-            android:layout_alignBottom="@+id/ivItemWarBase"
-            android:layout_toRightOf="@+id/ivItemWarBase"
-            android:layout_toEndOf="@+id/ivItemWarBase"
-            android:textSize="18sp"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/tvAttack1Star2"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/tvAttack1Star3"
+        android:layout_toStartOf="@+id/tvAttack1Star3"
+        android:src="@drawable/empty_star"/>
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/ivItemWarBaseStar3"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/empty_star"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/tvAttack1Star1"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/tvAttack1Star2"
+        android:layout_toStartOf="@+id/tvAttack1Star2"
+        android:src="@drawable/empty_star"/>
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/ivItemWarBaseStar2"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/ivItemWarBaseStar3"
-            android:layout_toStartOf="@+id/ivItemWarBaseStar3"
-            android:src="@drawable/empty_star"/>
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/ivItemWarBaseStar1"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/ivItemWarBaseStar2"
-            android:layout_toStartOf="@+id/ivItemWarBaseStar2"
-            android:src="@drawable/empty_star"/>
-
-    </RelativeLayout>
-
-
-</android.support.v7.widget.CardView>
+</RelativeLayout>

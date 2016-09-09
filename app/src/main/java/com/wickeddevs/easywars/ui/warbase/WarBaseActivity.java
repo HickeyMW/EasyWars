@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.adapters.ClaimCommentAdapter;
-import com.wickeddevs.easywars.adapters.SpaceItemDecoration;
+import com.wickeddevs.easywars.miscellaneous.SpaceItemDecoration;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;

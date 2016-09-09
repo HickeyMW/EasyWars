@@ -85,7 +85,7 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
     @Override
     public void displayUi(boolean activeWar) {
         if (activeWar) {
-            WarViewPagerAdapter warViewPagerAdapter = new WarViewPagerAdapter(getChildFragmentManager(), isAdmin());
+            WarViewPagerAdapter warViewPagerAdapter = new WarViewPagerAdapter(getChildFragmentManager());
             binding.viewPager.setAdapter(warViewPagerAdapter);
             binding.tabLayout.setupWithViewPager(binding.viewPager);
             binding.tabLayout.getTabAt(0).setText("Enemy Bases");

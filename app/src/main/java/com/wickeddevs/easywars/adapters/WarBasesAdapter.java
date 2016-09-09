@@ -70,11 +70,11 @@ public class WarBasesAdapter extends RecyclerView.Adapter<WarBasesAdapter.WarBas
 
         public WarBasesHolder(View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.ivItemWarBase);
-            ivStar1 = (ImageView) itemView.findViewById(R.id.ivItemWarBaseStar1);
-            ivStar2 = (ImageView) itemView.findViewById(R.id.ivItemWarBaseStar2);
-            ivStar3 = (ImageView) itemView.findViewById(R.id.ivItemWarBaseStar3);
-            tvNumber = (TextView) itemView.findViewById(R.id.tvItemWarBaseNumber);
+            imageView = (ImageView) itemView.findViewById(R.id.ivTownHall);
+            ivStar1 = (ImageView) itemView.findViewById(R.id.tvAttack1Star1);
+            ivStar2 = (ImageView) itemView.findViewById(R.id.tvAttack1Star2);
+            ivStar3 = (ImageView) itemView.findViewById(R.id.tvAttack1Star3);
+            tvNumber = (TextView) itemView.findViewById(R.id.tvOrderNumber);
             tvName = (TextView) itemView.findViewById(R.id.tvItemWarBaseName);
             tvClaimsAttacks = (TextView) itemView.findViewById(R.id.tvItemWarBaseClaimsAttacks);
         }
