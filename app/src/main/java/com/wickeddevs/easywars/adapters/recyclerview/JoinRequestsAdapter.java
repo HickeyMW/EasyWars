@@ -1,4 +1,4 @@
-package com.wickeddevs.easywars.adapters;
+package com.wickeddevs.easywars.adapters.recyclerview;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;

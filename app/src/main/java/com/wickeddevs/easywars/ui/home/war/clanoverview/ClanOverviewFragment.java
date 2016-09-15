@@ -10,12 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.ParticipentAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.ParticipentAttacksAdapter;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.data.model.war.Participent;
-import com.wickeddevs.easywars.data.model.war.War;
 import com.wickeddevs.easywars.databinding.FragmentClanOverviewBinding;
 import com.wickeddevs.easywars.miscellaneous.DividerItemDecoration;
 
@@ -63,7 +62,7 @@ public class ClanOverviewFragment extends BasePresenterFragment<ClanOverviewCont
     @Override
     public void displayOverview(ArrayList<Participent> participents) {
         binding.rvClanOverview.setVisibility(View.VISIBLE);
-        binding.rvClanOverview.setAdapter(new ParticipentAdapter(participents, new View.OnClickListener() {
+        binding.rvClanOverview.setAdapter(new ParticipentAttacksAdapter(participents, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = binding.rvClanOverview.getChildLayoutPosition(view);

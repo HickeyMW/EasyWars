@@ -6,7 +6,11 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -40,7 +44,7 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_war_view_pager, container, false);
-        navigationDrawerProvider.setupDrawer(binding.toolbar);
+//        navigationDrawerProvider.setupDrawer(binding.toolbar);
         binding.btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,7 +52,16 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
                 startActivity(i);
             }
         });
+        setHasOptionsMenu(true);
+
         return binding.getRoot();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.home, menu);
     }
 
     @Override
@@ -69,12 +82,12 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
 
     @Override
     public void setTitle(String title) {
-        binding.toolbar.setTitle(title);
+//        binding.toolbar.setTitle(title);
     }
 
     @Override
     public void setSubTitle(String subTitle) {
-        binding.toolbar.setSubtitle(subTitle);
+//        binding.toolbar.setSubtitle(subTitle);
     }
 
     @Override
@@ -84,24 +97,24 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
 
     @Override
     public void displayUi(boolean activeWar) {
-        if (activeWar) {
-            WarViewPagerAdapter warViewPagerAdapter = new WarViewPagerAdapter(getChildFragmentManager());
-            binding.viewPager.setAdapter(warViewPagerAdapter);
-            binding.tabLayout.setupWithViewPager(binding.viewPager);
-            binding.tabLayout.getTabAt(0).setText("Enemy Bases");
-            binding.tabLayout.getTabAt(1).setText("Clan Overview");
-            binding.tabLayout.setVisibility(View.VISIBLE);
-        } else {
-            binding.toolbar.setTitle("War Planner");
-            binding.cardView.setVisibility(View.VISIBLE);
-            if (isAdmin()) {
-                binding.tvNoWar.setText("There is no war going on right now. Press the button below to start one");
-                binding.btnCreate.setVisibility(View.VISIBLE);
-            } else {
-                binding.tvNoWar.setText("There is no war going on right now. Please wait for an admin to start one");
-                binding.btnCreate.setVisibility(View.GONE);
-            }
-        }
+//        if (activeWar) {
+//            WarViewPagerAdapter warViewPagerAdapter = new WarViewPagerAdapter(getChildFragmentManager());
+//            binding.viewPager.setAdapter(warViewPagerAdapter);
+//            binding.tabLayout.setupWithViewPager(binding.viewPager);
+//            binding.tabLayout.getTabAt(0).setText("Enemy Bases");
+//            binding.tabLayout.getTabAt(1).setText("Clan Overview");
+//            binding.tabLayout.setVisibility(View.VISIBLE);
+//        } else {
+//            binding.toolbar.setTitle("War Planner");
+//            binding.cardView.setVisibility(View.VISIBLE);
+//            if (isAdmin()) {
+//                binding.tvNoWar.setText("There is no war going on right now. Press the button below to start one");
+//                binding.btnCreate.setVisibility(View.VISIBLE);
+//            } else {
+//                binding.tvNoWar.setText("There is no war going on right now. Please wait for an admin to start one");
+//                binding.btnCreate.setVisibility(View.GONE);
+//            }
+//        }
     }
 
     @Override

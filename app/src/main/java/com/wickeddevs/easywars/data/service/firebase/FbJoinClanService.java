@@ -154,7 +154,7 @@ public class FbJoinClanService implements JoinClanService {
                             FbInfo.getClanMembersRef(new FbInfo.DbRefCallback() {
                                 @Override
                                 public void onLoaded(DatabaseReference dbRef) {
-                                    dbRef.child(joinRequest.key).setValue(new Member(joinRequest.name, false));
+                                    dbRef.child(joinRequest.key).setValue(new Member(joinRequest.name, false, joinRequest.key));
                                 }
                             });
                         }

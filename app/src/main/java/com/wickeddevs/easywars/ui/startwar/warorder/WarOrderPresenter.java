@@ -1,7 +1,5 @@
 package com.wickeddevs.easywars.ui.startwar.warorder;
 
-import android.util.Log;
-
 import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.data.model.war.Base;
 import com.wickeddevs.easywars.data.service.contract.ApiService;
@@ -64,7 +62,7 @@ public class WarOrderPresenter implements WarOrderContract.ViewListener {
     public void selectedTownHall(int thLevel) {
         bases.add(new Base(name, thLevel));
         view.removeMember(position);
-        view.displayMember(name, thLevel);
+        view.displayMember(bases.size(), name, thLevel);
         view.setRemainingText(String.valueOf(--remaining));
         if (remaining == 0) {
             view.allowDone(true);
@@ -74,12 +72,13 @@ public class WarOrderPresenter implements WarOrderContract.ViewListener {
     @Override
     public void pressedUndo() {
         view.undoRemoveMember();
+        bases.remove(bases.size() - 1);
         view.allowDone(false);
     }
 
     @Override
     public void pressedDone() {
-        warService.startWar(bases);
-        view.dismiss();
+        warService.saveBaseInfo(bases);
+        view.navigateToParticipentUi();
     }
 }

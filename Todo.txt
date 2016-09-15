@@ -1,7 +1,6 @@
 TODO
 0: 
 Only claim two bases
-Add participents in the war
 Live updating - War bases, overview
 Add attack per person
 

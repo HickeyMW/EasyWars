@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.ClanMembersAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.ClanMembersAdapter;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;

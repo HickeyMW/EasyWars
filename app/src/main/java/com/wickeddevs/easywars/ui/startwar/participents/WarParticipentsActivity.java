@@ -1,6 +1,5 @@
-package com.wickeddevs.easywars.ui.startwar.warorder;
+package com.wickeddevs.easywars.ui.startwar.participents;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -11,39 +10,39 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.recyclerview.ClanMembersAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.ParticipentAdapter;
 import com.wickeddevs.easywars.adapters.recyclerview.ThSelectorAdapter;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
-import com.wickeddevs.easywars.data.model.api.ApiClan;
-import com.wickeddevs.easywars.databinding.ActivityWarOrderBinding;
-import com.wickeddevs.easywars.ui.startwar.participents.WarParticipentsActivity;
+import com.wickeddevs.easywars.data.model.Member;
+import com.wickeddevs.easywars.data.model.api.ApiMember;
+import com.wickeddevs.easywars.databinding.ActivityWarParticipentsBinding;
 import com.wickeddevs.easywars.util.Shared;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class WarOrderActivity extends BasePresenterActivity<WarOrderContract.ViewListener> implements
-        WarOrderContract.View {
+public class WarParticipentsActivity extends BasePresenterActivity<WarParticipentsContract.ViewListener> implements
+        WarParticipentsContract.View {
 
-    public final static String EXTRA_CLAN_TAG = "EXTRA_CLAN_TAG";
     public final static String EXTRA_WAR_SIZE = "EXTRA_WAR_SIZE";
 
     @Inject
-    public WarOrderContract.ViewListener presenter;
+    public WarParticipentsContract.ViewListener presenter;
 
-    private ActivityWarOrderBinding binding;
+    private ActivityWarParticipentsBinding binding;
 
-    private ClanMembersAdapter clanMembersAdapter;
+    private ParticipentAdapter participentAdapter;
     private AlertDialog dialogThSelector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_war_order);
-        binding.rvEnemyNames.setLayoutManager(new LinearLayoutManager(this));
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_war_participents);
+        binding.rvMembers.setLayoutManager(new LinearLayoutManager(this));
         binding.btnUndo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,17 +59,7 @@ public class WarOrderActivity extends BasePresenterActivity<WarOrderContract.Vie
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            setResult(RESULT_OK);
-            finish();
-        }
-    }
-
-
-    @Override
-    protected WarOrderContract.ViewListener getPresenter() {
+    protected WarParticipentsContract.ViewListener getPresenter() {
         if(presenter == null){
             DaggerViewInjectorComponent.builder()
                     .serviceComponent(DaggerServiceComponent.create())
@@ -80,60 +69,29 @@ public class WarOrderActivity extends BasePresenterActivity<WarOrderContract.Vie
     }
 
     @Override
-    public void displayMember(int place, String name, int thLevel) {
-        binding.tvLastAddedNum.setText(place + ".");
-        binding.tvLastAddedName.setText(name);
-        binding.ivLastAdded.setImageResource(Shared.getThResource(thLevel));
-    }
-
-    @Override
-    public void setRemainingText(String remainingText) {
-        binding.tvRemaining.setText(remainingText);
-    }
-
-    @Override
     public void removeMember(int position) {
-        clanMembersAdapter.remove(position);
+        participentAdapter.remove(position);
     }
 
     @Override
     public void undoRemoveMember() {
-        clanMembersAdapter.undo();
+        participentAdapter.undo();
     }
 
     @Override
-    public void allowDone(boolean allow) {
-        if (allow) {
-            binding.btnDone.setVisibility(View.VISIBLE);
-        } else {
-            binding.btnDone.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    @Override
-    public void navigateToParticipentUi() {
-        startActivityForResult(WarParticipentsActivity.createIntent(this, getWarSize()), 0);
-    }
-
-    @Override
-    public void displayApiClan(ApiClan apiClan) {
-        binding.tvEnemyName.setText(apiClan.name);
-        binding.tvEnemyTag.setText(apiClan.tag);
-        binding.tvRemaining.setText(String.valueOf(apiClan.members));
-        Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().into(binding.ivEnemyBadge);
-        clanMembersAdapter = new ClanMembersAdapter(apiClan.getMemberNames(), new View.OnClickListener() {
+    public void displayMemberList(ArrayList<Member> members, ArrayList<ApiMember> apiMembers) {
+        participentAdapter = new ParticipentAdapter(members, apiMembers, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int position = binding.rvEnemyNames.getChildLayoutPosition(view);
-                presenter.selectedName(clanMembersAdapter.getMember(position), position);
+                int position = binding.rvMembers.getChildLayoutPosition(view);
+                presenter.selectedParticipent(participentAdapter.getParticipent(position), position);
             }
         });
-        binding.rvEnemyNames.setAdapter(clanMembersAdapter);
+        binding.rvMembers.setAdapter(participentAdapter);
     }
 
     @Override
     public void displayThSelector() {
-
         View dialoglayout = getLayoutInflater().inflate(R.layout.dialog_th_selector, null);
         final RecyclerView rvThSelector = (RecyclerView) dialoglayout.findViewById(R.id.rvThSelector);
         rvThSelector.setLayoutManager(new GridLayoutManager(this, 3));
@@ -152,13 +110,20 @@ public class WarOrderActivity extends BasePresenterActivity<WarOrderContract.Vie
     }
 
     @Override
-    public String getClanTag() {
-        return getIntent().getStringExtra(EXTRA_CLAN_TAG);
+    public void displayMember(int place, String name, int thLevel) {
+        binding.tvLastAddedNum.setText(place + ".");
+        binding.tvLastAddedName.setText(name);
+        binding.ivLastAdded.setImageResource(Shared.getThResource(thLevel));
     }
 
     @Override
     public int getWarSize() {
         return getIntent().getIntExtra(EXTRA_WAR_SIZE, -1);
+    }
+
+    @Override
+    public void setRemainingText(String remainingText) {
+        binding.tvRemaining.setText(remainingText);
     }
 
     @Override
@@ -172,9 +137,23 @@ public class WarOrderActivity extends BasePresenterActivity<WarOrderContract.Vie
         }
     }
 
-    public static Intent createIntent(Context context, String clanTag, int warSize) {
-        Intent i = new Intent(context, WarOrderActivity.class);
-        i.putExtra(EXTRA_CLAN_TAG, clanTag);
+    @Override
+    public void allowDone(boolean allow) {
+        if (allow) {
+            binding.btnDone.setVisibility(View.VISIBLE);
+        } else {
+            binding.btnDone.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void dismiss() {
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    public static Intent createIntent(Context context, int warSize) {
+        Intent i = new Intent(context, WarParticipentsActivity.class);
         i.putExtra(EXTRA_WAR_SIZE, warSize);
         return i;
     }

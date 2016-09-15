@@ -8,7 +8,7 @@ import android.view.View;
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.JoinRequestsAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.JoinRequestsAdapter;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;

@@ -30,6 +30,7 @@ public class FbWarService implements WarService, ChildEventListener {
     final static String TAG = "FbWarService";
 
     private GenericTypeIndicator<ArrayList<Participent>> gtiArrayListParticipents = new GenericTypeIndicator<ArrayList<Participent>>() {};
+    private GenericTypeIndicator<ArrayList<Base>> gtiArrayListBases = new GenericTypeIndicator<ArrayList<Base>>() {};
 
     LoadBaseListener listener;
     DatabaseReference commentRef;
@@ -128,21 +129,28 @@ public class FbWarService implements WarService, ChildEventListener {
 
     @Override
     public void saveWarInfo(WarInfo warInfo) {
-        FbInfo.getUserRef().child("creatingWar").setValue(warInfo);
+        FbInfo.getUserRef().child("creatingWar/warInfo").setValue(warInfo);
     }
 
     @Override
-    public void startWar(final ArrayList<Base> bases) {
+    public void saveBaseInfo(final ArrayList<Base> bases) {
+        FbInfo.getUserRef().child("creatingWar/bases").setValue(bases);
+    }
+
+    @Override
+    public void startWar(final ArrayList<Participent> participents) {
         FbInfo.getUserRef().child("creatingWar").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
-                final WarInfo warInfo = dataSnapshot.getValue(WarInfo.class);
+                final WarInfo warInfo = dataSnapshot.child("warInfo").getValue(WarInfo.class);
+                final ArrayList<Base> bases = dataSnapshot.child("bases").getValue(gtiArrayListBases);
                 FbInfo.getWarRef(new FbInfo.DbRefCallback() {
                     @Override
                     public void onLoaded(DatabaseReference dbRef) {
                         DatabaseReference warRef = dbRef.push();
                         warRef.child("warInfo").setValue(warInfo);
                         warRef.child("bases").setValue(bases);
+                        warRef.child("participents").setValue(participents);
                         dataSnapshot.getRef().removeValue();
                     }
                 });

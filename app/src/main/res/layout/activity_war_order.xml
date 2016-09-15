@@ -64,13 +64,27 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvLastAdded"
+                android:id="@+id/tvLastAddedNum"
+                tools:text="1."
                 android:layout_alignParentTop="false"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentStart="false"
                 android:textSize="20sp"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/ivLastAdded" />
+                android:layout_toRightOf="@+id/ivLastAdded"
+                android:layout_marginRight="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvLastAddedName"
+                tools:text="Name"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentStart="false"
+                android:textSize="20sp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tvLastAddedNum" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -89,6 +103,13 @@
                 android:id="@+id/ivLastAdded" />
 
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add the enemies from first to last in order"
+            android:id="@+id/textView9"
+            android:layout_below="@+id/relativeLayout8"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -130,10 +151,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/rvEnemyNames"
-            android:layout_below="@+id/relativeLayout8"
+            android:layout_below="@+id/textView9"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_above="@+id/relativeLayout9"/>
+            android:layout_above="@+id/relativeLayout9"
+            android:background="@drawable/background_claim"/>
+
     </RelativeLayout>
 
     <ProgressBar

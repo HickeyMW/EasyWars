@@ -1,4 +1,4 @@
-package com.wickeddevs.easywars.adapters;
+package com.wickeddevs.easywars.adapters.recyclerview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,9 +13,6 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.miscellaneous.HideProgressBarRequestListener;

@@ -1,15 +1,17 @@
-package com.wickeddevs.easywars.ui.startwar.warorder;
+package com.wickeddevs.easywars.ui.startwar.participents;
 
 import com.wickeddevs.easywars.base.PView;
 import com.wickeddevs.easywars.base.Presenter;
-import com.wickeddevs.easywars.data.model.api.ApiClan;
+import com.wickeddevs.easywars.data.model.Member;
+import com.wickeddevs.easywars.data.model.api.ApiMember;
+import com.wickeddevs.easywars.data.model.war.Participent;
 
 import java.util.ArrayList;
 
 /**
- * Created by 375csptssce on 8/22/16.
+ * Created by 375csptssce on 9/12/16.
  */
-public interface WarOrderContract {
+public interface WarParticipentsContract {
 
     interface View extends PView {
 
@@ -17,13 +19,11 @@ public interface WarOrderContract {
 
         void undoRemoveMember();
 
-        void displayApiClan(ApiClan apiClan);
+        void displayMemberList(ArrayList<Member> members, ArrayList<ApiMember> apiMembers);
 
         void displayThSelector();
 
         void displayMember(int place, String name, int thLevel);
-
-        String getClanTag();
 
         int getWarSize();
 
@@ -33,14 +33,15 @@ public interface WarOrderContract {
 
         void allowDone(boolean allow);
 
-        void navigateToParticipentUi();
+        void dismiss();
+
     }
 
-    interface ViewListener extends Presenter<WarOrderContract.View> {
+    interface ViewListener extends Presenter<View> {
 
         void onCreate();
 
-        void selectedName(String name, int position);
+        void selectedParticipent(Participent participent, int position);
 
         void selectedTownHall(int thLevel);
 

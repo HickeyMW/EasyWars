@@ -1,4 +1,4 @@
-package com.wickeddevs.easywars.adapters;
+package com.wickeddevs.easywars.adapters.recyclerview;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
@@ -17,25 +17,25 @@ import java.util.ArrayList;
 /**
  * Created by 375csptssce on 9/9/16.
  */
-public class ParticipentAdapter extends RecyclerView.Adapter<ParticipentAdapter.ParticipentHolder> {
+public class ParticipentAttacksAdapter extends RecyclerView.Adapter<ParticipentAttacksAdapter.ParticipentHolder> {
 
     ArrayList<Participent> participents;
     private View.OnClickListener listener;
 
-    public ParticipentAdapter(ArrayList<Participent> participents, View.OnClickListener listener) {
+    public ParticipentAttacksAdapter(ArrayList<Participent> participents, View.OnClickListener listener) {
         this.participents = participents;
         this.listener = listener;
     }
 
     @Override
-    public ParticipentAdapter.ParticipentHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ParticipentAttacksAdapter.ParticipentHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_clan_overview, parent, false);
         v.setOnClickListener(listener);
         return new ParticipentHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ParticipentAdapter.ParticipentHolder holder, int position) {
+    public void onBindViewHolder(ParticipentAttacksAdapter.ParticipentHolder holder, int position) {
         Participent participent = participents.get(position);
         holder.binding.ivTownHall.setImageResource(Shared.getThResource(position + 1));
         holder.binding.tvOrderNumber.setText((position + 1) + ".");

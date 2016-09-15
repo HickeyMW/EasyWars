@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.ClaimCommentAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.ClaimCommentAdapter;
 import com.wickeddevs.easywars.miscellaneous.SpaceItemDecoration;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;

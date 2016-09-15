@@ -49,7 +49,9 @@ public interface WarService {
 
     void saveWarInfo(WarInfo warInfo);
 
-    void startWar(ArrayList<Base> bases);
+    void saveBaseInfo(ArrayList<Base> bases);
+
+    void startWar(ArrayList<Participent> participents);
 
     void deleteWar();
 

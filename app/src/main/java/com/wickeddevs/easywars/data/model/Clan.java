@@ -1,5 +1,6 @@
 package com.wickeddevs.easywars.data.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**

@@ -12,4 +12,17 @@ public class Participent {
     public int thLevel;
     public ArrayList<Attack> attackClaims = new ArrayList<>();
 
+    public Participent() {
+    }
+
+    public Participent(String name) {
+
+        this.name = name;
+    }
+
+    public Participent(String uid, String name, int thLevel) {
+        this.uid = uid;
+        this.name = name;
+        this.thLevel = thLevel;
+    }
 }
