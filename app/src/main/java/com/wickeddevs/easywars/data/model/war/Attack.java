@@ -14,6 +14,7 @@ public class Attack {
     public String uid;
     public String name;
     public int base = -1;
+    public int thLevel = -1;
     public String baseName;
     public int stars = -2;
     public long timestamp;

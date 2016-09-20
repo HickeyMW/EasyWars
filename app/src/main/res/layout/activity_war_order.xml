@@ -139,8 +139,8 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Done"
-                android:id="@+id/btnDone"
+                android:text="Next"
+                android:id="@+id/btnNext"
                 android:layout_alignParentRight="true"
                 style="?attr/borderlessButtonStyle"
                 android:visibility="invisible" />

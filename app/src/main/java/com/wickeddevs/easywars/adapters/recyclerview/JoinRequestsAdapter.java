@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.data.model.JoinRequest;
+import com.wickeddevs.easywars.util.Shared;
 
 /**
  * Created by 375csptssce on 8/15/16.
@@ -33,14 +35,15 @@ public class JoinRequestsAdapter extends RecyclerView.Adapter<JoinRequestsAdapte
 
     @Override
     public void onBindViewHolder(JoinRequestsViewHolder holder, int position) {
-
-        holder.name.setText("Name: " + joinRequests.get(position).name);
-        if (joinRequests.get(position).message.isEmpty()){
+        JoinRequest joinRequest = joinRequests.get(position);
+        holder.name.setText("Name: " + joinRequest.name);
+        if (joinRequest.message.isEmpty()){
             holder.message.setVisibility(View.GONE);
         } else {
-            holder.message.setText("Message: " + joinRequests.get(position).message);
+            holder.message.setText("Message: " + joinRequest.message);
         }
         holder.joinRequest = joinRequests.get(position);
+        holder.ivTownHall.setImageResource(Shared.getThResource(joinRequest.thLevel));
     }
 
     @Override
@@ -54,6 +57,7 @@ public class JoinRequestsAdapter extends RecyclerView.Adapter<JoinRequestsAdapte
     }
 
     public class JoinRequestsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        ImageView ivTownHall;
         TextView name;
         TextView message;
         TextView status;
@@ -65,6 +69,7 @@ public class JoinRequestsAdapter extends RecyclerView.Adapter<JoinRequestsAdapte
         JoinRequestsViewHolder(View itemView) {
             super(itemView);
             view = itemView;
+            ivTownHall = (ImageView) itemView.findViewById(R.id.ivTownHall) ;
             name = (TextView) itemView.findViewById(R.id.tvName);
             message = (TextView) itemView.findViewById(R.id.tvMessage);
             status = (TextView) itemView.findViewById(R.id.tvStatus);

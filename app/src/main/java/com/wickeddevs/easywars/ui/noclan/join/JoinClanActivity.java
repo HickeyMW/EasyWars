@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -13,12 +16,14 @@ import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.adapters.recyclerview.ClanMembersAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.ThSelectorAdapter;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.databinding.ActivityJoinClanBinding;
 import com.wickeddevs.easywars.ui.noclan.verifyjoin.VerifyJoinClanActivity;
+import com.wickeddevs.easywars.util.Shared;
 
 public class JoinClanActivity extends BasePresenterActivity<JoinClanContract.ViewListener> implements JoinClanContract.View {
 
@@ -29,6 +34,8 @@ public class JoinClanActivity extends BasePresenterActivity<JoinClanContract.Vie
     @Inject
     public JoinClanContract.ViewListener presenter;
 
+    private AlertDialog dialogThSelector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +45,28 @@ public class JoinClanActivity extends BasePresenterActivity<JoinClanContract.Vie
             @Override
             public void onClick(View view) {
                 presenter.requestJoin(binding.etMessage.getText().toString());
+            }
+        });
+        binding.layoutThLevel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View dialoglayout = getLayoutInflater().inflate(R.layout.dialog_th_selector, null);
+                final RecyclerView rvThSelector = (RecyclerView) dialoglayout.findViewById(R.id.rvThSelector);
+                rvThSelector.setLayoutManager(new GridLayoutManager(JoinClanActivity.this, 3));
+                rvThSelector.setAdapter(new ThSelectorAdapter(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int thLevel = rvThSelector.getChildLayoutPosition(view) + 1;
+                        presenter.selectedThLevel(thLevel);
+                        dialogThSelector.dismiss();
+                        binding.ivTownHall.setImageResource(Shared.getThResource(thLevel));
+                        binding.tvThLevel.setText("Town Hall Level " + thLevel);
+                    }
+                }));
+                AlertDialog.Builder builder = new AlertDialog.Builder(JoinClanActivity.this);
+                builder.setView(dialoglayout);
+                dialogThSelector = builder.create();
+                dialogThSelector.show();
             }
         });
         presenter.onCreate();

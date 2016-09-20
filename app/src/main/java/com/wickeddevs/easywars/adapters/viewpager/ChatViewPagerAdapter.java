@@ -33,4 +33,12 @@ public class ChatViewPagerAdapter extends FragmentPagerAdapter {
         }
         return 1;
     }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        if (position == 0) {
+            return "Member Chat";
+        }
+        return "Admin Chat";
+    }
 }

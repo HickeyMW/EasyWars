@@ -21,6 +21,7 @@
         <activity
             android:name=".ui.home.HomeActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ui.noclan.NoClanActivity"
@@ -63,6 +64,10 @@
         <activity android:name=".ui.startwar.warorder.WarOrderActivity">
         </activity>
         <activity android:name=".ui.startwar.participents.WarParticipentsActivity">
+        </activity>
+        <activity android:name=".ui.notdone.NotImplementedActivity">
+        </activity>
+        <activity android:name=".ui.attacks.AttacksActivity">
         </activity>
     </application>
 

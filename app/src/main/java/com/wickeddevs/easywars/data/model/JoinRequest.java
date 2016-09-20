@@ -7,14 +7,16 @@ public class JoinRequest {
 
     public String name;
     public String message;
+    public int thLevel;
     public String key;
 
 
     public JoinRequest() {
     }
 
-    public JoinRequest(String name, String message) {
+    public JoinRequest(String name, String message, int thLevel) {
         this.name = name;
         this.message = message;
+        this.thLevel = thLevel;
     }
 }

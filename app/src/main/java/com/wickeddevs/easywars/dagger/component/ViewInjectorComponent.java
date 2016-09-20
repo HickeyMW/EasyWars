@@ -4,6 +4,8 @@ import dagger.Component;
 import com.wickeddevs.easywars.dagger.module.PresenterModule;
 import com.wickeddevs.easywars.dagger.scope.ActivityScope;
 
+import com.wickeddevs.easywars.ui.attacks.AttacksActivity;
+import com.wickeddevs.easywars.ui.attacks.AttacksPresenter;
 import com.wickeddevs.easywars.ui.home.HomeActivity;
 import com.wickeddevs.easywars.ui.home.chat.ChatFragment;
 import com.wickeddevs.easywars.ui.home.war.WarViewPagerFragment;
@@ -59,4 +61,6 @@ public interface ViewInjectorComponent {
     void inject(ClanOverviewFragment clanOverviewFragment);
 
     void inject(WarParticipentsActivity warParticipentsActivity);
+
+    void inject(AttacksActivity attacksActivity);
 }

@@ -11,6 +11,8 @@ import com.wickeddevs.easywars.data.service.contract.JoinClanService;
 import com.wickeddevs.easywars.data.service.contract.UserService;
 import com.wickeddevs.easywars.data.service.contract.VersionService;
 import com.wickeddevs.easywars.data.service.contract.WarService;
+import com.wickeddevs.easywars.ui.attacks.AttacksContract;
+import com.wickeddevs.easywars.ui.attacks.AttacksPresenter;
 import com.wickeddevs.easywars.ui.home.HomeContract;
 import com.wickeddevs.easywars.ui.home.HomePresenter;
 import com.wickeddevs.easywars.ui.home.chat.ChatContract;
@@ -145,5 +147,11 @@ public class PresenterModule {
     @ActivityScope
     WarParticipentsContract.ViewListener providesWarParticipentsPresenter(WarParticipentsPresenter warParticipentsPresenter) {
         return warParticipentsPresenter;
+    }
+
+    @Provides
+    @ActivityScope
+    AttacksContract.ViewListener providesAttacksPresenter(AttacksPresenter attacksPresenter) {
+        return attacksPresenter;
     }
 }

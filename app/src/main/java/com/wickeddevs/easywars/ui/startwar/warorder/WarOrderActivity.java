@@ -50,7 +50,7 @@ public class WarOrderActivity extends BasePresenterActivity<WarOrderContract.Vie
                 presenter.pressedUndo();
             }
         });
-        binding.btnDone.setOnClickListener(new View.OnClickListener() {
+        binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 presenter.pressedDone();
@@ -104,9 +104,9 @@ public class WarOrderActivity extends BasePresenterActivity<WarOrderContract.Vie
     @Override
     public void allowDone(boolean allow) {
         if (allow) {
-            binding.btnDone.setVisibility(View.VISIBLE);
+            binding.btnNext.setVisibility(View.VISIBLE);
         } else {
-            binding.btnDone.setVisibility(View.INVISIBLE);
+            binding.btnNext.setVisibility(View.INVISIBLE);
         }
     }
 

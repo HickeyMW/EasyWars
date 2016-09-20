@@ -15,9 +15,10 @@ public class Member {
         this.name = name;
     }
 
-    public Member(String name, boolean admin, String uid) {
-        this.admin = admin;
+    public Member(String name, boolean admin, int thLevel, String uid) {
         this.name = name;
+        this.admin = admin;
+        this.thLevel = thLevel;
         this.uid = uid;
     }
 

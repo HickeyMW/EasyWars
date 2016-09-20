@@ -3,6 +3,7 @@ package com.wickeddevs.easywars.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
@@ -34,9 +37,11 @@ import com.wickeddevs.easywars.ui.home.war.WarViewPagerFragment;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
 import com.wickeddevs.easywars.ui.loadingsplash.LoadingSplashActivity;
 import com.wickeddevs.easywars.ui.noclan.NoClanActivity;
+import com.wickeddevs.easywars.ui.notdone.NotImplementedActivity;
+import com.wickeddevs.easywars.ui.notdone.NotImplementedFragment;
 
 public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListener> implements
-        HomeContract.View, NavigationView.OnNavigationItemSelectedListener, NavigationDrawerProvider {
+        HomeContract.View, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "HomeActivity";
     private static final String EXTRA_IS_ADMIN = "EXTRA_IS_ADMIN";
@@ -62,7 +67,37 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
         navigationView.setNavigationItemSelectedListener(this);
         adminItems.add(navigationView.getMenu().findItem(R.id.nav_member_manager));
         adminItems.add(navigationView.getMenu().findItem(R.id.nav_join_requests));
-        navigationView.setCheckedItem(R.id.nav_chat);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                switch (tabId) {
+                    case R.id.tab_chat:
+                        setTitle("Chat");
+                        getSupportActionBar().setSubtitle("");
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatViewPagerFragment.getInstance(isAdmin)).commit();
+                        break;
+                    case R.id.tab_war:
+                        setTitle("War Planner");
+                        getSupportActionBar().setSubtitle("");
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, WarViewPagerFragment.getInstance(isAdmin)).commit();
+                        break;
+                    case R.id.tab_notifications:
+                        setTitle("Notifications");
+                        getSupportActionBar().setSubtitle("");
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new NotImplementedFragment()).commit();
+                        break;
+                }
+            }
+        });
 
         isAdmin = getIntent().getBooleanExtra(EXTRA_IS_ADMIN, false);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatViewPagerFragment.getInstance(isAdmin)).commit();
@@ -92,21 +127,23 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_chat) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatViewPagerFragment.getInstance(isAdmin)).commit();
-        } else if (id == R.id.nav_war_planner) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, WarViewPagerFragment.getInstance(isAdmin)).commit();
+        if (id == R.id.nav_war_history) {
+            Intent i = new Intent(this, NotImplementedActivity.class);
+            startActivity(i);
+        } else if (id == R.id.nav_member_manager) {
+            Intent i = new Intent(this, NotImplementedActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_join_requests) {
             Intent i = new Intent(this, JoinRequestsActivity.class);
             startActivity(i);
-        } else if (id == R.id.nav_issue_tracker) {
-            Intent i = new Intent(this, TestingActivity.class);
+        } else if (id == R.id.nav_settings) {
+            Intent i = new Intent(this, NotImplementedActivity.class);
             startActivity(i);
-            finish();
+        } else if (id == R.id.nav_issue_tracker) {
+            Intent i = new Intent(this, NotImplementedActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_logout) {
             presenter.pressedLogout();
-        } else {
-            Log.i(TAG, "We don't navigate anywhere else");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -151,14 +188,6 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
         finish();
     }
 
-    @Override
-    public void setupDrawer(Toolbar toolbar) {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-    }
 
     public static Intent getInstance(Context context, boolean isAdmin) {
         Intent i = new Intent(context, HomeActivity.class);

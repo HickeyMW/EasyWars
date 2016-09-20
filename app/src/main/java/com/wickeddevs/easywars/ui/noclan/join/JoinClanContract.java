@@ -28,6 +28,8 @@ public interface JoinClanContract {
 
         void selectedName(String name);
 
+        void selectedThLevel(int thLevel);
+
         void requestJoin(String message);
     }
 }

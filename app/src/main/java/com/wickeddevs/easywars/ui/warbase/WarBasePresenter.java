@@ -22,30 +22,16 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
 
     private WarService warService;
     private ClanService clanService;
-    private UserService userService;
 
     private String warId;
     private int baseId;
-    private Attack attackClaim;
 
     @Inject
-    public WarBasePresenter(WarService warService, ClanService clanService, UserService userService) {
+    public WarBasePresenter(WarService warService, ClanService clanService) {
         this.warService = warService;
         this.clanService = clanService;
-        this.userService = userService;
     }
 
-    @Override
-    public void pressedClaim() {
-        if (attackClaim != null) {
-            warService.removeClaim(warId, attackClaim);
-            view.setButtonClaimText("Claim");
-            attackClaim = null;
-        } else {
-            warService.claimBase(warId, baseId);
-            view.setButtonClaimText("Unclaim");
-        }
-    }
 
     @Override
     public void sendComment(String body) {
@@ -81,10 +67,6 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
 
             @Override
             public void newClaim(final Attack attack) {
-                if (userService.isMyId(attack.uid)) {
-                    attackClaim = attack;
-                    view.setButtonClaimText("Unclaim");
-                }
                 clanService.getClan(new ClanService.LoadClanCallback() {
                     @Override
                     public void onClanLoaded(Clan clan) {

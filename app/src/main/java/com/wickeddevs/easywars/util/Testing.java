@@ -80,7 +80,8 @@ public class Testing {
     public static Member randomMember(String uid) {
         String name = "name " + randomString();
         boolean admin = randomBoolean();
-        return new Member(name, admin, uid);
+        int thLevel = randomInt(1, 11);
+        return new Member(name, admin, thLevel, uid);
     }
 
     //////////////////// Message ////////////////////

@@ -30,25 +30,18 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
     public final static String EXTRA_WAR_ID = "EXTRA_WAR_ID";
     public final static String EXTRA_BASE_ID = "EXTRA_BASE_ID";
 
+    @Inject
+    public WarBaseContract.ViewListener presenter;
+    private ActivityWarBaseBinding binding;
+
     private ClaimCommentAdapter claimCommentAdapter;
     private LinearLayoutManager linearLayoutManager;
     private boolean displayingShadow = false;
-
-    @Inject
-    public WarBaseContract.ViewListener presenter;
-
-    private ActivityWarBaseBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_war_base);
-        binding.btnClaim.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.pressedClaim();
-            }
-        });
         binding.btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,20 +115,10 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
     }
 
     @Override
-    public void setButtonClaimText(String text) {
-        binding.btnClaim.setText(text);
-    }
-
-    @Override
     public void displayBase(Base base) {
         binding.tvName.setText(base.name);
         binding.ivTownHall.setImageResource(Shared.getThResource(base.thLevel));
         checkDrawShadow();
-    }
-
-    @Override
-    public void displayClaimsComments(ArrayList<String> claims, ArrayList<Comment> comments) {
-
     }
 
     @Override

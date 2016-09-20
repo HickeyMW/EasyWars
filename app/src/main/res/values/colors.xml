@@ -3,8 +3,9 @@
     <color name="primary">#FFB300</color>
     <color name="primaryDark">#FF8F00</color>
 
-    <color name="accent">#03A9F4</color>
+    <color name="accent">#03a9f4</color>
     <color name="background">#F5F5F5</color>
+    <color name="backgroundDarker">#E1E1E1</color>
     <color name="popup">#FFFFFF</color>
     <color name="item">#FFFFFF</color>
     <color name="textDark">#DE000000</color>

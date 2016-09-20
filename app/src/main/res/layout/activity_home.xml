@@ -13,18 +13,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            android:id="@+id/view">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+        </android.support.design.widget.AppBarLayout>
+
         <FrameLayout
             android:id="@+id/frame_home"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_above="@+id/bottomBar"/>
+            android:layout_above="@+id/bottomBar"
+            android:layout_below="@+id/view"/>
 
         <com.roughike.bottombar.BottomBar
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            app:bb_tabXmlResource="@xml/bottombar_tabs"/>
+            app:bb_tabXmlResource="@xml/bottombar_tabs"
+            app:bb_activeTabColor="@color/accent"/>
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView

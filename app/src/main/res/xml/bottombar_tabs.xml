@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tabs>
     <tab
-        id="@+id/tab_favorites"
+        id="@+id/tab_chat"
         icon="@drawable/ic_chat"
         title="Chat" />
     <tab
-        id="@+id/tab_nearby"
+        id="@+id/tab_war"
         icon="@drawable/ic_map"
         title="War Planner" />
     <tab
-        id="@+id/tab_friends"
-        icon="@drawable/ic_issue_tracker"
+        id="@+id/tab_notifications"
+        icon="@drawable/ic_notifications"
         title="Notifications" />
 </tabs>

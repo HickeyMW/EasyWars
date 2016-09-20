@@ -4,37 +4,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.chat.ChatViewPagerFragment">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
-            android:fitsSystemWindows="true"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            style="@style/MyCustomTabLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            >
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible" />
-
-        </android.support.design.widget.AppBarLayout>
+            android:layout_height="wrap_content" />
 
         <android.support.v4.view.ViewPager
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/viewPager"/>
-    </android.support.design.widget.CoordinatorLayout>
+            android:id="@+id/viewPager"
+            android:layout_below="@+id/tabLayout"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:id="@+id/vTabShadow"
+            android:layout_below="@id/tabLayout"
+            android:background="@drawable/shadow_top"
+            />
+    </RelativeLayout>
 </layout>

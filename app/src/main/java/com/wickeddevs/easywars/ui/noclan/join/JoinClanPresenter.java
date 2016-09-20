@@ -16,12 +16,13 @@ public class JoinClanPresenter implements JoinClanContract.ViewListener {
 
     final static String TAG = "CreateClanPresenter";
 
-    private ApiClan apiClan;
-    private String name;
-
     private JoinClanContract.View view;
     private ApiService apiService;
     private JoinClanService joinClanService;
+
+    private ApiClan apiClan;
+    private String name;
+    private int thLevel = -1;
 
     @Inject
     public JoinClanPresenter(ApiService apiService, JoinClanService joinClanService) {
@@ -50,12 +51,22 @@ public class JoinClanPresenter implements JoinClanContract.ViewListener {
     @Override
     public void selectedName(String name) {
         this.name = name;
-        view.allowJoin();
+        if (name != null && thLevel != -1) {
+            view.allowJoin();
+        }
+    }
+
+    @Override
+    public void selectedThLevel(int thLevel) {
+        this.thLevel = thLevel;
+        if (name != null && thLevel != -1) {
+            view.allowJoin();
+        }
     }
 
     @Override
     public void requestJoin(String message) {
-        joinClanService.setJoinRequest(apiClan.tag, new JoinRequest(name, message));
+        joinClanService.setJoinRequest(apiClan.tag, new JoinRequest(name, message, thLevel));
         view.navigateToVerifyJoinClanUi();
     }
 }

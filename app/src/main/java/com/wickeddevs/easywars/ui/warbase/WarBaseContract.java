@@ -19,11 +19,7 @@ public interface WarBaseContract {
 
         int getBaseId();
 
-        void setButtonClaimText(String text);
-
         void displayBase(Base base);
-
-        void displayClaimsComments(ArrayList<String> claims, ArrayList<Comment> comments);
 
         void addClaim(Attack attackClaim);
 
@@ -37,8 +33,6 @@ public interface WarBaseContract {
         void onCreate();
 
         void onDestroy();
-
-        void pressedClaim();
 
         void sendComment(String body);
     }

@@ -2,15 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_settings_circle"
+        android:id="@+id/nav_attacks"
+        android:icon="@drawable/ic_sword"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         android:visible="true"
         app:showAsAction="always" />
+
     <item
-        android:id="@+id/attacks"
-        android:icon="@drawable/ic_sword"
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings_circle"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         android:visible="true"

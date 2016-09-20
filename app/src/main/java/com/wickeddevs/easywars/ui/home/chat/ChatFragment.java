@@ -71,12 +71,12 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
                 if (lastVisiblePosition != friendlyMessageCount -1) {
                     if (!displayingShadow) {
                         displayingShadow = true;
-                        binding.layoutShadow.animate().alpha(1.0f).setDuration(300).start();
+                        binding.vBottomShadow.animate().alpha(1.0f).setDuration(300).start();
                     }
                 } else {
                     if (displayingShadow) {
                         displayingShadow = false;
-                        binding.layoutShadow.animate().alpha(0.0f).setDuration(300).start();
+                        binding.vBottomShadow.animate().alpha(0.0f).setDuration(300).start();
                     }
                 }
             }

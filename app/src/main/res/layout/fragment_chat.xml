@@ -51,12 +51,12 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="8dp"/>
 
-            <FrameLayout
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_above="@+id/etChatInput"
-                android:background="@drawable/shadow"
-                android:id="@+id/layoutShadow"
+                android:background="@drawable/shadow_bottom"
+                android:id="@+id/vBottomShadow"
                 android:visibility="visible"
                 android:alpha="0"/>
         </RelativeLayout>

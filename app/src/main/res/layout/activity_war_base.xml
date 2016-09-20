@@ -37,15 +37,9 @@
                     tools:text="Enemy Name"
                     android:layout_toRightOf="@+id/ivTownHall"
                     android:layout_toEndOf="@+id/ivTownHall"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:layout_centerVertical="true"/>
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Claim"
-                    android:id="@+id/btnClaim"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignBottom="@+id/ivTownHall"/>
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
@@ -59,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_above="@+id/etComment"
-                android:background="@drawable/shadow"
+                android:background="@drawable/shadow_bottom"
                 android:id="@+id/layoutShadow"
                 android:visibility="visible"
                 android:alpha="1"
