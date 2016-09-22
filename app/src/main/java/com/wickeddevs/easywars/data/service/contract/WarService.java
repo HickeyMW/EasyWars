@@ -45,7 +45,9 @@ public interface WarService {
 
     void getLatestWarOverview(LoadOverviewCallback callback);
 
-    void getAttacks(String warId, LoadAttacksCallback callback);
+    void getLatestWarAttacks(LoadAttacksCallback callback);
+
+    void getLatestWarAttacks(String participentKey, LoadAttacksCallback callback);
 
     void saveWarInfo(WarInfo warInfo);
 
@@ -55,9 +57,9 @@ public interface WarService {
 
     void deleteWar();
 
-    void claimBase(String warId, int baseId);
+    void saveAttack(Attack attack);
 
-    void removeClaim(String warId, Attack attack);
+    void deleteAttack(Attack attack);
 
     void addComment(String body, String warId, int baseId);
 

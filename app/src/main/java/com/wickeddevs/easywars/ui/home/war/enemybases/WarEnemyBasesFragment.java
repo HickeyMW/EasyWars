@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.recyclerview.WarBasesAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.WarBasesRVA;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
@@ -62,7 +62,7 @@ public class WarEnemyBasesFragment extends BasePresenterFragment<WarEnemyBasesCo
     @Override
     public void displayEnemyBases(final War war) {
         binding.rvWarBases.setVisibility(View.VISIBLE);
-        binding.rvWarBases.setAdapter(new WarBasesAdapter(war.bases, new View.OnClickListener() {
+        binding.rvWarBases.setAdapter(new WarBasesRVA(war.bases, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = binding.rvWarBases.getChildLayoutPosition(view);

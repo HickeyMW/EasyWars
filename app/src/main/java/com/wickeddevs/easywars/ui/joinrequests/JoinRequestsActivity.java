@@ -8,14 +8,14 @@ import android.view.View;
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.recyclerview.JoinRequestsAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.JoinRequestsRVA;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.data.model.JoinRequest;
 import com.wickeddevs.easywars.databinding.ActivityJoinRequestsBinding;
 
-public class JoinRequestsActivity extends BasePresenterActivity<JoinRequestsContract.ViewListener> implements JoinRequestsContract.View, JoinRequestsAdapter.ApprovalListener {
+public class JoinRequestsActivity extends BasePresenterActivity<JoinRequestsContract.ViewListener> implements JoinRequestsContract.View, JoinRequestsRVA.ApprovalListener {
 
     final static String TAG = "JoinRequestsActivity";
 
@@ -23,22 +23,22 @@ public class JoinRequestsActivity extends BasePresenterActivity<JoinRequestsCont
     public JoinRequestsContract.ViewListener presenter;
     private ActivityJoinRequestsBinding binding;
 
-    JoinRequestsAdapter joinRequestsAdapter;
+    JoinRequestsRVA joinRequestsRVA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_requests);
-        joinRequestsAdapter = new JoinRequestsAdapter(this);
+        joinRequestsRVA = new JoinRequestsRVA(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_join_requests);
         binding.rvJoinRequests.setLayoutManager(new LinearLayoutManager(this));
-        binding.rvJoinRequests.setAdapter(joinRequestsAdapter);
+        binding.rvJoinRequests.setAdapter(joinRequestsRVA);
         presenter.onCreate();
     }
 
     @Override
     public void addJoinRequest(JoinRequest joinRequest) {
-        joinRequestsAdapter.addJoinRequest(joinRequest);
+        joinRequestsRVA.addJoinRequest(joinRequest);
     }
 
     @Override

@@ -22,7 +22,9 @@ import com.wickeddevs.easywars.base.BasePresenterFragment;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
 import com.wickeddevs.easywars.databinding.FragmentWarViewPagerBinding;
+import com.wickeddevs.easywars.ui.attacks.AttacksActivity;
 import com.wickeddevs.easywars.ui.startwar.info.WarInfoActivity;
+import com.wickeddevs.easywars.ui.warsettings.WarSettingsActivity;
 
 import javax.inject.Inject;
 
@@ -67,9 +69,11 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.nav_attacks) {
-            Toast.makeText(getContext(), "Pressed Attacks", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(getContext(), AttacksActivity.class);
+            startActivity(i);
         } else {
-            Toast.makeText(getContext(), "Pressed Settings", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(getContext(), WarSettingsActivity.class);
+            startActivity(i);
         }
         return true;
     }

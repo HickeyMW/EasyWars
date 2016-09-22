@@ -18,12 +18,12 @@ import com.wickeddevs.easywars.util.Shared;
 /**
  * Created by 375csptssce on 8/15/16.
  */
-public class JoinRequestsAdapter extends RecyclerView.Adapter<JoinRequestsAdapter.JoinRequestsViewHolder> {
+public class JoinRequestsRVA extends RecyclerView.Adapter<JoinRequestsRVA.JoinRequestsViewHolder> {
 
     private ArrayList<JoinRequest> joinRequests = new ArrayList<>();
     private ApprovalListener approvalListener;
 
-    public JoinRequestsAdapter(ApprovalListener approvalListener) {
+    public JoinRequestsRVA(ApprovalListener approvalListener) {
         this.approvalListener = approvalListener;
     }
 
@@ -86,11 +86,11 @@ public class JoinRequestsAdapter extends RecyclerView.Adapter<JoinRequestsAdapte
             btnDeny.setVisibility(View.INVISIBLE);
             status.setVisibility(View.VISIBLE);
             if (v.getId() == btnAccept.getId()) {
-                JoinRequestsAdapter.this.approvalListener.onApproval(joinRequest, true);
+                JoinRequestsRVA.this.approvalListener.onApproval(joinRequest, true);
                 status.setTextColor(Resources.getSystem().getColor(android.R.color.holo_green_light));
                 status.setText("Accepted");
             } else {
-                JoinRequestsAdapter.this.approvalListener.onApproval(joinRequest, false);
+                JoinRequestsRVA.this.approvalListener.onApproval(joinRequest, false);
                 status.setTextColor(Resources.getSystem().getColor(android.R.color.holo_red_light));
                 status.setText("Denied");
             }

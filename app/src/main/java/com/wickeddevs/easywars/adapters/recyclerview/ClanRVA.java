@@ -20,13 +20,13 @@ import com.wickeddevs.easywars.miscellaneous.HideProgressBarRequestListener;
 /**
  * Created by 375csptssce on 6/9/16.
  */
-public class ClanAdapter extends RecyclerView.Adapter<ClanAdapter.ClanViewHolder> {
+public class ClanRVA extends RecyclerView.Adapter<ClanRVA.ClanViewHolder> {
 
     private Context context;
     private ArrayList<ApiClan> apiClans;
     private View.OnClickListener listener;
 
-    public ClanAdapter(Context context, View.OnClickListener listener) {
+    public ClanRVA(Context context, View.OnClickListener listener) {
         this.apiClans = new ArrayList<>();
         this.context = context;
         this.listener = listener;

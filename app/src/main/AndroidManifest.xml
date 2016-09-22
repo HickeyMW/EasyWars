@@ -67,7 +67,13 @@
         </activity>
         <activity android:name=".ui.notdone.NotImplementedActivity">
         </activity>
-        <activity android:name=".ui.attacks.AttacksActivity">
+        <activity
+            android:name=".ui.attacks.AttacksActivity"
+            android:label="Manage War Attacks"/>
+        <activity
+            android:name=".ui.warsettings.WarSettingsActivity"
+            android:label="War Settings"/>
+        <activity android:name=".ui.membersmanager.MembersManagerActivity">
         </activity>
     </application>
 

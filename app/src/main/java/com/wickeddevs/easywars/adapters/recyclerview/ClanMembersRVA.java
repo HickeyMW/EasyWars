@@ -13,7 +13,7 @@ import com.wickeddevs.easywars.R;
 /**
  * Created by 375csptssce on 6/21/16.
  */
-public class ClanMembersAdapter extends RecyclerView.Adapter<ClanMembersAdapter.ClanMemberViewHolder> {
+public class ClanMembersRVA extends RecyclerView.Adapter<ClanMembersRVA.ClanMemberViewHolder> {
 
     private ArrayList <String> members;
     private View.OnClickListener listener;
@@ -21,7 +21,7 @@ public class ClanMembersAdapter extends RecyclerView.Adapter<ClanMembersAdapter.
     private ArrayList <Integer> positions = new ArrayList<>();
 
 
-    public ClanMembersAdapter(ArrayList<String> members, View.OnClickListener listener) {
+    public ClanMembersRVA(ArrayList<String> members, View.OnClickListener listener) {
         this.members = members;
         this.listener = listener;
     }

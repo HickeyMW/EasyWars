@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public class Participent {
 
+    public String key;
     public String uid;
     public String name;
     public int thLevel;

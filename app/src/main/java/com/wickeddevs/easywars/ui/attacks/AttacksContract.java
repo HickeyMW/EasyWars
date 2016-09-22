@@ -15,6 +15,8 @@ public interface AttacksContract {
 
     interface View extends PView {
 
+        String getParticipentKey();
+
         void displayAttack1(Attack attack);
 
         void displayAttack2(Attack attack);
@@ -22,6 +24,8 @@ public interface AttacksContract {
         void showSecondAttack(boolean shouldShow);
 
         void displayBaseSelector(ArrayList<Base> bases);
+
+        void toggleLoading(boolean loading);
 
         void dismiss();
     }

@@ -45,6 +45,8 @@ import com.wickeddevs.easywars.ui.startwar.warorder.WarOrderContract;
 import com.wickeddevs.easywars.ui.startwar.warorder.WarOrderPresenter;
 import com.wickeddevs.easywars.ui.warbase.WarBaseContract;
 import com.wickeddevs.easywars.ui.warbase.WarBasePresenter;
+import com.wickeddevs.easywars.ui.warsettings.WarSettingPresenter;
+import com.wickeddevs.easywars.ui.warsettings.WarSettingsContract;
 
 /**
  * Created by hicke_000 on 8/2/2016.
@@ -153,5 +155,11 @@ public class PresenterModule {
     @ActivityScope
     AttacksContract.ViewListener providesAttacksPresenter(AttacksPresenter attacksPresenter) {
         return attacksPresenter;
+    }
+
+    @Provides
+    @ActivityScope
+    WarSettingsContract.ViewListener providesWarSettingsPresenter(WarSettingPresenter warSettingPresenter) {
+        return warSettingPresenter;
     }
 }

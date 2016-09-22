@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.recyclerview.ClanAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.ClanRVA;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
@@ -41,25 +41,25 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
     private ActivitySearchClansBinding binding;
     private MenuItem searchItem;
     private SearchView searchView;
-    private ClanAdapter clanAdapter;
+    private ClanRVA clanRVA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_clans);
         binding.rvSearch.setLayoutManager(new LinearLayoutManager(this));
-        clanAdapter = new ClanAdapter(this, new View.OnClickListener() {
+        clanRVA = new ClanRVA(this, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClanAdapter clanAdapter = (ClanAdapter) binding.rvSearch.getAdapter();
-                ApiClan apiClan = clanAdapter.getClan(binding.rvSearch.getChildLayoutPosition(view));
+                ClanRVA clanRVA = (ClanRVA) binding.rvSearch.getAdapter();
+                ApiClan apiClan = clanRVA.getClan(binding.rvSearch.getChildLayoutPosition(view));
                 presenter.selectedClan(apiClan);
                 if (searchView != null) {
                     searchView.clearFocus();
                 }
             }
         });
-        binding.rvSearch.setAdapter(clanAdapter);
+        binding.rvSearch.setAdapter(clanRVA);
 
     }
 
@@ -122,17 +122,17 @@ public class SearchClansActivity extends BasePresenterActivity<SearchClansContra
 
     @Override
     public void displaySearchResult(ArrayList<ApiClan> apiClans) {
-        clanAdapter.setClans(apiClans);
+        clanRVA.setClans(apiClans);
     }
 
     @Override
     public void addClan(ApiClan apiClan) {
-        clanAdapter.addClan(apiClan);
+        clanRVA.addClan(apiClan);
     }
 
     @Override
     public void clearClans() {
-        clanAdapter.clearClans();
+        clanRVA.clearClans();
     }
 
     @Override

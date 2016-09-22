@@ -13,11 +13,11 @@ import com.wickeddevs.easywars.util.Shared;
 /**
  * Created by 375csptssce on 9/7/16.
  */
-public class ThSelectorAdapter extends RecyclerView.Adapter<ThSelectorAdapter.ThSelectorViewHolder> {
+public class ThSelectorRVA extends RecyclerView.Adapter<ThSelectorRVA.ThSelectorViewHolder> {
 
     private View.OnClickListener listener;
 
-    public ThSelectorAdapter(View.OnClickListener listener) {
+    public ThSelectorRVA(View.OnClickListener listener) {
         this.listener = listener;
     }
 

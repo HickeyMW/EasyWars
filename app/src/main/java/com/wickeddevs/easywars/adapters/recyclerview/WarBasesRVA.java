@@ -16,25 +16,25 @@ import com.wickeddevs.easywars.util.Shared;
 /**
  * Created by 375csptssce on 7/19/16.
  */
-public class WarBasesAdapter extends RecyclerView.Adapter<WarBasesAdapter.WarBasesHolder> {
+public class WarBasesRVA extends RecyclerView.Adapter<WarBasesRVA.WarBasesHolder> {
 
     private ArrayList<Base> bases;
     private View.OnClickListener listener;
 
-    public WarBasesAdapter(ArrayList<Base> bases, View.OnClickListener listener) {
+    public WarBasesRVA(ArrayList<Base> bases, View.OnClickListener listener) {
         this.bases = bases;
         this.listener = listener;
     }
 
     @Override
-    public WarBasesAdapter.WarBasesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public WarBasesRVA.WarBasesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_war_base, parent, false);
         v.setOnClickListener(listener);
         return new WarBasesHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(WarBasesAdapter.WarBasesHolder holder, int position) {
+    public void onBindViewHolder(WarBasesRVA.WarBasesHolder holder, int position) {
         Base base = bases.get(position);
         holder.tvNumber.setText((position + 1) + ". ");
         holder.tvName.setText(base.name);

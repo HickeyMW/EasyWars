@@ -8,12 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.util.ArrayList;
-
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.recyclerview.ClaimCommentAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.ClaimCommentRVA;
 import com.wickeddevs.easywars.miscellaneous.SpaceItemDecoration;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
@@ -34,7 +32,7 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
     public WarBaseContract.ViewListener presenter;
     private ActivityWarBaseBinding binding;
 
-    private ClaimCommentAdapter claimCommentAdapter;
+    private ClaimCommentRVA claimCommentRVA;
     private LinearLayoutManager linearLayoutManager;
     private boolean displayingShadow = false;
 
@@ -50,8 +48,8 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
                 binding.etComment.setText("");
             }
         });
-        claimCommentAdapter = new ClaimCommentAdapter();
-        binding.rvClaimsComments.setAdapter(claimCommentAdapter);
+        claimCommentRVA = new ClaimCommentRVA();
+        binding.rvClaimsComments.setAdapter(claimCommentRVA);
         binding.rvClaimsComments.addItemDecoration(new SpaceItemDecoration());
         linearLayoutManager = new LinearLayoutManager(this);
         binding.rvClaimsComments.setLayoutManager(linearLayoutManager);
@@ -78,7 +76,7 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
     }
 
     private void checkDrawShadow() {
-        int friendlyMessageCount = claimCommentAdapter.getItemCount();
+        int friendlyMessageCount = claimCommentRVA.getItemCount();
         int lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
         if (lastVisiblePosition != friendlyMessageCount -1) {
             if (!displayingShadow) {
@@ -116,24 +114,25 @@ public class WarBaseActivity extends BasePresenterActivity<WarBaseContract.ViewL
 
     @Override
     public void displayBase(Base base) {
-        binding.tvName.setText(base.name);
+        int position = Integer.valueOf(base.key) + 1;
+        binding.tvName.setText(position + ". " + base.name);
         binding.ivTownHall.setImageResource(Shared.getThResource(base.thLevel));
         checkDrawShadow();
     }
 
     @Override
     public void addClaim(Attack attackClaim) {
-        claimCommentAdapter.addClaim(attackClaim);
+        claimCommentRVA.addClaim(attackClaim);
     }
 
     @Override
     public void removeClaim(Attack attackClaim) {
-        claimCommentAdapter.removeClaim(attackClaim);
+        claimCommentRVA.removeClaim(attackClaim);
     }
 
     @Override
     public void addComment(Comment comment) {
-        claimCommentAdapter.addComment(comment);
+        claimCommentRVA.addComment(comment);
     }
 
 

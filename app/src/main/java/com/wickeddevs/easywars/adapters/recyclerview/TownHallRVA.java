@@ -8,34 +8,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.data.model.war.Base;
 import com.wickeddevs.easywars.util.Shared;
 
-import java.util.ArrayList;
-
 /**
- * Created by 375csptssce on 9/20/16.
+ * Created by 375csptssce on 7/25/16.
  */
-
-public class EnemiesAdapter extends RecyclerView.Adapter<EnemiesAdapter.EnemiesHolder> {
+public class TownHallRVA extends RecyclerView.Adapter<TownHallRVA.TownHallHolder> {
 
     View.OnClickListener listener;
-    ArrayList<Base> bases;
 
-    public EnemiesAdapter(ArrayList<Base> bases, View.OnClickListener listener) {
-        this.bases = bases;
+    public TownHallRVA(View.OnClickListener listener) {
         this.listener = listener;
     }
 
     @Override
-    public EnemiesAdapter.EnemiesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TownHallRVA.TownHallHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_town_hall, parent, false);
         v.setOnClickListener(listener);
-        return new EnemiesHolder(v);
+        return new TownHallHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(EnemiesAdapter.EnemiesHolder holder, int position) {
+    public void onBindViewHolder(TownHallRVA.TownHallHolder holder, int position) {
         int thLevel = position + 1;
         holder.name.setText("Town Hall " + String.valueOf(thLevel));
         holder.imageView.setImageResource(Shared.getThResource(thLevel));
@@ -47,11 +41,11 @@ public class EnemiesAdapter extends RecyclerView.Adapter<EnemiesAdapter.EnemiesH
         return 11;
     }
 
-    public static class EnemiesHolder extends RecyclerView.ViewHolder {
+    public static class TownHallHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView name;
 
-        public EnemiesHolder(View itemView) {
+        public TownHallHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.tvThName);
             imageView = (ImageView) itemView.findViewById(R.id.ivThImage);

@@ -14,11 +14,11 @@ import com.wickeddevs.easywars.data.model.Message;
 /**
  * Created by hicke_000 on 7/27/2016.
  */
-public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ChatRVA extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Message> messages = new ArrayList<>();
 
-    public ChatAdapter() {
+    public ChatRVA() {
     }
 
     @Override

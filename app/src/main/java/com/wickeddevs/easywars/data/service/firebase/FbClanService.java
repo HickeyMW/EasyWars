@@ -11,6 +11,9 @@ import com.wickeddevs.easywars.data.model.Clan;
 import com.wickeddevs.easywars.data.model.Member;
 import com.wickeddevs.easywars.data.service.contract.ClanService;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  * Created by hicke_000 on 7/27/2016.
  */
@@ -71,6 +74,34 @@ public class FbClanService implements ClanService {
                         } else {
                             Log.e(TAG, "onDataChange: Clan was null when trying to parse");
                         }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void getClanMembers(final LoadClanMembersCallback callback) {
+        FbInfo.getClanRef(new FbInfo.DbRefCallback() {
+            @Override
+            public void onLoaded(DatabaseReference dbRef) {
+                dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ArrayList<Member> members = new ArrayList<Member>();
+                        Iterator<DataSnapshot> dsMembersIter = dataSnapshot.child("members").getChildren().iterator();
+                        while (dsMembersIter.hasNext()) {
+                            DataSnapshot dsMember = dsMembersIter.next();
+                            Member member = dsMember.getValue(Member.class);
+                            member.uid = dsMember.getKey();
+                            members.add(member);
+                        }
+                        callback.onMembersLoaded(members);
                     }
 
                     @Override

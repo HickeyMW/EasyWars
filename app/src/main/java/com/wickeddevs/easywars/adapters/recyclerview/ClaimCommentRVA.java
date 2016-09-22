@@ -17,7 +17,7 @@ import com.wickeddevs.easywars.data.model.war.Comment;
 /**
  * Created by 375csptssce on 8/22/16.
  */
-public class ClaimCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ClaimCommentRVA extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Attack> attackClaims = new ArrayList<>();
     private ArrayList<Comment> comments= new ArrayList<>();

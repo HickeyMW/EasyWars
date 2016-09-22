@@ -71,7 +71,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add the enemies from first to last in order"
+                android:text="Add the war participents from first to last in order"
                 android:id="@+id/textView9"
                 android:layout_below="@+id/relativeLayout8"/>
 

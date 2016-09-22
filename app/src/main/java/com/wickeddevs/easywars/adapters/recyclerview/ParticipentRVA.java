@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by 375csptssce on 9/12/16.
  */
-public class ParticipentAdapter extends RecyclerView.Adapter<ParticipentAdapter.ParticipentViewHolder> {
+public class ParticipentRVA extends RecyclerView.Adapter<ParticipentRVA.ParticipentViewHolder> {
 
     private ArrayList<Participent> participents = new ArrayList<>();
     private ArrayList<Participent> removedParticipents = new ArrayList<>();
@@ -24,7 +24,7 @@ public class ParticipentAdapter extends RecyclerView.Adapter<ParticipentAdapter.
     private View.OnClickListener listener;
 
 
-    public ParticipentAdapter(ArrayList<Member> members, ArrayList<ApiMember> apiMembers, View.OnClickListener listener) {
+    public ParticipentRVA(ArrayList<Member> members, ArrayList<ApiMember> apiMembers, View.OnClickListener listener) {
         this.listener = listener;
 
         for (Member member : members) {

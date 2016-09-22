@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.recyclerview.ClanMembersAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.ClanMembersRVA;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
@@ -49,10 +49,10 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
         binding.tvClanName.setText(apiClan.name);
         binding.tvMembers.setText("Members " + apiClan.members + "/50");
         Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().into(binding.ivClanBadge);
-        binding.rvMembers.setAdapter(new ClanMembersAdapter(apiClan.getMemberNames(), new View.OnClickListener() {
+        binding.rvMembers.setAdapter(new ClanMembersRVA(apiClan.getMemberNames(), new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClanMembersAdapter clanAdapter = (ClanMembersAdapter) binding.rvMembers.getAdapter();
+                ClanMembersRVA clanAdapter = (ClanMembersRVA) binding.rvMembers.getAdapter();
                 String memberName = clanAdapter.getMember(binding.rvMembers.getChildLayoutPosition(view));
                 presenter.selectedName(memberName);
                 binding.tvSelectedName.setText(memberName);

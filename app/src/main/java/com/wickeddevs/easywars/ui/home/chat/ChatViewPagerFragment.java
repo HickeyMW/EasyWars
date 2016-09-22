@@ -35,7 +35,11 @@ public class ChatViewPagerFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat_view_pager, container, false);
         ChatViewPagerAdapter chatViewPagerAdapter = new ChatViewPagerAdapter(getChildFragmentManager(), isAdmin);
         binding.viewPager.setAdapter(chatViewPagerAdapter);
-        binding.tabLayout.setupWithViewPager(binding.viewPager);
+        if (isAdmin) {
+            binding.tabLayout.setupWithViewPager(binding.viewPager);
+        } else {
+            binding.tabLayout.setVisibility(View.GONE);
+        }
         //navigationDrawerProvider.setupDrawer(binding.toolbar);
         //binding.toolbar.setTitle("Chat");
         return binding.getRoot();

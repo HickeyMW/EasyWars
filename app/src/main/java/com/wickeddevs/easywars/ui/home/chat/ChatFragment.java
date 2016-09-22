@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.recyclerview.ChatAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.ChatRVA;
 import com.wickeddevs.easywars.miscellaneous.SpaceItemDecoration;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
@@ -32,7 +32,7 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
     public ChatContract.ViewListener presenter;
 
     private FragmentChatBinding binding;
-    private ChatAdapter chatAdapter;
+    private ChatRVA chatRVA;
     private LinearLayoutManager linearLayoutManager;
     private boolean displayingShadow = false;
 
@@ -45,12 +45,12 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
         linearLayoutManager.setStackFromEnd(true);
         binding.rvMessages.setLayoutManager(linearLayoutManager);
         binding.rvMessages.addItemDecoration(new SpaceItemDecoration());
-        chatAdapter = new ChatAdapter();
-        chatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        chatRVA = new ChatRVA();
+        chatRVA.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = chatAdapter.getItemCount();
+                int friendlyMessageCount = chatRVA.getItemCount();
                 int lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
                 if (lastVisiblePosition == -1 || lastVisiblePosition == friendlyMessageCount -2) {
                     binding.rvMessages.scrollToPosition(positionStart);
@@ -66,7 +66,7 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int friendlyMessageCount = chatAdapter.getItemCount();
+                int friendlyMessageCount = chatRVA.getItemCount();
                 int lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
                 if (lastVisiblePosition != friendlyMessageCount -1) {
                     if (!displayingShadow) {
@@ -81,7 +81,7 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
                 }
             }
         });
-        binding.rvMessages.setAdapter(chatAdapter);
+        binding.rvMessages.setAdapter(chatRVA);
         binding.btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,7 +116,7 @@ public class ChatFragment extends BasePresenterFragment<ChatContract.ViewListene
 
     @Override
     public void addMessage(Message message) {
-        chatAdapter.addMessage(message);
+        chatRVA.addMessage(message);
     }
 
     @Override

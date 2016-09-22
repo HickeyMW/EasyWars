@@ -51,6 +51,9 @@ public class FbWarService implements WarService, ChildEventListener {
                             War war = ds.getValue(War.class);
                             war.key = ds.getKey();
                             Iterator<DataSnapshot> iter = ds.child("attacks").getChildren().iterator();
+                            for (int i = 0; i < war.bases.size(); i++) {
+                                war.bases.get(i).key = String.valueOf(i);
+                            }
                             while(iter.hasNext()) {
                                 DataSnapshot dsAttack = iter.next();
                                 Attack attack = dsAttack.getValue(Attack.class);
@@ -211,48 +214,98 @@ public class FbWarService implements WarService, ChildEventListener {
     }
 
     @Override
-    public void claimBase(final String warId, final int baseId) {
+    public void saveAttack(final Attack attack) {
+        if (attack.uid == null) {
+            attack.uid = FbInfo.getUid();
+        }
         FbInfo.getWarRef(new FbInfo.DbRefCallback() {
             @Override
             public void onLoaded(DatabaseReference dbRef) {
-                HashMap<String, Object> hashMap = Attack.createAttackClaimHashMap(FbInfo.getUid(), baseId);
-                dbRef.child(warId + "/attacks").push().setValue(hashMap);
-            }
-        });
-    }
-
-    @Override
-    public void removeClaim(final String warId, final Attack attack) {
-        FbInfo.getWarRef(new FbInfo.DbRefCallback() {
-            @Override
-            public void onLoaded(DatabaseReference dbRef) {
-                dbRef.child(warId + "/attacks/" + attack.key).removeValue();
-            }
-        });
-    }
-
-    @Override
-    public void getAttacks(final String warId, final LoadAttacksCallback callback) {
-        FbInfo.getWarRef(new FbInfo.DbRefCallback() {
-            @Override
-            public void onLoaded(DatabaseReference dbRef) {
-                dbRef.child(warId + "/attacks").addListenerForSingleValueEvent(new ValueEventListener() {
+                dbRef.limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        ArrayList<Attack> attacks = new ArrayList<Attack>();
-                        Iterator<DataSnapshot> iterDsAttacks = dataSnapshot.getChildren().iterator();
-                        while (iterDsAttacks.hasNext()) {
-                            DataSnapshot dsAttack = iterDsAttacks.next();
-                            Attack attack = dsAttack.getValue(Attack.class);
-                            attack.key = dsAttack.getKey();
-                            if (attack.uid == FbInfo.getUid()) {
-                                attacks.add(attack);
-                                if (attacks.size() > 2) {
-                                    Log.e(TAG, "onDataChange: More than two attacks for user");
+                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                        if (iterator.hasNext()) {
+                            DataSnapshot dsWar = iterator.next();
+                            if (attack.key != null) {
+                                dsWar.child("attacks/" + attack.key).getRef().setValue(attack);
+                            } else {
+                                dsWar.child("attacks").getRef().push().setValue(attack);
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void deleteAttack(final Attack attack) {
+        FbInfo.getWarRef(new FbInfo.DbRefCallback() {
+            @Override
+            public void onLoaded(DatabaseReference dbRef) {
+                dbRef.limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                        if (iterator.hasNext()) {
+                            DataSnapshot dsWar = iterator.next();
+                            dsWar.child("attacks/" + attack.key).getRef().removeValue();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void getLatestWarAttacks(final LoadAttacksCallback callback) {
+        getLatestWarAttacks(FbInfo.getUid(), callback);
+    }
+
+    @Override
+    public void getLatestWarAttacks(final String participentKey, final LoadAttacksCallback callback) {
+        FbInfo.getWarRef(new FbInfo.DbRefCallback() {
+            @Override
+            public void onLoaded(DatabaseReference dbRef) {
+                dbRef.limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                        if (iterator.hasNext()) {
+                            DataSnapshot dsWar = iterator.next();
+                            DataSnapshot dsAttacks = dsWar.child("attacks");
+                            ArrayList<Base> bases = dsWar.child("bases").getValue(gtiArrayListBases);
+
+                            ArrayList<Attack> attacks = new ArrayList<Attack>();
+                            Iterator<DataSnapshot> iterDsAttacks = dsAttacks.getChildren().iterator();
+                            while (iterDsAttacks.hasNext()) {
+                                DataSnapshot dsAttack = iterDsAttacks.next();
+                                Attack attack = dsAttack.getValue(Attack.class);
+                                attack.key = dsAttack.getKey();
+                                if (attack.uid.equals(participentKey)) {
+                                    attacks.add(attack);
+                                    Base base = bases.get(attack.base);
+                                    attack.thLevel = base.thLevel;
+                                    attack.baseName = base.name;
+                                    if (attacks.size() > 2) {
+                                        Log.e(TAG, "onDataChange: More than two attacks for user");
+                                    }
                                 }
                             }
+                            callback.onLoaded(attacks);
                         }
-                        callback.onLoaded(attacks);
                     }
 
                     @Override

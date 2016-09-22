@@ -11,8 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.recyclerview.ParticipentAdapter;
-import com.wickeddevs.easywars.adapters.recyclerview.ThSelectorAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.ParticipentRVA;
+import com.wickeddevs.easywars.adapters.recyclerview.ThSelectorRVA;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
@@ -35,7 +35,7 @@ public class WarParticipentsActivity extends BasePresenterActivity<WarParticipen
 
     private ActivityWarParticipentsBinding binding;
 
-    private ParticipentAdapter participentAdapter;
+    private ParticipentRVA participentRVA;
     private AlertDialog dialogThSelector;
 
     @Override
@@ -70,24 +70,24 @@ public class WarParticipentsActivity extends BasePresenterActivity<WarParticipen
 
     @Override
     public void removeMember(int position) {
-        participentAdapter.remove(position);
+        participentRVA.remove(position);
     }
 
     @Override
     public void undoRemoveMember() {
-        participentAdapter.undo();
+        participentRVA.undo();
     }
 
     @Override
     public void displayMemberList(ArrayList<Member> members, ArrayList<ApiMember> apiMembers) {
-        participentAdapter = new ParticipentAdapter(members, apiMembers, new View.OnClickListener() {
+        participentRVA = new ParticipentRVA(members, apiMembers, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = binding.rvMembers.getChildLayoutPosition(view);
-                presenter.selectedParticipent(participentAdapter.getParticipent(position), position);
+                presenter.selectedParticipent(participentRVA.getParticipent(position), position);
             }
         });
-        binding.rvMembers.setAdapter(participentAdapter);
+        binding.rvMembers.setAdapter(participentRVA);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class WarParticipentsActivity extends BasePresenterActivity<WarParticipen
         View dialoglayout = getLayoutInflater().inflate(R.layout.dialog_th_selector, null);
         final RecyclerView rvThSelector = (RecyclerView) dialoglayout.findViewById(R.id.rvThSelector);
         rvThSelector.setLayoutManager(new GridLayoutManager(this, 3));
-        rvThSelector.setAdapter(new ThSelectorAdapter(new View.OnClickListener() {
+        rvThSelector.setAdapter(new ThSelectorRVA(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = rvThSelector.getChildLayoutPosition(view);

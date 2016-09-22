@@ -1,7 +1,7 @@
 package com.wickeddevs.easywars.data.model.war;
 
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
-import com.wickeddevs.easywars.data.service.firebase.FbInfo;
 
 import java.util.HashMap;
 
@@ -10,12 +10,16 @@ import java.util.HashMap;
  */
 public class Attack {
 
+    @Exclude
     public String key;
     public String uid;
+    @Exclude
     public String name;
-    public int base = -1;
-    public int thLevel = -1;
+    @Exclude
     public String baseName;
+    @Exclude
+    public int thLevel;
+    public int base = -2;
     public int stars = -2;
     public long timestamp;
 

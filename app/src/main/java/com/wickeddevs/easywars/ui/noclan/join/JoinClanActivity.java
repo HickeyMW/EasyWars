@@ -15,8 +15,8 @@ import com.bumptech.glide.Glide;
 import javax.inject.Inject;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.recyclerview.ClanMembersAdapter;
-import com.wickeddevs.easywars.adapters.recyclerview.ThSelectorAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.ClanMembersRVA;
+import com.wickeddevs.easywars.adapters.recyclerview.ThSelectorRVA;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
@@ -53,7 +53,7 @@ public class JoinClanActivity extends BasePresenterActivity<JoinClanContract.Vie
                 View dialoglayout = getLayoutInflater().inflate(R.layout.dialog_th_selector, null);
                 final RecyclerView rvThSelector = (RecyclerView) dialoglayout.findViewById(R.id.rvThSelector);
                 rvThSelector.setLayoutManager(new GridLayoutManager(JoinClanActivity.this, 3));
-                rvThSelector.setAdapter(new ThSelectorAdapter(new View.OnClickListener() {
+                rvThSelector.setAdapter(new ThSelectorRVA(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         int thLevel = rvThSelector.getChildLayoutPosition(view) + 1;
@@ -77,10 +77,10 @@ public class JoinClanActivity extends BasePresenterActivity<JoinClanContract.Vie
         binding.tvClanName.setText(apiClan.name);
         binding.tvClanTag.setText(apiClan.tag);
         Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().into(binding.ivBadge);
-        binding.rvMembers.setAdapter(new ClanMembersAdapter(apiClan.getMemberNames(), new View.OnClickListener() {
+        binding.rvMembers.setAdapter(new ClanMembersRVA(apiClan.getMemberNames(), new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClanMembersAdapter clanAdapter = (ClanMembersAdapter) binding.rvMembers.getAdapter();
+                ClanMembersRVA clanAdapter = (ClanMembersRVA) binding.rvMembers.getAdapter();
                 String memberName = clanAdapter.getMember(binding.rvMembers.getChildLayoutPosition(view));
                 presenter.selectedName(memberName);
                 binding.tvSelectedName.setText(memberName);

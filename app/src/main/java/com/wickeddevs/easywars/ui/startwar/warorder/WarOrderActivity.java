@@ -1,6 +1,5 @@
 package com.wickeddevs.easywars.ui.startwar.warorder;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -13,8 +12,8 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.recyclerview.ClanMembersAdapter;
-import com.wickeddevs.easywars.adapters.recyclerview.ThSelectorAdapter;
+import com.wickeddevs.easywars.adapters.recyclerview.ClanMembersRVA;
+import com.wickeddevs.easywars.adapters.recyclerview.ThSelectorRVA;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
@@ -36,7 +35,7 @@ public class WarOrderActivity extends BasePresenterActivity<WarOrderContract.Vie
 
     private ActivityWarOrderBinding binding;
 
-    private ClanMembersAdapter clanMembersAdapter;
+    private ClanMembersRVA clanMembersRVA;
     private AlertDialog dialogThSelector;
 
     @Override
@@ -93,12 +92,12 @@ public class WarOrderActivity extends BasePresenterActivity<WarOrderContract.Vie
 
     @Override
     public void removeMember(int position) {
-        clanMembersAdapter.remove(position);
+        clanMembersRVA.remove(position);
     }
 
     @Override
     public void undoRemoveMember() {
-        clanMembersAdapter.undo();
+        clanMembersRVA.undo();
     }
 
     @Override
@@ -121,14 +120,14 @@ public class WarOrderActivity extends BasePresenterActivity<WarOrderContract.Vie
         binding.tvEnemyTag.setText(apiClan.tag);
         binding.tvRemaining.setText(String.valueOf(apiClan.members));
         Glide.with(this).load(apiClan.badgeUrls.medium).centerCrop().into(binding.ivEnemyBadge);
-        clanMembersAdapter = new ClanMembersAdapter(apiClan.getMemberNames(), new View.OnClickListener() {
+        clanMembersRVA = new ClanMembersRVA(apiClan.getMemberNames(), new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = binding.rvEnemyNames.getChildLayoutPosition(view);
-                presenter.selectedName(clanMembersAdapter.getMember(position), position);
+                presenter.selectedName(clanMembersRVA.getMember(position), position);
             }
         });
-        binding.rvEnemyNames.setAdapter(clanMembersAdapter);
+        binding.rvEnemyNames.setAdapter(clanMembersRVA);
     }
 
     @Override
@@ -137,7 +136,7 @@ public class WarOrderActivity extends BasePresenterActivity<WarOrderContract.Vie
         View dialoglayout = getLayoutInflater().inflate(R.layout.dialog_th_selector, null);
         final RecyclerView rvThSelector = (RecyclerView) dialoglayout.findViewById(R.id.rvThSelector);
         rvThSelector.setLayoutManager(new GridLayoutManager(this, 3));
-        rvThSelector.setAdapter(new ThSelectorAdapter(new View.OnClickListener() {
+        rvThSelector.setAdapter(new ThSelectorRVA(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = rvThSelector.getChildLayoutPosition(view);

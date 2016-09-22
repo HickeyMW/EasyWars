@@ -51,7 +51,7 @@ public class ParticipentAttacksAdapter extends RecyclerView.Adapter<ParticipentA
             Attack attack1 = participent.attackClaims.get(0);
             Attack attack2 = participent.attackClaims.get(1);
             holder.binding.tvAttack1.setText(formatAttackStatus(attack1, true, holder.binding));
-            holder.binding.tvAttack2.setText(formatAttackStatus(attack2, true, holder.binding));
+            holder.binding.tvAttack2.setText(formatAttackStatus(attack2, false , holder.binding));
         }
     }
 

@@ -22,6 +22,7 @@ import com.wickeddevs.easywars.ui.startwar.info.WarInfoActivity;
 import com.wickeddevs.easywars.ui.startwar.participents.WarParticipentsActivity;
 import com.wickeddevs.easywars.ui.startwar.warorder.WarOrderActivity;
 import com.wickeddevs.easywars.ui.warbase.WarBaseActivity;
+import com.wickeddevs.easywars.ui.warsettings.WarSettingsActivity;
 
 /**
  * Created by hicke_000 on 8/2/2016.
@@ -63,4 +64,6 @@ public interface ViewInjectorComponent {
     void inject(WarParticipentsActivity warParticipentsActivity);
 
     void inject(AttacksActivity attacksActivity);
+
+    void inject(WarSettingsActivity warSettingsActivity);
 }
