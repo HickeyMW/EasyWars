@@ -58,7 +58,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="logout"
-                        android:id="@+id/btnLogout"/>
+                        android:id="@+id/btnLogout"
+                        style="?attr/borderlessButtonStyle"/>
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>

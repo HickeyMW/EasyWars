@@ -12,7 +12,7 @@ public interface JoinClanService {
 
     void setDecisionListener(DecisionListener listener);
 
-    void removeJoinRequest();
+    void removeJoinRequest(boolean setState);
 
     void setJoinRequest(String clanTag, JoinRequest joinRequest);
 

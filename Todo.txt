@@ -2,7 +2,6 @@ TODO
 0: 
 Live updating - War bases, overview
 
-War Settings
 Clan manager - Screen for managing players in clan - give admin privladges, select thlevel
 
 Inject clan name into services

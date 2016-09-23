@@ -62,8 +62,7 @@ public class VerifyCreateClanActivity extends BasePresenterActivity<VerifyCreate
 
     @Override
     public void navigateToHomeUi() {
-        Intent i = new Intent(this, HomeActivity.class);
-        startActivity(i);
+        startActivity(HomeActivity.getInstance(this, true));
         finish();
     }
 

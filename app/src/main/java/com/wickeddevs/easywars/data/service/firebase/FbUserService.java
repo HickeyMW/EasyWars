@@ -66,4 +66,13 @@ public class FbUserService implements UserService {
     public boolean isMyId(String uid) {
         return uid.equals(FbInfo.getUid());
     }
+
+    @Override
+    public void setAdmin(boolean isAdmin) {
+        if (isAdmin) {
+            FbInfo.setState(User.STATE_ADMIN);
+        } else {
+            FbInfo.setState(User.STATE_MEMBER);
+        }
+    }
 }

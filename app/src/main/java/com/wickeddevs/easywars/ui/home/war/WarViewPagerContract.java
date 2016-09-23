@@ -23,6 +23,6 @@ public interface WarViewPagerContract {
 
     interface ViewListener extends Presenter<View> {
 
-        void onResume();
+        void onCreate();
     }
 }

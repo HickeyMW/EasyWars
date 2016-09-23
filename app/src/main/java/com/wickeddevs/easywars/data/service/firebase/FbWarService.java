@@ -171,7 +171,31 @@ public class FbWarService implements WarService, ChildEventListener {
         FbInfo.getWarRef(new FbInfo.DbRefCallback() {
             @Override
             public void onLoaded(DatabaseReference dbRef) {
-                dbRef.removeValue();
+                dbRef.limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                        if (iterator.hasNext()) {
+                            DataSnapshot ds = iterator.next();
+                            ds.child("warInfo").getRef().removeValue();
+                            ds.child("bases").getRef().removeValue();
+                            ds.child("participents").getRef().removeValue();
+                            Iterator<DataSnapshot> iter = ds.child("comments").getChildren().iterator();
+                            while (iter.hasNext()) {
+                                iter.next().getRef().removeValue();
+                            }
+                            Iterator<DataSnapshot> it = ds.child("attacks").getChildren().iterator();
+                            while (it.hasNext()) {
+                                it.next().getRef().removeValue();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
     }

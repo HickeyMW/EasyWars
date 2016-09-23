@@ -36,6 +36,7 @@ import com.wickeddevs.easywars.ui.home.chat.ChatViewPagerFragment;
 import com.wickeddevs.easywars.ui.home.war.WarViewPagerFragment;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
 import com.wickeddevs.easywars.ui.loadingsplash.LoadingSplashActivity;
+import com.wickeddevs.easywars.ui.membersmanager.MembersManagerActivity;
 import com.wickeddevs.easywars.ui.noclan.NoClanActivity;
 import com.wickeddevs.easywars.ui.notdone.NotImplementedActivity;
 import com.wickeddevs.easywars.ui.notdone.NotImplementedFragment;
@@ -131,7 +132,7 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
             Intent i = new Intent(this, NotImplementedActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_member_manager) {
-            Intent i = new Intent(this, NotImplementedActivity.class);
+            Intent i = new Intent(this, MembersManagerActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_join_requests) {
             Intent i = new Intent(this, JoinRequestsActivity.class);

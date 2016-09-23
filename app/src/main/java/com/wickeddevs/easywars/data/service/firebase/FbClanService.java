@@ -93,13 +93,17 @@ public class FbClanService implements ClanService {
                 dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        String myUid = FbInfo.getUid();
                         ArrayList<Member> members = new ArrayList<Member>();
                         Iterator<DataSnapshot> dsMembersIter = dataSnapshot.child("members").getChildren().iterator();
                         while (dsMembersIter.hasNext()) {
                             DataSnapshot dsMember = dsMembersIter.next();
                             Member member = dsMember.getValue(Member.class);
                             member.uid = dsMember.getKey();
-                            members.add(member);
+                            if (!member.uid.equals(myUid)) {
+                                members.add(member);
+                            }
+
                         }
                         callback.onMembersLoaded(members);
                     }
@@ -111,5 +115,17 @@ public class FbClanService implements ClanService {
                 });
             }
         });
+    }
+
+    @Override
+    public void saveClanMember(final Member member) {
+        if (!member.uid.equals(FbInfo.getUid())) {
+            FbInfo.getClanRef(new FbInfo.DbRefCallback() {
+                @Override
+                public void onLoaded(DatabaseReference dbRef) {
+                    dbRef.child("members/" + member.uid).setValue(member);
+                }
+            });
+        }
     }
 }

@@ -4,7 +4,15 @@
     <item
         android:id="@+id/nav_attacks"
         android:icon="@drawable/ic_sword"
-        android:orderInCategory="100"
+        android:orderInCategory="80"
+        android:title="@string/action_settings"
+        android:visible="false"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/nav_refresh"
+        android:icon="@drawable/ic_refresh"
+        android:orderInCategory="90"
         android:title="@string/action_settings"
         android:visible="true"
         app:showAsAction="always" />
@@ -14,6 +22,6 @@
         android:icon="@drawable/ic_settings_circle"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        android:visible="true"
-        app:showAsAction="always" />
+        android:visible="false"
+        app:showAsAction="always"/>
 </menu>

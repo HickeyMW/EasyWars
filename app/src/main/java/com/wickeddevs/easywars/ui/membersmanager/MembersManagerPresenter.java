@@ -3,6 +3,8 @@ package com.wickeddevs.easywars.ui.membersmanager;
 import com.wickeddevs.easywars.data.model.Member;
 import com.wickeddevs.easywars.data.service.contract.ClanService;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 /**
@@ -23,7 +25,14 @@ public class MembersManagerPresenter implements MembersManagerContract.ViewListe
 
     @Override
     public void onCreate() {
-
+        view.toggleLoading(true);
+        clanService.getClanMembers(new ClanService.LoadClanMembersCallback() {
+            @Override
+            public void onMembersLoaded(ArrayList<Member> members) {
+                view.toggleLoading(false);
+                view.displayMembers(members);
+            }
+        });
     }
 
     @Override
@@ -33,7 +42,10 @@ public class MembersManagerPresenter implements MembersManagerContract.ViewListe
 
     @Override
     public void toggledAdmin(boolean isAdmin) {
-        this.member.admin = isAdmin;
+        if (member.admin != isAdmin) {
+            member.admin = isAdmin;
+            clanService.saveClanMember(member);
+        }
     }
 
     @Override

@@ -56,7 +56,7 @@ public class VerifyJoinClanPresenter implements VerifyJoinClanContract.ViewListe
 
     @Override
     public void cancelJoinClan() {
-        joinClanService.removeJoinRequest();
+        joinClanService.removeJoinRequest(true);
         view.navigateToNoClanUi();
     }
 

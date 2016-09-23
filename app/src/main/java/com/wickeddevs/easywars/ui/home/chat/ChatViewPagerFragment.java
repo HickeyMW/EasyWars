@@ -1,7 +1,6 @@
 package com.wickeddevs.easywars.ui.home.chat;
 
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.viewpager.ChatViewPagerAdapter;
+import com.wickeddevs.easywars.adapters.viewpager.ChatVPA;
 import com.wickeddevs.easywars.databinding.FragmentChatViewPagerBinding;
 
 /**
@@ -33,8 +32,8 @@ public class ChatViewPagerFragment extends Fragment {
         // Inflate the layout for this fragment
         boolean isAdmin = getArguments().getBoolean(IS_ADMIN);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat_view_pager, container, false);
-        ChatViewPagerAdapter chatViewPagerAdapter = new ChatViewPagerAdapter(getChildFragmentManager(), isAdmin);
-        binding.viewPager.setAdapter(chatViewPagerAdapter);
+        ChatVPA chatVPA = new ChatVPA(getChildFragmentManager(), isAdmin);
+        binding.viewPager.setAdapter(chatVPA);
         if (isAdmin) {
             binding.tabLayout.setupWithViewPager(binding.viewPager);
         } else {

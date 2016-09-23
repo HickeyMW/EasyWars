@@ -16,7 +16,7 @@ public class VerifyCreateClanPresenter implements VerifyCreateClanContract.ViewL
     private ApiService apiService;
     private CreateClanService createClanService;
 
-    long timeOfLastVerification = 0;
+    private long timeOfLastVerification = 0;
 
     @Inject
     public VerifyCreateClanPresenter(ApiService apiService, CreateClanService createClanService) {

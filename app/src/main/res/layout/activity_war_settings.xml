@@ -63,7 +63,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="16dp"/>
+        android:layout_marginRight="16dp"
+        android:background="@drawable/background_claim"/>
 
     <TextView
         android:text="* Members with asterisk do not have app"

@@ -42,7 +42,7 @@ public class FbJoinClanService implements JoinClanService {
                             } else {
                                 FbInfo.setState(User.STATE_BLANK);
                             }
-                            removeJoinRequest();
+                            removeJoinRequest(false);
                         }
                     }
                 }
@@ -58,7 +58,7 @@ public class FbJoinClanService implements JoinClanService {
     }
 
     @Override
-    public void removeJoinRequest() {
+    public void removeJoinRequest(boolean setState) {
         FbInfo.getJoinRequestRef(new FbInfo.DbRefCallback() {
             @Override
             public void onLoaded(DatabaseReference dbRef) {
@@ -71,7 +71,9 @@ public class FbJoinClanService implements JoinClanService {
                 dbRef.removeValue();
             }
         });
-        FbInfo.setState(User.STATE_BLANK);
+        if (setState) {
+            FbInfo.setState(User.STATE_BLANK);
+        }
     }
 
     @Override

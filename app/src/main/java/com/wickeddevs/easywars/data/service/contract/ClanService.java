@@ -32,4 +32,6 @@ public interface ClanService {
     void getClan(LoadClanCallback callback);
 
     void getClanMembers(LoadClanMembersCallback callback);
+
+    void saveClanMember(Member member);
 }

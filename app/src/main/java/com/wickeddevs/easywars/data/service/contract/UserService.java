@@ -13,6 +13,8 @@ public interface UserService {
 
     void getUser(LoadUserCallback callback);
 
+    void setAdmin(boolean isAdmin);
+
     void listenOnUser(LoadUserCallback callback);
 
     interface LoadUserCallback {

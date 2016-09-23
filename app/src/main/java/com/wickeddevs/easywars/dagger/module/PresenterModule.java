@@ -27,6 +27,8 @@ import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsContract;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsPresenter;
 import com.wickeddevs.easywars.ui.loadingsplash.LoadingSplashContract;
 import com.wickeddevs.easywars.ui.loadingsplash.LoadingSplashPresenter;
+import com.wickeddevs.easywars.ui.membersmanager.MembersManagerContract;
+import com.wickeddevs.easywars.ui.membersmanager.MembersManagerPresenter;
 import com.wickeddevs.easywars.ui.noclan.create.CreateClanContract;
 import com.wickeddevs.easywars.ui.noclan.create.CreateClanPresenter;
 import com.wickeddevs.easywars.ui.noclan.verifycreate.VerifyCreateClanContract;
@@ -161,5 +163,11 @@ public class PresenterModule {
     @ActivityScope
     WarSettingsContract.ViewListener providesWarSettingsPresenter(WarSettingPresenter warSettingPresenter) {
         return warSettingPresenter;
+    }
+
+    @Provides
+    @ActivityScope
+    MembersManagerContract.ViewListener providesMemberManagerPresenter(MembersManagerPresenter membersManagerPresenter) {
+        return membersManagerPresenter;
     }
 }

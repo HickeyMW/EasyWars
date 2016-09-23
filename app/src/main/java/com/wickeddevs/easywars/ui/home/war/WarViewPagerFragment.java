@@ -1,7 +1,6 @@
 package com.wickeddevs.easywars.ui.home.war;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -14,10 +13,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.wickeddevs.easywars.R;
-import com.wickeddevs.easywars.adapters.viewpager.WarViewPagerAdapter;
+import com.wickeddevs.easywars.adapters.viewpager.WarVPA;
 import com.wickeddevs.easywars.base.BasePresenterFragment;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
 import com.wickeddevs.easywars.dagger.component.DaggerViewInjectorComponent;
@@ -38,8 +36,10 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
 
     @Inject
     public WarViewPagerContract.ViewListener presenter;
-
     FragmentWarViewPagerBinding binding;
+
+    MenuItem miAtttack;
+    MenuItem miSettings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +55,7 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
             }
         });
         setHasOptionsMenu(true);
-
+        presenter.onCreate();
         return binding.getRoot();
     }
 
@@ -64,6 +64,9 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.home, menu);
+        miAtttack = menu.findItem(R.id.nav_attacks);
+        miSettings = menu.findItem(R.id.nav_settings);
+
     }
 
     @Override
@@ -71,18 +74,15 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
         if (item.getItemId() == R.id.nav_attacks) {
             Intent i = new Intent(getContext(), AttacksActivity.class);
             startActivity(i);
-        } else {
+        } else if (item.getItemId() == R.id.nav_refresh) {
+            presenter.onCreate();
+        } else if (item.getItemId() == R.id.nav_settings) {
             Intent i = new Intent(getContext(), WarSettingsActivity.class);
             startActivity(i);
         }
         return true;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        presenter.onResume();
-    }
 
     @Override
     public void setTitle(String title) {
@@ -113,18 +113,25 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
     @Override
     public void displayUi(boolean activeWar) {
         if (activeWar) {
-            WarViewPagerAdapter warViewPagerAdapter = new WarViewPagerAdapter(getChildFragmentManager());
-            binding.viewPager.setAdapter(warViewPagerAdapter);
+            binding.viewPager.setVisibility(View.VISIBLE);
+            showMenuItems(true);
+            if (!isAdmin()) {
+                miSettings.setVisible(false);
+            }
+            WarVPA warVPA = new WarVPA(getChildFragmentManager());
+            binding.viewPager.setAdapter(warVPA);
             binding.tabLayout.setupWithViewPager(binding.viewPager);
             binding.tabLayout.setVisibility(View.VISIBLE);
             binding.vTabShadow.setVisibility(View.VISIBLE);
         } else {
+            binding.viewPager.setVisibility(View.INVISIBLE);
+            showMenuItems(false);
             binding.cardView.setVisibility(View.VISIBLE);
             if (isAdmin()) {
-                binding.tvNoWar.setText("There is no war going on right now. Press the button below to start one");
+                binding.tvNoWar.setText("There is no war going on right now. Press the button below to start one or press refresh if one was just made");
                 binding.btnCreate.setVisibility(View.VISIBLE);
             } else {
-                binding.tvNoWar.setText("There is no war going on right now. Please wait for an admin to start one");
+                binding.tvNoWar.setText("There is no war going on right now. Please wait for an admin to start one or press refresh");
                 binding.btnCreate.setVisibility(View.GONE);
             }
         }
@@ -146,9 +153,16 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
         if (loading) {
             binding.progressBar.setVisibility(View.VISIBLE);
             binding.cardView.setVisibility(View.INVISIBLE);
+            binding.viewPager.setVisibility(View.INVISIBLE);
         } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
+            binding.viewPager.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void showMenuItems(boolean shouldShow) {
+        miAtttack.setVisible(shouldShow);
+        miSettings.setVisible(shouldShow);
     }
 
     public static WarViewPagerFragment getInstance(boolean isAdmin) {

@@ -27,7 +27,6 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
 
     @Inject
     public CreateClanContract.ViewListener presenter;
-
     private ActivityCreateClanBinding binding;
 
     @Override
@@ -58,8 +57,6 @@ public class CreateClanActivity extends BasePresenterActivity<CreateClanContract
                 binding.tvSelectedName.setText(memberName);
             }
         }));
-
-
     }
 
     @Override

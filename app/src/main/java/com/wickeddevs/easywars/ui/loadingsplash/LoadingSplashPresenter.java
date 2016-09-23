@@ -2,7 +2,9 @@ package com.wickeddevs.easywars.ui.loadingsplash;
 
 import android.util.Log;
 
+import com.wickeddevs.easywars.data.model.Member;
 import com.wickeddevs.easywars.data.model.User;
+import com.wickeddevs.easywars.data.service.contract.ClanService;
 import com.wickeddevs.easywars.data.service.contract.UserService;
 import com.wickeddevs.easywars.data.service.contract.VersionService;
 
@@ -20,14 +22,18 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
     private LoadingSplashContract.View view;
     private UserService userService;
     private VersionService versionService;
+    private ClanService clanService;
 
     private boolean navigated = false; //Hack because when creating navigate fires twice
 
     @Inject
-    public LoadingSplashPresenter(UserService userService, VersionService versionService) {
+    public LoadingSplashPresenter(UserService userService, VersionService versionService, ClanService clanService) {
         this.userService = userService;
         this.versionService = versionService;
+        this.clanService = clanService;
     }
+
+
 
     @Override
     public void registerView(LoadingSplashContract.View activity) {
@@ -80,7 +86,7 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
     private void navigateOnUserState() {
         userService.getUser(new UserService.LoadUserCallback() {
             @Override
-            public void onUserLoaded(User user) {
+            public void onUserLoaded(final User user) {
                 if (!navigated) {
                     navigated = true;
                     switch (user.state) {
@@ -94,10 +100,24 @@ public class LoadingSplashPresenter implements LoadingSplashContract.ViewListene
                             view.navigateToJoiningClanUi();
                             break;
                         case User.STATE_MEMBER:
-                            view.navigateToHomeUi(false);
-                            break;
                         case User.STATE_ADMIN:
-                            view.navigateToHomeUi(true);
+                            clanService.getSelf(new ClanService.LoadMemberCallback() {
+                                @Override
+                                public void onMemberLoaded(Member member) {
+                                    if (member.admin) {
+                                        if (user.state == User.STATE_MEMBER) {
+                                            userService.setAdmin(true);
+                                        }
+                                        view.navigateToHomeUi(true);
+                                    } else {
+                                        if (user.state == User.STATE_ADMIN) {
+                                            userService.setAdmin(false);
+                                        }
+                                        view.navigateToHomeUi(false);
+                                    }
+
+                                }
+                            });
                             break;
                         default:
                             Log.e(TAG, "User doesn't have a valid state");

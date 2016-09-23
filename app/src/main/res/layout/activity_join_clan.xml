@@ -79,7 +79,8 @@
                         android:layout_toRightOf="@+id/ivTownHall"
                         android:layout_toEndOf="@+id/ivTownHall"
                         android:textSize="20sp"
-                        android:text="Select Town Hall Level"/>
+                        android:text="Tap here to select TH Level"
+                        android:textStyle="normal|bold"/>
                 </RelativeLayout>
 
                 <TextView

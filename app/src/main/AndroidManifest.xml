@@ -59,22 +59,33 @@
             android:name=".ui.warbase.WarBaseActivity"
             android:label="Enemy Base"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.startwar.info.WarInfoActivity">
-        </activity>
-        <activity android:name=".ui.startwar.warorder.WarOrderActivity">
-        </activity>
-        <activity android:name=".ui.startwar.participents.WarParticipentsActivity">
-        </activity>
-        <activity android:name=".ui.notdone.NotImplementedActivity">
-        </activity>
+        <activity
+            android:name=".ui.startwar.info.WarInfoActivity"
+            android:label="Start War"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.startwar.warorder.WarOrderActivity"
+            android:label="Select Enemies"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.startwar.participents.WarParticipentsActivity"
+            android:label="Select Participents"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.notdone.NotImplementedActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.attacks.AttacksActivity"
-            android:label="Manage War Attacks"/>
+            android:label="Manage War Attacks"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.warsettings.WarSettingsActivity"
-            android:label="War Settings"/>
-        <activity android:name=".ui.membersmanager.MembersManagerActivity">
-        </activity>
+            android:label="War Settings"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.membersmanager.MembersManagerActivity"
+            android:label="Member Manager"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

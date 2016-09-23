@@ -14,6 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.wickeddevs.easywars.data.model.User;
+import com.wickeddevs.easywars.data.service.contract.ClanService;
 import com.wickeddevs.easywars.data.service.contract.UserService;
 import com.wickeddevs.easywars.data.service.contract.VersionService;
 import com.wickeddevs.easywars.util.Testing;
@@ -32,6 +33,9 @@ public class LoadingSplashPresenterTest {
     private UserService userService;
 
     @Mock
+    private ClanService clanService;
+
+    @Mock
     private VersionService versionService;
 
     @Captor
@@ -43,7 +47,7 @@ public class LoadingSplashPresenterTest {
     @Before
     public void setupLoadingSplashPresenter() {
         MockitoAnnotations.initMocks(this);
-        presenter = new LoadingSplashPresenter(userService, versionService);
+        presenter = new LoadingSplashPresenter(userService, versionService, clanService);
         presenter.registerView(view);
     }
 

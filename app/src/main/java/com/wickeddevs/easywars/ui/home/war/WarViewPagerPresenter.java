@@ -13,7 +13,6 @@ public class WarViewPagerPresenter implements WarViewPagerContract.ViewListener 
 
     private WarViewPagerContract.View view;
     private WarService warService;
-    private boolean warLoaded = false;
 
     @Inject
     public WarViewPagerPresenter(WarService warService) {
@@ -21,31 +20,28 @@ public class WarViewPagerPresenter implements WarViewPagerContract.ViewListener 
     }
 
     @Override
-    public void onResume() {
-        if (!warLoaded) {
-            view.toggleLoading(true);
-            warService.isActiveWar(new WarService.ActiveWarCallback() {
-                @Override
-                public void onLoaded(boolean isActive) {
-                    warLoaded = isActive;
-                    if (warLoaded) {
-                        warService.getLatestWar(new WarService.LoadWarCallback() {
-                            @Override
-                            public void onLoaded(War war) {
-                                view.toggleLoading(false);
-                                view.displayUi(true);
-                                view.setTitle("War against " + war.warInfo.enemyName);
-                                view.setSubTitle(Shared.formattedTimeRemainging(war.warInfo.startTime));
-                            }
-                        });
-                    } else {
-                        view.toggleLoading(false);
-                        view.displayUi(false);
-                    }
-
+    public void onCreate() {
+        view.toggleLoading(true);
+        warService.isActiveWar(new WarService.ActiveWarCallback() {
+            @Override
+            public void onLoaded(boolean isActive) {
+                if (isActive) {
+                    warService.getLatestWar(new WarService.LoadWarCallback() {
+                        @Override
+                        public void onLoaded(War war) {
+                            view.toggleLoading(false);
+                            view.displayUi(true);
+                            view.setTitle("War vs " + war.warInfo.enemyName);
+                            view.setSubTitle(Shared.formattedTimeRemainging(war.warInfo.startTime));
+                        }
+                    });
+                } else {
+                    view.toggleLoading(false);
+                    view.displayUi(false);
                 }
-            });
-        }
+
+            }
+        });
     }
 
     @Override

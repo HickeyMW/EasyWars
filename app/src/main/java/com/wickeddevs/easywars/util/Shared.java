@@ -25,9 +25,9 @@ public class Shared {
         String timeUntil = "";
         if (elapsedTime > MILIS_IN_ONE_DAY) {
             elapsedTime -= MILIS_IN_ONE_DAY;
-            timeUntil += "Time until war end: ";
+            timeUntil += "War end in: ";
         } else {
-            timeUntil += "Time until war start: ";
+            timeUntil += "War start in: ";
         }
         long hours = elapsedTime / MILIS_IN_ONE_HOUR;
         long remainingHours = 23 - hours;

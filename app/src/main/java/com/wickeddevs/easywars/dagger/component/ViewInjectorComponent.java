@@ -13,6 +13,8 @@ import com.wickeddevs.easywars.ui.home.war.clanoverview.ClanOverviewFragment;
 import com.wickeddevs.easywars.ui.home.war.enemybases.WarEnemyBasesFragment;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
 import com.wickeddevs.easywars.ui.loadingsplash.LoadingSplashActivity;
+import com.wickeddevs.easywars.ui.membersmanager.MembersManagerActivity;
+import com.wickeddevs.easywars.ui.membersmanager.MembersManagerPresenter;
 import com.wickeddevs.easywars.ui.noclan.create.CreateClanActivity;
 import com.wickeddevs.easywars.ui.noclan.verifycreate.VerifyCreateClanActivity;
 import com.wickeddevs.easywars.ui.noclan.join.JoinClanActivity;
@@ -66,4 +68,6 @@ public interface ViewInjectorComponent {
     void inject(AttacksActivity attacksActivity);
 
     void inject(WarSettingsActivity warSettingsActivity);
+
+    void inject(MembersManagerActivity membersManagerActivity);
 }
