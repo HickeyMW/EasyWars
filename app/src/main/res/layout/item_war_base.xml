@@ -29,14 +29,14 @@
         android:layout_marginRight="4dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvItemWarBaseName"
         android:layout_alignTop="@+id/ivTownHall"
         android:layout_toRightOf="@+id/tvOrderNumber"
         android:layout_toEndOf="@+id/tvOrderNumber"
         android:textSize="20sp"
-        tools:text="Base name"/>
+        tools:text="Base name"
+        android:layout_width="wrap_content"/>
 
     <TextView
         android:layout_width="wrap_content"

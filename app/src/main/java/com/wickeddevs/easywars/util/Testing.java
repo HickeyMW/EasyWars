@@ -72,7 +72,8 @@ public class Testing {
     public static CreateRequest randomCreateRequest() {
         String randomName = "Name " + randomString();
         String randomTag = "Tag " + randomString();
-        return new CreateRequest(randomName, randomTag);
+        int thLevel = randomInt(1, 11);
+        return new CreateRequest(randomName, randomTag, thLevel);
     }
 
     //////////////////// Member ////////////////////

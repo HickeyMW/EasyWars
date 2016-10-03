@@ -15,12 +15,13 @@ public class CreateClanPresenter implements CreateClanContract.ViewListener {
 
     final static String TAG = "CreateClanPresenter";
 
-    private ApiClan apiClan;
-    private String name;
-
     private CreateClanContract.View view;
     private ApiService apiService;
     private CreateClanService createClanService;
+
+    private ApiClan apiClan;
+    private String name;
+    private int thLevel = -1;
 
     @Inject
     public CreateClanPresenter(ApiService apiService, CreateClanService createClanService) {
@@ -48,13 +49,23 @@ public class CreateClanPresenter implements CreateClanContract.ViewListener {
 
     @Override
     public void selectedName(String name) {
-        view.allowCreate();
         this.name = name;
+        if (name != null && thLevel != -1) {
+            view.allowCreate();
+        }
+    }
+
+    @Override
+    public void selectedThLevel(int thLevel) {
+        this.thLevel = thLevel;
+        if (name != null && thLevel != -1) {
+            view.allowCreate();
+        }
     }
 
     @Override
     public void createClanRequest() {
-        createClanService.setCreateRequest(name, apiClan.tag);
+        createClanService.setCreateRequest(name, thLevel, apiClan.tag);
         view.navigateToVerifyCreateClanUi();
     }
 

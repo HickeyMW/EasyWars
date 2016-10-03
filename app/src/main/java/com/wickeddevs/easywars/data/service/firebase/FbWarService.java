@@ -50,10 +50,21 @@ public class FbWarService implements WarService, ChildEventListener {
                             DataSnapshot ds = iterator.next();
                             War war = ds.getValue(War.class);
                             war.key = ds.getKey();
-                            Iterator<DataSnapshot> iter = ds.child("attacks").getChildren().iterator();
+                            ArrayList<Participent> participents = ds.child("participants").getValue(gtiArrayListParticipents);
+                            String myUid = FbInfo.getUid();
+                            for (Participent participent : participents) {
+                                if (participent.uid != null) {
+                                    if (participent.uid.equals(myUid)) {
+                                        war.isParticipent = true;
+                                        break;
+                                    }
+                                }
+                            }
+
                             for (int i = 0; i < war.bases.size(); i++) {
                                 war.bases.get(i).key = String.valueOf(i);
                             }
+                            Iterator<DataSnapshot> iter = ds.child("attacks").getChildren().iterator();
                             while(iter.hasNext()) {
                                 DataSnapshot dsAttack = iter.next();
                                 Attack attack = dsAttack.getValue(Attack.class);
@@ -94,7 +105,7 @@ public class FbWarService implements WarService, ChildEventListener {
                         Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
                         if (iterator.hasNext()) {
                             DataSnapshot dsWar = iterator.next();
-                            ArrayList<Participent> participents = dsWar.child("participents").getValue(gtiArrayListParticipents);
+                            ArrayList<Participent> participents = dsWar.child("participants").getValue(gtiArrayListParticipents);
                             Iterator<DataSnapshot> iter = dsWar.child("attacks").getChildren().iterator();
                             while(iter.hasNext()) {
                                 DataSnapshot dsAttack = iter.next();
@@ -153,7 +164,7 @@ public class FbWarService implements WarService, ChildEventListener {
                         DatabaseReference warRef = dbRef.push();
                         warRef.child("warInfo").setValue(warInfo);
                         warRef.child("bases").setValue(bases);
-                        warRef.child("participents").setValue(participents);
+                        warRef.child("participants").setValue(participents);
                         dataSnapshot.getRef().removeValue();
                     }
                 });
@@ -179,7 +190,7 @@ public class FbWarService implements WarService, ChildEventListener {
                             DataSnapshot ds = iterator.next();
                             ds.child("warInfo").getRef().removeValue();
                             ds.child("bases").getRef().removeValue();
-                            ds.child("participents").getRef().removeValue();
+                            ds.child("participants").getRef().removeValue();
                             Iterator<DataSnapshot> iter = ds.child("comments").getChildren().iterator();
                             while (iter.hasNext()) {
                                 iter.next().getRef().removeValue();

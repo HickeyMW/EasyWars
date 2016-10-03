@@ -10,7 +10,9 @@ public interface WarViewPagerContract {
 
     interface View extends PView {
 
-        void displayUi(boolean activeWar);
+        void displayWarUi(boolean isParticipent);
+
+        void displayNoWarUi();
 
         void toggleLoading(boolean loading);
 

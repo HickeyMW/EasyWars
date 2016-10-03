@@ -29,10 +29,9 @@ public class JoinClanActivity extends BasePresenterActivity<JoinClanContract.Vie
 
     public final static String EXTRA_CLAN_TAG = "EXTRA_CLAN_TAG";
 
-    private ActivityJoinClanBinding binding;
-
     @Inject
     public JoinClanContract.ViewListener presenter;
+    private ActivityJoinClanBinding binding;
 
     private AlertDialog dialogThSelector;
 

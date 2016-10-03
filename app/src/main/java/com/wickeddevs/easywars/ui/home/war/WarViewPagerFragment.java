@@ -110,32 +110,34 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
         return getArguments().getBoolean(IS_ADMIN);
     }
 
+
     @Override
-    public void displayUi(boolean activeWar) {
-        if (activeWar) {
-            binding.viewPager.setVisibility(View.VISIBLE);
-            showMenuItems(true);
-            if (!isAdmin()) {
-                miSettings.setVisible(false);
-            }
-            WarVPA warVPA = new WarVPA(getChildFragmentManager());
-            binding.viewPager.setAdapter(warVPA);
-            binding.tabLayout.setupWithViewPager(binding.viewPager);
-            binding.tabLayout.setVisibility(View.VISIBLE);
-            binding.vTabShadow.setVisibility(View.VISIBLE);
+    public void displayWarUi(boolean isParticipent) {
+        binding.viewPager.setVisibility(View.VISIBLE);
+        miSettings.setVisible(isAdmin());
+        miAtttack.setVisible(isParticipent);
+        WarVPA warVPA = new WarVPA(getChildFragmentManager());
+        binding.viewPager.setAdapter(warVPA);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+        binding.tabLayout.setVisibility(View.VISIBLE);
+        binding.vTabShadow.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void displayNoWarUi() {
+        binding.viewPager.setVisibility(View.INVISIBLE);
+        miAtttack.setVisible(false);
+        miSettings.setVisible(false);
+        binding.cardView.setVisibility(View.VISIBLE);
+        if (isAdmin()) {
+            binding.tvNoWar.setText("There is no war going on right now. Press the button below to start one or press refresh if one was just made");
+            binding.btnCreate.setVisibility(View.VISIBLE);
         } else {
-            binding.viewPager.setVisibility(View.INVISIBLE);
-            showMenuItems(false);
-            binding.cardView.setVisibility(View.VISIBLE);
-            if (isAdmin()) {
-                binding.tvNoWar.setText("There is no war going on right now. Press the button below to start one or press refresh if one was just made");
-                binding.btnCreate.setVisibility(View.VISIBLE);
-            } else {
-                binding.tvNoWar.setText("There is no war going on right now. Please wait for an admin to start one or press refresh");
-                binding.btnCreate.setVisibility(View.GONE);
-            }
+            binding.tvNoWar.setText("There is no war going on right now. Please wait for an admin to start one or press refresh");
+            binding.btnCreate.setVisibility(View.GONE);
         }
     }
+
 
     @Override
     protected WarViewPagerContract.ViewListener getPresenter() {

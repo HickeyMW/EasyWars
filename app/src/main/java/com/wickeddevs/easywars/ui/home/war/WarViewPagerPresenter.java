@@ -22,23 +22,24 @@ public class WarViewPagerPresenter implements WarViewPagerContract.ViewListener 
     @Override
     public void onCreate() {
         view.toggleLoading(true);
+        warService.getLatestWar(new WarService.LoadWarCallback() {
+            @Override
+            public void onLoaded(War war) {
+                if (war != null) {
+                    view.toggleLoading(false);
+                    view.displayWarUi(war.isParticipent);
+                    view.setTitle("War vs " + war.warInfo.enemyName);
+                    view.setSubTitle(Shared.formattedTimeRemainging(war.warInfo.startTime));
+                } else {
+                    view.toggleLoading(false);
+                    view.displayNoWarUi();
+                }
+            }
+        });
         warService.isActiveWar(new WarService.ActiveWarCallback() {
             @Override
             public void onLoaded(boolean isActive) {
-                if (isActive) {
-                    warService.getLatestWar(new WarService.LoadWarCallback() {
-                        @Override
-                        public void onLoaded(War war) {
-                            view.toggleLoading(false);
-                            view.displayUi(true);
-                            view.setTitle("War vs " + war.warInfo.enemyName);
-                            view.setSubTitle(Shared.formattedTimeRemainging(war.warInfo.startTime));
-                        }
-                    });
-                } else {
-                    view.toggleLoading(false);
-                    view.displayUi(false);
-                }
+
 
             }
         });

@@ -45,8 +45,8 @@ public class FbCreateClanService implements CreateClanService {
     }
 
     @Override
-    public void setCreateRequest(String username, String clanTag) {
-        FbInfo.getRequestRef().push().child("createClan").setValue(new CreateRequest(username, clanTag));
+    public void setCreateRequest(String username, int thLevel, String clanTag) {
+        FbInfo.getRequestRef().push().child("createClan").setValue(new CreateRequest(username, clanTag, thLevel));
         FbInfo.setState(User.STATE_CREATING);
         FbInfo.setClanTag(clanTag);
     }

@@ -1,16 +1,17 @@
 TODO
 0: 
+
+Comments on bases
 Live updating - War bases, overview
 
-Clan manager - Screen for managing players in clan - give admin privladges, select thlevel
+What happens when creating clan that already exists
+creating war with more participents then one with less, error because extras aren't over ridden from user data
 
 Inject clan name into services
 Databinding for recyclerview items
 standardize click animation on recycler views
 UI
 listen for admin changes on home activity - presenter display admin ui
-Look over tests and use random object creator
-Make sure following MVP maybe make views completely passive
 Can't join with same name as already exists
 use fragment manager correctly
 Screens with loading, have ui visible loading bar hidden
@@ -59,4 +60,7 @@ Everyone can add in their upgrade status for buildings
 
 Things to learn:
 Conductor
-onDraw
+Timber
+Multi OS
+Esperesso
+Build flavors

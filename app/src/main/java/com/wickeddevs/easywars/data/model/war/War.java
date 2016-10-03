@@ -10,5 +10,6 @@ public class War {
     public String key;
     public WarInfo warInfo;
     public ArrayList<Base> bases;
+    public boolean isParticipent = false;
 
 }
