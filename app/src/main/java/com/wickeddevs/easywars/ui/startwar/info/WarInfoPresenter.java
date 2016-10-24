@@ -1,5 +1,7 @@
 package com.wickeddevs.easywars.ui.startwar.info;
 
+import android.util.Log;
+
 import com.wickeddevs.easywars.data.model.war.WarInfo;
 import com.wickeddevs.easywars.data.service.contract.WarService;
 import com.wickeddevs.easywars.util.Shared;
@@ -15,8 +17,6 @@ public class WarInfoPresenter implements WarInfoContract.ViewListener {
     private WarService warService;
 
     private int warSize = 10;
-    private int hours = 23;
-    private int minutes = 59;
     private String name;
     private String tag;
     private  int members;
@@ -27,7 +27,7 @@ public class WarInfoPresenter implements WarInfoContract.ViewListener {
         this.warService = warService;
     }
 
-    public long calculateStartTime() {
+    public long calculateStartTime(int hours, int minutes) {
         long currentTime = System.currentTimeMillis();
         long timeElapsed = (((23 - hours) * 60) + (60 - minutes)) * 60000;
         long warStart = currentTime - timeElapsed;
@@ -74,11 +74,15 @@ public class WarInfoPresenter implements WarInfoContract.ViewListener {
     }
 
     @Override
-    public void pressedNext() {
+    public void pressedNext(int hours, int minutes) {
         if (members < warSize) {
             view.displayMessage("The warsize is greater than the number of members in the opponent's clan");
         } else {
-            warService.saveWarInfo(new WarInfo(name, tag, calculateStartTime()));
+            long startTime = calculateStartTime(hours, minutes);
+            long currentTime = System.currentTimeMillis();
+            Log.i("Time", "pressedNext: startTime" + startTime);
+            Log.i("Time", "pressedNext: currentTime" + currentTime);
+            warService.saveWarInfo(new WarInfo(name, tag, startTime));
             view.navigateToWarOrderUi(tag, warSize);
         }
     }

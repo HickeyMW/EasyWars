@@ -10,5 +10,7 @@
     <color name="item">#FFFFFF</color>
     <color name="textDark">#DE000000</color>
     <color name="textLight">#8A000000</color>
+    <color name="tab_text">#ffffff</color>
+    <color name="tab_text_dark">#78ffffff</color>
 
 </resources>

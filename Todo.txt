@@ -1,8 +1,6 @@
 TODO
 0: 
 
-Comments on bases
-Live updating - War bases, overview
 
 What happens when creating clan that already exists
 creating war with more participents then one with less, error because extras aren't over ridden from user data
@@ -26,6 +24,7 @@ Image uploading
 1:
 Timber
 Analytics/Crash Reporting
+Two clan names in database: lowercase for searching and one with proper capitalization
 get stuck if removed from clan (can’t happen yet) and user’s state doesn’t update, check for read denied
 Switch claims to objects
 War vs Enemy Clan on top of recycler view

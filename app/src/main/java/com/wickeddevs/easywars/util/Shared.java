@@ -2,11 +2,18 @@ package com.wickeddevs.easywars.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.wickeddevs.easywars.R;
+
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by 375csptssce on 8/22/16.
@@ -74,6 +81,11 @@ public class Shared {
         return -1;
     }
 
+    public static float dpToPx(Context context, float valueInDp) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
+    }
+
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
@@ -83,5 +95,26 @@ public class Shared {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static String formatDateTime(long dateTime) {
+        String[] monthArray = DateFormatSymbols.getInstance(Locale.getDefault()).getMonths();
+        Calendar todayCalendar = Calendar.getInstance();
+        todayCalendar.set(todayCalendar.get(Calendar.YEAR), todayCalendar.get(Calendar.MONTH), todayCalendar.get(Calendar.DAY_OF_MONTH),0,0,0);
+        long todayStart = todayCalendar.getTimeInMillis();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(dateTime);
+        String hour = calendar.get(Calendar.HOUR) == 0 ? "12" : calendar.get(Calendar.HOUR) + "";
+        String minute = (calendar.get(Calendar.MINUTE) < 10 ? "0" + calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE) + "");
+        String am_pm = (calendar.get(Calendar.AM_PM) == 0 ? "AM" : "PM");
+        String time = hour + ":" + minute + " " + am_pm;
+
+        if (todayStart > dateTime) {
+            String month = monthArray[calendar.get(Calendar.MONTH)];
+            String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+            return month + " " + day + ", " + time;
+        }
+        return time;
     }
 }

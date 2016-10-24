@@ -98,6 +98,6 @@ public class VerifyJoinClanPresenterTest {
     @Test
     public void cancelJoinRequest() {
         presenter.cancelJoinClan();
-        joinClanService.removeJoinRequest();
+        //joinClanService.removeJoinRequest();
     }
 }

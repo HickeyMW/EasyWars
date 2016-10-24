@@ -25,6 +25,6 @@ public interface WarInfoContract {
 
         void switchedUntil(boolean isWarStart);
 
-        void pressedNext();
+        void pressedNext(int hours, int minutes);
     }
 }

@@ -5,5 +5,5 @@ package com.wickeddevs.easywars.base;
  */
 public interface Presenter<T extends PView> {
 
-    public void registerView(T activity);
+    public void registerView(T view);
 }

@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -36,6 +37,75 @@ public class FbWarService implements WarService, ChildEventListener {
     DatabaseReference commentRef;
     DatabaseReference attackRef;
     int baseId;
+
+    @Override
+    public void setLatestWarListener(final LoadWarCallback listener) {
+        FbInfo.getWarRef(new FbInfo.DbRefCallback() {
+            @Override
+            public void onLoaded(DatabaseReference dbRef) {
+                final Query query = dbRef.limitToLast(1);
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                        if (iterator.hasNext()) {
+                            DataSnapshot ds = iterator.next();
+                            if (ds.hasChild("participants")) {
+                                War war = ds.getValue(War.class);
+                                war.key = ds.getKey();
+                                ArrayList<Participent> participents = ds.child("participants").getValue(gtiArrayListParticipents);
+                                String myUid = FbInfo.getUid();
+                                for (Participent participent : participents) {
+                                    if (participent.uid != null) {
+                                        if (participent.uid.equals(myUid)) {
+                                            war.isParticipent = true;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                for (int i = 0; i < war.bases.size(); i++) {
+                                    war.bases.get(i).key = String.valueOf(i);
+                                }
+                                Iterator<DataSnapshot> iter = ds.child("attacks").getChildren().iterator();
+                                while(iter.hasNext()) {
+                                    DataSnapshot dsAttack = iter.next();
+                                    Attack attack = dsAttack.getValue(Attack.class);
+                                    Base base = war.bases.get(attack.base);
+                                    if (attack.stars > -1) {
+                                        base.attacks.add(attack);
+                                        if (attack.stars > base.stars) {
+                                            base.stars = attack.stars;
+                                        }
+                                    } else {
+                                        base.claims.add(attack);
+                                    }
+                                }
+                                if (listener != null) {
+                                    listener.onLoaded(war);
+                                } else {
+                                    query.removeEventListener(this);
+                                }
+                            }
+
+
+                        } else {
+                            if (listener != null) {
+                                listener.onLoaded(null);
+                            } else {
+                                query.removeEventListener(this);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+    }
 
     @Override
     public void getLatestWar(final LoadWarCallback callback) {
@@ -142,6 +212,68 @@ public class FbWarService implements WarService, ChildEventListener {
     }
 
     @Override
+    public void setLatestWarOverviewListener(final LoadOverviewCallback listener) {
+        FbInfo.getWarRef(new FbInfo.DbRefCallback() {
+            @Override
+            public void onLoaded(DatabaseReference dbRef) {
+                final Query query = dbRef.limitToLast(1);
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                        if (iterator.hasNext()) {
+                            DataSnapshot dsWar = iterator.next();
+                            if (dsWar.hasChild("participants")) {
+                                ArrayList<Participent> participents = dsWar.child("participants").getValue(gtiArrayListParticipents);
+                                if (dsWar.hasChild("attacks")) {
+                                    Iterator<DataSnapshot> iter = dsWar.child("attacks").getChildren().iterator();
+                                    while(iter.hasNext()) {
+                                        DataSnapshot dsAttack = iter.next();
+                                        Attack attack = dsAttack.getValue(Attack.class);
+                                        attack.baseName = dsWar.child("bases/" + attack.base + "/name").getValue(String.class);
+                                        for (Participent participent : participents) {
+                                            if (participent.uid != null) {
+                                                if (attack.uid.equals(participent.uid)) {
+                                                    participent.attackClaims.add(attack);
+                                                    break;
+                                                }
+                                            } else {
+                                                if (attack.uid.equals(participent.name)) {
+                                                    participent.attackClaims.add(attack);
+                                                    break;
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                }
+
+                                if (listener != null) {
+                                    listener.onLoaded(participents);
+                                } else {
+                                    query.removeEventListener(this);
+                                }
+                            }
+
+                        } else {
+                            if (listener != null) {
+                                listener.onLoaded(null);
+                            } else {
+                                query.removeEventListener(this);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
     public void saveWarInfo(WarInfo warInfo) {
         FbInfo.getUserRef().child("creatingWar/warInfo").setValue(warInfo);
     }
@@ -188,9 +320,9 @@ public class FbWarService implements WarService, ChildEventListener {
                         Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
                         if (iterator.hasNext()) {
                             DataSnapshot ds = iterator.next();
+                            ds.child("participants").getRef().removeValue();
                             ds.child("warInfo").getRef().removeValue();
                             ds.child("bases").getRef().removeValue();
-                            ds.child("participants").getRef().removeValue();
                             Iterator<DataSnapshot> iter = ds.child("comments").getChildren().iterator();
                             while (iter.hasNext()) {
                                 iter.next().getRef().removeValue();

@@ -9,7 +9,7 @@ import javax.inject.Inject;
 /**
  * Created by 375csptssce on 9/6/16.
  */
-public class WarViewPagerPresenter implements WarViewPagerContract.ViewListener {
+public class WarViewPagerPresenter implements WarViewPagerContract.ViewListener, WarService.LoadWarCallback {
 
     private WarViewPagerContract.View view;
     private WarService warService;
@@ -22,27 +22,28 @@ public class WarViewPagerPresenter implements WarViewPagerContract.ViewListener 
     @Override
     public void onCreate() {
         view.toggleLoading(true);
-        warService.getLatestWar(new WarService.LoadWarCallback() {
-            @Override
-            public void onLoaded(War war) {
-                if (war != null) {
-                    view.toggleLoading(false);
+        warService.setLatestWarListener(this);
+    }
+
+    @Override
+    public void onLoaded(War war) {
+        view.toggleLoading(false);
+        if (war != null) {
+            if (war.warInfo != null) {
+                long currentTime = System.currentTimeMillis();
+                long twoDaysAgoMilis = currentTime - Shared.MILIS_IN_TWO_DAYS;
+                if (war.warInfo.startTime > twoDaysAgoMilis) {
                     view.displayWarUi(war.isParticipent);
                     view.setTitle("War vs " + war.warInfo.enemyName);
                     view.setSubTitle(Shared.formattedTimeRemainging(war.warInfo.startTime));
                 } else {
-                    view.toggleLoading(false);
                     view.displayNoWarUi();
                 }
             }
-        });
-        warService.isActiveWar(new WarService.ActiveWarCallback() {
-            @Override
-            public void onLoaded(boolean isActive) {
 
-
-            }
-        });
+        } else {
+            view.displayNoWarUi();
+        }
     }
 
     @Override

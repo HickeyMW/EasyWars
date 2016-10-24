@@ -100,8 +100,10 @@ public class WarSettingsActivity extends BasePresenterActivity<WarSettingsContra
     public void toggleLoading(boolean loading) {
         if (loading) {
             progressBar.setVisibility(View.VISIBLE);
+            rvMembers.setVisibility(View.INVISIBLE);
         } else {
             progressBar.setVisibility(View.INVISIBLE);
+            rvMembers.setVisibility(View.VISIBLE);
         }
     }
 }

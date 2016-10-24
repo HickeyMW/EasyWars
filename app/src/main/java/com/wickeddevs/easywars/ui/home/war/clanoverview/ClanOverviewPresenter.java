@@ -13,7 +13,7 @@ import javax.inject.Inject;
 /**
  * Created by 375csptssce on 9/9/16.
  */
-public class ClanOverviewPresenter implements ClanOverviewContract.ViewListener {
+public class ClanOverviewPresenter implements ClanOverviewContract.ViewListener, WarService.LoadOverviewCallback {
 
     private ClanOverviewContract.View view;
     private WarService warService;
@@ -28,27 +28,29 @@ public class ClanOverviewPresenter implements ClanOverviewContract.ViewListener 
     @Override
     public void onCreate() {
         view.toggleLoading(true);
-        warService.getLatestWarOverview(new WarService.LoadOverviewCallback() {
-            @Override
-            public void onLoaded(final ArrayList<Participent> participents) {
-                clanService.getClan(new ClanService.LoadClanCallback() {
-                    @Override
-                    public void onClanLoaded(Clan clan) {
-                        for (Participent participent : participents) {
-                            if (clan.members.containsKey(participent.uid)) {
-                                Member member = clan.members.get(participent.uid);
-                                participent.name = member.name;
-                                participent.thLevel = member.thLevel;
-                            }
-                            view.toggleLoading(false);
-                            view.displayOverview(participents);
-                        }
-                    }
-                });
-            }
-        });
+        warService.setLatestWarOverviewListener(this);
     }
 
+    @Override
+    public void onLoaded(final ArrayList<Participent> participents) {
+        if (participents != null) {
+            clanService.getClan(new ClanService.LoadClanCallback() {
+                @Override
+                public void onClanLoaded(Clan clan) {
+                    for (Participent participent : participents) {
+                        if (clan.members.containsKey(participent.uid)) {
+                            Member member = clan.members.get(participent.uid);
+                            participent.name = member.name;
+                            participent.thLevel = member.thLevel;
+                        }
+                        view.toggleLoading(false);
+                        view.displayOverview(participents);
+                    }
+                }
+            });
+        }
+
+    }
 
     @Override
     public void registerView(ClanOverviewContract.View activity) {

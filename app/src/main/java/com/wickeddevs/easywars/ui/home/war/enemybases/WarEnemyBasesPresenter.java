@@ -12,9 +12,9 @@ import javax.inject.Inject;
 /**
  * Created by 375csptssce on 8/16/16.
  */
-public class WarEnemyBasesPresenter implements WarEnemyBasesContract.ViewListener {
+public class WarEnemyBasesPresenter implements WarEnemyBasesContract.ViewListener, WarService.LoadWarCallback {
 
-    final static String TAG = "ChatPresenter";
+    final static String TAG = "WarEnemyBasesPresenter";
 
     private WarEnemyBasesContract.View view;
     private WarService warService;
@@ -34,16 +34,16 @@ public class WarEnemyBasesPresenter implements WarEnemyBasesContract.ViewListene
     @Override
     public void onCreate() {
         view.toggleLoading(true);
-        warService.getLatestWar(new WarService.LoadWarCallback() {
-            @Override
-            public void onLoaded(final War war) {
-                view.toggleLoading(false);
-                if (war == null) {
-                    Log.e(TAG, "onMemberLoaded: Should not load the view if no war");
-                } else {
-                    view.displayEnemyBases(war);
-                }
-            }
-        });
+        warService.setLatestWarListener(this);
+    }
+
+    @Override
+    public void onLoaded(War war) {
+        view.toggleLoading(false);
+        if (war == null) {
+            Log.e(TAG, "onMemberLoaded: Should not load the view if no war");
+        } else {
+            view.displayEnemyBases(war);
+        }
     }
 }

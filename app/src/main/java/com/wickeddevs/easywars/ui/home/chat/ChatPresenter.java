@@ -8,7 +8,7 @@ import com.wickeddevs.easywars.data.model.Member;
 import com.wickeddevs.easywars.data.model.Message;
 import com.wickeddevs.easywars.data.service.contract.ChatService;
 import com.wickeddevs.easywars.data.service.contract.ClanService;
-import com.wickeddevs.easywars.util.General;
+import com.wickeddevs.easywars.util.Shared;
 
 import javax.inject.Inject;
 
@@ -52,7 +52,7 @@ public class ChatPresenter implements ChatContract.ViewListener {
                     @Override
                     public void onMemberLoaded(Member member) {
                         message.name = member.name;
-                        message.dateTime = General.formatDateTime(message.timestamp);
+                        message.dateTime = Shared.formatDateTime(message.timestamp);
                         view.addMessage(message);
                     }
                 });

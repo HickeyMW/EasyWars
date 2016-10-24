@@ -62,6 +62,8 @@ public class AttacksActivity extends BasePresenterActivity<AttacksContract.ViewL
     RadioButton rb2Star2;
     RadioButton rb3Star2;
 
+    boolean programmaticChanging = false;
+
     private AlertDialog dialogEnemiesSelector;
 
     @Inject
@@ -117,13 +119,15 @@ public class AttacksActivity extends BasePresenterActivity<AttacksContract.ViewL
         rgrpStatus1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.rbClaimed1) {
-                    showStars1(false);
-                    presenter.starsAttack1(-1);
-                } else {
-                    showStars1(true);
-                    rb0Star1.setChecked(true);
-                    presenter.starsAttack1(0);
+                if (!programmaticChanging) {
+                    if (checkedId == R.id.rbClaimed1) {
+                        showStars1(false);
+                        presenter.starsAttack1(-1);
+                    } else {
+                        showStars1(true);
+                        rb0Star1.setChecked(true);
+                        presenter.starsAttack1(0);
+                    }
                 }
             }
         });
@@ -150,13 +154,15 @@ public class AttacksActivity extends BasePresenterActivity<AttacksContract.ViewL
         rgrpStatus2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.rbClaimed2) {
-                    showStars2(false);
-                    presenter.starsAttack2(-1);
-                } else {
-                    showStars2(true);
-                    rb0Star2.setChecked(true);
-                    presenter.starsAttack2(0);
+                if (!programmaticChanging) {
+                    if (checkedId == R.id.rbClaimed2) {
+                        showStars2(false);
+                        presenter.starsAttack2(-1);
+                    } else {
+                        showStars2(true);
+                        rb0Star2.setChecked(true);
+                        presenter.starsAttack2(0);
+                    }
                 }
             }
         });
@@ -202,13 +208,14 @@ public class AttacksActivity extends BasePresenterActivity<AttacksContract.ViewL
 
     @Override
     public void displayAttack1(Attack attack) {
+        programmaticChanging = true;
         if (attack == null) {
             tvBaseName1.setText("Tap to select an enemy");
             ivBase1.setImageResource(android.R.color.transparent);
             showStatus1(false);
             showStars1(false);
         } else {
-            tvBaseName1.setText(attack.baseName);
+            tvBaseName1.setText((attack.base + 1) + ". " + attack.baseName);
             ivBase1.setImageResource(Shared.getThResource(attack.thLevel));
             showStatus1(true);
             if (attack.stars == -1) {
@@ -233,17 +240,19 @@ public class AttacksActivity extends BasePresenterActivity<AttacksContract.ViewL
                 }
             }
         }
+        programmaticChanging = false;
     }
 
     @Override
     public void displayAttack2(Attack attack) {
+        programmaticChanging = true;
         if (attack == null) {
             tvBaseName2.setText("Tap to select an enemy");
             ivBase2.setImageResource(android.R.color.transparent);
             showStatus2(false);
             showStars2(false);
         } else {
-            tvBaseName2.setText(attack.baseName);
+            tvBaseName2.setText((attack.base + 1) + ". " + attack.baseName);
             ivBase2.setImageResource(Shared.getThResource(attack.thLevel));
             showStatus2(true);
             if (attack.stars == -1) {
@@ -268,6 +277,7 @@ public class AttacksActivity extends BasePresenterActivity<AttacksContract.ViewL
                 }
             }
         }
+        programmaticChanging = false;
     }
 
     @Override

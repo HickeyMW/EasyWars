@@ -65,7 +65,11 @@ public class WarInfoActivity extends BasePresenterActivity<WarInfoContract.ViewL
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.pressedNext();
+                String minutesString = binding.tvMinutes.getText().toString();
+                String hoursString = binding.tvHours.getText().toString();
+                int minutes = minutesString.isEmpty() ? 0 : Integer.valueOf(minutesString);
+                int hours = hoursString.isEmpty() ? 0 : Integer.valueOf(hoursString);
+                presenter.pressedNext(hours, minutes);
             }
         });
     }

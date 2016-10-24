@@ -74,8 +74,6 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
         if (item.getItemId() == R.id.nav_attacks) {
             Intent i = new Intent(getContext(), AttacksActivity.class);
             startActivity(i);
-        } else if (item.getItemId() == R.id.nav_refresh) {
-            presenter.onCreate();
         } else if (item.getItemId() == R.id.nav_settings) {
             Intent i = new Intent(getContext(), WarSettingsActivity.class);
             startActivity(i);
@@ -113,6 +111,7 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
 
     @Override
     public void displayWarUi(boolean isParticipent) {
+        binding.cardView.setVisibility(View.INVISIBLE);
         binding.viewPager.setVisibility(View.VISIBLE);
         miSettings.setVisible(isAdmin());
         miAtttack.setVisible(isParticipent);
@@ -125,15 +124,19 @@ public class WarViewPagerFragment extends BasePresenterFragment<WarViewPagerCont
 
     @Override
     public void displayNoWarUi() {
+        setTitle("War Planner");
+        setSubTitle("");
         binding.viewPager.setVisibility(View.INVISIBLE);
+        binding.tabLayout.setVisibility(View.INVISIBLE);
+        binding.vTabShadow.setVisibility(View.INVISIBLE);
         miAtttack.setVisible(false);
         miSettings.setVisible(false);
         binding.cardView.setVisibility(View.VISIBLE);
         if (isAdmin()) {
-            binding.tvNoWar.setText("There is no war going on right now. Press the button below to start one or press refresh if one was just made");
+            binding.tvNoWar.setText("There is no war going on right now. Press the button below to start one");
             binding.btnCreate.setVisibility(View.VISIBLE);
         } else {
-            binding.tvNoWar.setText("There is no war going on right now. Please wait for an admin to start one or press refresh");
+            binding.tvNoWar.setText("There is no war going on right now. Please wait for an admin to start one");
             binding.btnCreate.setVisibility(View.GONE);
         }
     }

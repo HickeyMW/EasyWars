@@ -2,17 +2,19 @@ package com.wickeddevs.easywars.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,8 +23,6 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
 import com.wickeddevs.easywars.R;
 import com.wickeddevs.easywars.base.BasePresenterActivity;
 import com.wickeddevs.easywars.dagger.component.DaggerServiceComponent;
@@ -31,7 +31,6 @@ import com.wickeddevs.easywars.data.model.Member;
 import com.wickeddevs.easywars.data.model.api.ApiClan;
 import com.wickeddevs.easywars.miscellaneous.CloseKeyboardDrawerListener;
 import com.wickeddevs.easywars.miscellaneous.HideProgressBarRequestListener;
-import com.wickeddevs.easywars.ui.TestingActivity;
 import com.wickeddevs.easywars.ui.home.chat.ChatViewPagerFragment;
 import com.wickeddevs.easywars.ui.home.war.WarViewPagerFragment;
 import com.wickeddevs.easywars.ui.joinrequests.JoinRequestsActivity;
@@ -42,7 +41,7 @@ import com.wickeddevs.easywars.ui.notdone.NotImplementedActivity;
 import com.wickeddevs.easywars.ui.notdone.NotImplementedFragment;
 
 public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListener> implements
-        HomeContract.View, NavigationView.OnNavigationItemSelectedListener {
+        HomeContract.View, NavigationView.OnNavigationItemSelectedListener, HomeBottomBarFragment.TabSelectedListener {
 
     private static final String TAG = "HomeActivity";
     private static final String EXTRA_IS_ADMIN = "EXTRA_IS_ADMIN";
@@ -76,38 +75,33 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(@IdRes int tabId) {
-                switch (tabId) {
-                    case R.id.tab_chat:
-                        setTitle("Chat");
-                        getSupportActionBar().setSubtitle("");
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatViewPagerFragment.getInstance(isAdmin)).commit();
-                        break;
-                    case R.id.tab_war:
-                        setTitle("War Planner");
-                        getSupportActionBar().setSubtitle("");
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, WarViewPagerFragment.getInstance(isAdmin)).commit();
-                        break;
-                    case R.id.tab_notifications:
-                        setTitle("Notifications");
-                        getSupportActionBar().setSubtitle("");
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, new NotImplementedFragment()).commit();
-                        break;
-                }
-            }
-        });
-
         isAdmin = getIntent().getBooleanExtra(EXTRA_IS_ADMIN, false);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatViewPagerFragment.getInstance(isAdmin)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, WarViewPagerFragment.getInstance(isAdmin)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_bottom_nav, new HomeBottomBarFragment()).commit();
 
         if (isAdmin) {
             for (MenuItem menuItem : adminItems) {
                 menuItem.setVisible(true);
             }
         }
+        setTitle("Chat");
+        final View layoutHome = findViewById(R.id.layout_home);
+        final View bottomBar = findViewById(R.id.frame_bottom_nav);
+        layoutHome.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                layoutHome.getWindowVisibleDisplayFrame(r);
+
+                int heightDiff = layoutHome.getRootView().getHeight() - (r.bottom - r.top);
+
+                if (heightDiff > 400) {
+                    bottomBar.setVisibility(View.GONE);
+                } else {
+                    bottomBar.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         presenter.onCreate();
     }
@@ -128,10 +122,7 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_war_history) {
-            Intent i = new Intent(this, NotImplementedActivity.class);
-            startActivity(i);
-        } else if (id == R.id.nav_member_manager) {
+        if (id == R.id.nav_member_manager) {
             Intent i = new Intent(this, MembersManagerActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_join_requests) {
@@ -189,6 +180,18 @@ public class HomeActivity extends BasePresenterActivity<HomeContract.ViewListene
         finish();
     }
 
+    @Override
+    public void selectedTab(int tab) {
+        if (tab == 0) {
+            setTitle("War Planner");
+            getSupportActionBar().setSubtitle("");
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, WarViewPagerFragment.getInstance(isAdmin)).commit();
+        } else if (tab == 1) {
+            setTitle("Chat");
+            getSupportActionBar().setSubtitle("");
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_home, ChatViewPagerFragment.getInstance(isAdmin)).commit();
+        }
+    }
 
     public static Intent getInstance(Context context, boolean isAdmin) {
         Intent i = new Intent(context, HomeActivity.class);

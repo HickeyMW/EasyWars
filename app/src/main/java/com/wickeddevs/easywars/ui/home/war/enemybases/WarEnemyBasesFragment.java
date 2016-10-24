@@ -66,7 +66,7 @@ public class WarEnemyBasesFragment extends BasePresenterFragment<WarEnemyBasesCo
             @Override
             public void onClick(View view) {
                 int position = binding.rvWarBases.getChildLayoutPosition(view);
-                startActivity(WarBaseActivity.createIntent(getContext(), war.key, position));
+                //startActivity(WarBaseActivity.createIntent(getContext(), war.key, position));
             }
         }));
     }

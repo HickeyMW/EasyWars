@@ -43,7 +43,11 @@ public interface WarService {
 
     void getLatestWar(LoadWarCallback callback);
 
+    void setLatestWarListener(LoadWarCallback listener);
+
     void getLatestWarOverview(LoadOverviewCallback callback);
+
+    void setLatestWarOverviewListener(LoadOverviewCallback listener);
 
     void getLatestWarAttacks(LoadAttacksCallback callback);
 

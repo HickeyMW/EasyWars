@@ -23,6 +23,7 @@ public class AttacksPresenter implements AttacksContract.ViewListener{
     private Attack attack1 = null;
     private Attack attack2 = null;
     private boolean isChangingBaseOne;
+    private boolean isDisplayingSecondAttack = false;
 
     @Inject
     public AttacksPresenter(WarService warService) {
@@ -50,6 +51,7 @@ public class AttacksPresenter implements AttacksContract.ViewListener{
                         attack2 = attacks.get(1);
                         view.displayAttack1(attack1);
                         view.displayAttack2(attack2);
+                        isDisplayingSecondAttack = true;
                         break;
                 }
             }
@@ -76,27 +78,26 @@ public class AttacksPresenter implements AttacksContract.ViewListener{
         if (isChangingBaseOne) {
             if (base == null) {
                 if (attack2 == null) {
-                    warService.deleteAttack(attack1);
-                    attack1 = null;
-                    view.displayAttack1(null);
                     view.showSecondAttack(false);
-                } else {
-                    attack1 = attack2;
-                    attack2 = null;
-                    view.displayAttack1(attack1);
-                    view.displayAttack2(null);
                 }
+                warService.deleteAttack(attack1);
+                attack1 = null;
+                view.displayAttack1(null);
+
             } else {
                 if (attack1 == null) {
                     attack1 = new Attack();
-                    attack1.baseName = base.name;
-                    attack1.stars = -1;
-                    attack1.thLevel = base.thLevel;
                 }
+                attack1.baseName = base.name;
                 attack1.base = Integer.valueOf(base.key);
+                attack1.stars = -1;
+                attack1.thLevel = base.thLevel;
+                if (!isDisplayingSecondAttack) {
+                    view.showSecondAttack(true);
+                    view.displayAttack2(null);
+                    isDisplayingSecondAttack = true;
+                }
                 view.displayAttack1(attack1);
-                view.showSecondAttack(true);
-                view.displayAttack2(null);
             }
         } else {
             if (base == null) {

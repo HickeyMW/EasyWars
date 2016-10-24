@@ -9,7 +9,7 @@ import com.wickeddevs.easywars.data.model.war.Comment;
 import com.wickeddevs.easywars.data.service.contract.ClanService;
 import com.wickeddevs.easywars.data.service.contract.UserService;
 import com.wickeddevs.easywars.data.service.contract.WarService;
-import com.wickeddevs.easywars.util.General;
+import com.wickeddevs.easywars.util.Shared;
 
 import javax.inject.Inject;
 
@@ -58,7 +58,7 @@ public class WarBasePresenter implements WarBaseContract.ViewListener {
                 clanService.getClan(new ClanService.LoadClanCallback() {
                     @Override
                     public void onClanLoaded(Clan clan) {
-                        comment.dateTime = General.formatDateTime(comment.timestamp);
+                        comment.dateTime = Shared.formatDateTime(comment.timestamp);
                         comment.name = clan.members.get(comment.uid).name;
                         view.addComment(comment);
                     }
